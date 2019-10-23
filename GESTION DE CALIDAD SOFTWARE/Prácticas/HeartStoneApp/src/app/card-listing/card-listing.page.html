@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{cardDeck}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="cards.length > 0">
+    <ion-card *ngFor="let card of cards">
+      <ion-card-header text-wrap>
+        <ion-card-subtitle>
+          {{card.cardSet}}
+        </ion-card-subtitle>
+        <ion-card-title>
+          {{card.name}}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div [innerHTML]="card?.text"></div>
+        <ion-button size="medium" expand='full' [href]="">
+          See details
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

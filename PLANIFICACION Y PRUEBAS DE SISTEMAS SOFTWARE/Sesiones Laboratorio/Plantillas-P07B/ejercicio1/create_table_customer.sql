@@ -1,0 +1,14 @@
+DROP DATABASE IF EXISTS DBUNIT;
+CREATE DATABASE IF NOT EXISTS DBUNIT;
+USE DBUNIT;
+
+DROP TABLE IF EXISTS customer;
+
+CREATE TABLE customer (
+  id int(11) NOT NULL,
+  firstname varchar(45) DEFAULT NULL,
+  lastname varchar(45) DEFAULT NULL,
+  street varchar(45) DEFAULT NULL,
+  city varchar(45) DEFAULT NULL,
+  PRIMARY KEY (id)
+);

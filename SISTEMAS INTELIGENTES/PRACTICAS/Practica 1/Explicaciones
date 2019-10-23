@@ -1,0 +1,29 @@
+Lista Frontera = { Nodos alcanzados PENDIENTES de EVALUAR y EXPANDIR }
+Lista Interior = { Nodos que ya han sido expandidos }
+
+Estado <=> Nodos
+
+Seleccionamos un nodo de la Lista Frontera, vemos las reglas aplicables (cada una genera un estado distinto).
+
+
+                o1   ->Se elige un nodo y este es introducido en la Lista Interior
+               /|\
+              / | \
+             /  |  \
+            O   o2  O   Nodos expandidos/alcanzados por el nodo o1 pasa a ser la Lista Frontera (?)
+
+           /!\ ANOTAR QUE EL ANTECESORDE o2 ES o1 /!\
+
+           {o1}{O,o2,O,O,S}
+            
+                o1
+               /|\
+              / | \
+             /  |  \
+            O   o2  O    El nodo o2 es introducido en la Lista Interior
+               / \
+              /   \
+             O     S     Nodos expandidos/alcanzados por el nodo o2 pasa a ser la Lista Frontera (?)
+             
+             {o1,o2}{0,0,0,S} 
+             En la siguiente iteración, encontraríamos S (SOLUCIÓN)

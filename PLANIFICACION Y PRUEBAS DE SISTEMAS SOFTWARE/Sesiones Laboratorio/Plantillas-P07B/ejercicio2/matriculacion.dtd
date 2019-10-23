@@ -1,0 +1,12 @@
+<!ELEMENT dataset (
+    alumnos*)>
+
+<!ELEMENT alumnos EMPTY>
+<!ATTLIST alumnos
+    nif CDATA #REQUIRED
+    nombre CDATA #REQUIRED
+    direccion CDATA #IMPLIED
+    email CDATA #IMPLIED
+    fechaNac CDATA #IMPLIED
+>
+

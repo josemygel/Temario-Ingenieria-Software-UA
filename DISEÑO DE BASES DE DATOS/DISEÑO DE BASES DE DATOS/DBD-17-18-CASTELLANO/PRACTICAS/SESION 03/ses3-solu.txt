@@ -1,0 +1,203 @@
+--  Ejercicio 1
+create table temporada (nombre varchar2(5) constraint pk_temporada primary key);
+
+create table categoria (
+nombre varchar2(2)  constraint pk_categoria primary key,
+descripcion varchar2(80),
+supmin number(4,2),
+supmax number(4,2),
+constraint ck_categoria_nombre check (nombre in ('D','DT','I','S'))
+);
+
+create table pvptemporada (
+categoria varchar2(2) constraint fk_pvptemporada_categoria references categoria,
+temporada varchar2(5) constraint fk_pvptemporada_temporada references temporada,
+psa number(3),
+pad number(3),
+pmp number(3),
+ppc number(3),
+constraint pk_pvptemporada primary key (categoria,temporada)
+);
+
+create table habitacion (
+numero number(3) constraint pk_habitacion primary key,
+categoria varchar2(2) not null,
+constraint fk_habitacion_categoria foreign key(categoria)  references categoria
+);
+
+-- Ejercicio 2
+alter table categoria modify descripcion not null;
+alter table temporada add constraint ck_temporada_nombre check(nombre in('BAJA','MEDIA','ALTA'));
+alter table habitacion modify categoria default 'D';
+alter table pvptemporada modify psa default 60; 
+
+
+-- Ejercicio 3
+create table T1(
+a number(2), 
+b number(2), 
+c number(2), 
+d number(2),
+constraint pk_t1 primary key (a,b)
+);
+
+create table T2(
+a number(2) constraint pk_t2 primary key, 
+b number(2) constraint uk_t2 unique not null, 
+c number(2), 
+d number(2)
+);
+
+create table T3(
+a number(2)constraint pk_t3 primary key, 
+b number(2) not null, 
+c number(2) not null, 
+d number(2),
+constraint uk_t3 unique(b,c)
+);
+
+create table T4(
+a number(2) constraint pk_t4 primary key, 
+b number(2) not null constraint uk_t4b unique, 
+c number(2) not null constraint uk_t4c unique, 
+d number(2)
+);
+
+
+--  Ejercicio 4
+
+
+insert into categoria(nombre, descripcion, supmin) 
+values ('D','SECADOR, MINIBAR, AMPLIA, DOS CAMAS, ADMITE SUPLETORIA',15);
+
+insert into categoria(nombre, descripcion, supmin) 
+values ('DT','SECADOR, MINIBAR, AMPLIA, DOS CAMAS, ADMITE SUPLETORIA, TERRAZA AL PARQUE',15);
+
+insert into categoria(nombre, descripcion, supmin) 
+values ('I','UNA CAMA, SECADOR',12);
+
+insert into TEMPORADA values('ALTA');
+insert into TEMPORADA values('BAJA');
+insert into TEMPORADA values('MEDIA');
+
+--insert into TEMPORADA values('EXTRA');
+-- NO SE PUEDE PORQUE VIOLA LA RESTRICCIÓN IMPUESTA LA NOMBRE DE LA TEMPORADA.
+
+insert into HABITACION values(1,'D');
+insert into HABITACION values(2,'D');
+insert into HABITACION values(3,'D');
+
+--insert into HABITACION values(3,'I');
+-- la 3 ya existe, no se puede porque duplicaríamos la clave primaria
+
+insert into HABITACION values(4,'I');
+
+--insert into HABITACION values(5,'E');
+-- falla la integridad referencial de habitación a categoría
+
+insert into HABITACION values(5,'DT');
+insert into HABITACION values(6,'DT');
+
+
+--  Ejercicio 5  -----------------------------------
+
+insert into pvptemporada(categoria, temporada) values ('I','BAJA');
+insert into pvptemporada(categoria, temporada) values ('I','MEDIA');
+insert into pvptemporada(categoria, temporada) values ('I','ALTA');
+
+
+insert into pvptemporada(categoria, temporada) values ('DT','BAJA');
+insert into pvptemporada(categoria, temporada) values ('DT','MEDIA');
+insert into pvptemporada(categoria, temporada) values ('DT','ALTA');
+
+
+------------------------------------- (*1) fallan, no existe la categoria  S
+
+-- insert into pvptemporada(categoria, temporada) values ('S','BAJA');
+-- insert into pvptemporada(categoria, temporada) values ('S','MEDIA');
+-- insert into pvptemporada(categoria, temporada) values ('S','ALTA');
+
+---------------------------------------(*1)
+
+
+insert into pvptemporada(categoria, temporada, psa) values ('D','BAJA',65);
+insert into pvptemporada(categoria, temporada, psa) values ('D','MEDIA', 65);
+insert into pvptemporada(categoria, temporada, psa) values ('D','ALTA',65);
+
+
+--  Ejercicio 6
+delete from categoria where nombre='S';
+-- la sentencia funciona, no borra filas porque no cumple la condición ninguna fila
+
+--  Ejercicio 7
+-- delete from categoria where nombre ='D';
+-- No se puede realizar porque se violaría la integridad 
+-- referencial de pvptemporada a categoria
+
+--  Ejercicio 8
+
+update pvptemporada
+set psa=100
+where categoria= 'DT' and temporada ='BAJA';
+
+update pvptemporada
+set psa=115
+where categoria= 'DT' and temporada ='MEDIA';
+
+update pvptemporada
+set psa=140
+where categoria= 'DT' and temporada ='ALTA';
+------------------------------------------- (*2)
+
+--  Ejercicio 9
+INSERT INTO HABITACION(NUMERO) VALUES(7);
+
+
+
+--  Ejercicio 10
+-- LOS GUIONES NO SIRVEN PARA CONSTRUIR LOS NOMBRES, LOS SUBRAYADOS SÍ
+
+CREATE TABLE PRUEBA_vn_d(A NUMBER(2) PRIMARY KEY, B NUMBER(2) DEFAULT 10);
+
+CREATE TABLE PRUEBA_vn_nd(A NUMBER(2) PRIMARY KEY, B NUMBER(2)); V
+
+CREATE TABLE PRUEBA_vnn_d(A NUMBER(2) PRIMARY KEY, B NUMBER(2)  default 10 not null);
+
+CREATE TABLE PRUEBA_vnn_nd(A NUMBER(2) PRIMARY KEY, B NUMBER(2) not null);
+
+-- columna valor NULL y  con DEFAULT
+
+insert into prueba_vn_d(a,b) values(1,null); -- pone NULL
+
+insert into prueba_vn_d(a,b) values(2,default); -- le asigna el valor por defecto
+
+insert into prueba_vn_d(a) values(3); -- le asigna el valor por defecto
+
+-- columna valor NULL y NO DEFAULT
+
+insert into prueba_vn_nd(a,b) values(1,null); -- pone NULL
+
+insert into prueba_vn_nd(a,b) values(2,default); -- lo admite y toma como valor por defecto NULL
+
+insert into prueba_vn_nd(a) values(3); -- le asigna NULL 
+
+-- columna not null y con DEFAULT
+
+-- insert into prueba_vnn_d(a,b) values(1,null); -- falla porque necesita valor
+
+insert into prueba_vnn_d(a,b) values(2,default); -- le asigna el valor por defecto
+
+insert into prueba_vnn_d(a) values(3);-- le asigna el valor por defecto
+
+-- columna not null y NO DEFAULT
+
+--insert into prueba_vnn_nd(a,b) values(1,null); -- falla porque necesita valor
+
+--insert into prueba_vnn_nd(a,b) values(2,default); -- falla porque necesita valor
+
+
+--insert into prueba_vnn_d(a) values(3)-- falla porque necesita valor
+
+
+
+

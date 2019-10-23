@@ -1,0 +1,21 @@
+TAMAÑO DE MATRICES      TIEMPO MEDIO
+100                     2.659    miliseconds
+200                     0.018    seconds
+300                     0.064    seconds
+400                     0.155    seconds
+500                     0.354    seconds
+600                     0.906    seconds
+700                     1.727    seconds
+800                     3.311    seconds
+900                     5.386    seconds
+1000                    7.338    seconds
+1100                    9.591    seconds
+1200                    12.806   seconds
+1300                    16.835   seconds
+1400                    21.836   seconds
+1500                    30.443   seconds
+1600                    39.421   seconds
+1700                    54.252   seconds
+1800                    71.703   seconds
+1900                    86.982   seconds
+2000                      100.453  seconds

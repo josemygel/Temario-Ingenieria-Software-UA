@@ -1,0 +1,151 @@
+SOLUCIÓN sesión14
+
+create table alquilar14(cliente char(9) not null constraint alquilar14cliente14 references cliente14,
+fecha date constraint alquilar14calendario14 references calendario14,
+material char(5) constraint alquilar14material14 references material14,
+constraint cpalquilar14 primary key(material, fecha));
+
+create table suministrar14(tipo number(3) constraint suministrar14tipo14 references tipo14,
+proveedor char(9) constraint suministrar14proveedor14 references proveedor14,
+precio number(4) not null,
+constraint cpsuministrar primary key(tipo, proveedor));
+
+-- EJERCICIO 1
+
+ALTER TABLE MATERIAL14
+MODIFY ESTADO CONSTRAINT CHECK_ESTADO CHECK (ESTADO IN ('NORMAL', 'PESIMO', 'GASTADO', 'OPTIMO')); 
+
+-- EJERCICIO 2
+
+ALTER TABLE CLIENTE14
+MODIFY TELEFONO NOT NULL;
+
+
+ --EJERCICIO 3
+
+create or replace
+FUNCTION TARIFA(ELCODMAT CHAR) RETURN NUMBER
+IS
+AUXTARIFA TIPO14.TARIFADIARIA%TYPE;
+BEGIN
+SELECT TARIFADIARIA INTO AUXTARIFA
+FROM MATERIAL14, TIPO14 
+WHERE TIPO = CODTIPO AND CODIGO=ELCODMAT;
+RETURN(AUXTARIFA);
+EXCEPTION
+WHEN NO_DATA_FOUND THEN ESCRIBIR('NO EXISTE ESE MATERIAL');
+
+END;
+
+--EJERCICIO 4
+
+CREATE TRIGGER EJERCICIO5
+AFTER UPDATE OF ESTADO ON MATERIAL14
+FOR EACH ROW
+DECLARE AUXDESCRIPCION TIPO14.DESCRIPCION%TYPE;
+BEGIN
+ IF (:NEW.ESTADO='PESIMO' AND :OLD.ESTADO='OPTIMO')
+ THEN
+   SELECT DESCRIPCION INTO AUXDESCRIPCION FROM TIPO14 WHERE CODTIPO=:NEW.TIPO;
+   ESCRIBIR('El material '||:NEW.CODIGO||' QUE ES '||AUXDESCRIPCION||' ha pasado directamente de OPTIMO a PESIMO. Estudiar el deterioro.');
+ END IF;
+END;
+
+-- EJERCICIO 5
+
+create or replace
+PROCEDURE COMPROBAR(ELMATERIAL CHAR, LAFECHA DATE) IS
+CURSOR C1 IS SELECT CODIGO, ESTADO FROM MATERIAL14 
+  WHERE ESTADO<>'PESIMO' AND TIPO= (SELECT TIPO FROM MATERIAL14 WHERE CODIGO=ELMATERIAL);
+AUXESTADO MATERIAL14.ESTADO%TYPE;
+AUXTIPO MATERIAL14.TIPO%TYPE;
+ALQUILADO NUMBER(1);
+AUX NUMBER(1);
+LISTA NUMBER(5);
+DEMANDADO EXCEPTION;
+
+BEGIN
+SELECT ESTADO, TIPO INTO AUXESTADO, AUXTIPO FROM MATERIAL14 WHERE CODIGO=ELMATERIAL;
+
+IF (AUXESTADO<>'PESIMO') THEN
+  SELECT COUNT(*) INTO ALQUILADO FROM ALQUILAR14 WHERE MATERIAL= ELMATERIAL AND FECHA=LAFECHA;
+  IF (ALQUILADO=0) THEN ESCRIBIR('SE PUEDE RESERVAR');
+  ELSE
+  lista:=0;
+  FOR RC1 IN C1 LOOP
+   SELECT COUNT(*) into aux FROM ALQUILAR14 WHERE FECHA=LAFECHA AND MATERIAL=RC1.CODIGO;
+   IF (AUX=0) THEN lista:=lista+1; ESCRIBIR(RC1.CODIGO||' -- '||RC1.ESTADO); END IF;
+  END LOOP;
+  IF (LISTA=0) THEN 
+   RAISE DEMANDADO;
+  END IF;
+ END IF;
+END IF;
+EXCEPTION
+WHEN NO_DATA_FOUND THEN ESCRIBIR('NO EXISTE ESE MATERIAL');
+WHEN DEMANDADO THEN
+   escribir('SIN DISPONIBILIDAD');
+   UPDATE TIPO14 SET COMENTARIO='MUY DEMANDADO' WHERE CODTIPO = AUXTIPO;
+
+END;
+
+-- EJERCICIO 6
+
+create or replace procedure revisar is
+cursor pesimos is select material14.codigo codmat, descripcion from material14, tipo14 where material14.codigo=tipo and upper(estado)='PESIMO'; -- lo de upper no hace falta
+auxmaterial material14.codigo%type:=NULL;
+cursor alquileresborrados is select  nombre, telefono, fecha from alquilar14, cliente14 where nif=cliente and material=auxmaterial;
+total_pesimos number(6):=0;
+todos_ok exception;
+
+BEGIN
+select count(*) into total_pesimos from material14 where upper(estado)= 'PESIMO';
+if total_pesimos=0 then raise todos_ok; end if;
+
+escribir('Se van a borrar los siguientes materiales por mal estado');
+
+for matpesimo in pesimos loop
+escribir('MATERIAL: '||matpesimo.codmat||' que es '||matpesimo.descripcion||' retirado.');
+auxmaterial:=matpesimo.codmat;
+
+-- select count(*) into total_pesimos from alquilar14 where material=auxmaterial; No lo pide enunciado. 
+-- if total_pesimos = 0 then                                                      Queda mejor, por si no tiene alquileres
+  escribir('Avisad a:');
+
+  for cli in alquileresborrados loop
+--   if cli.fecha > sysdate then                         No lo pide el enunciado. Aquí se filtra si la fecha de alquiler ya pasó y no es necesario avisar.
+   escribir('     '||cli.nombre||'     '||cli.telefono);
+--   end if;
+  end loop;
+  
+-- end if;
+end loop;
+delete from alquilar14 where material in (select codigo from material14 where upper(estado)='PESIMO');
+
+EXCEPTION
+when todos_ok then
+escribir('No hay material para retirar');
+
+END;
+
+
+-- EJERCICIO 7
+create or replace
+TRIGGER EJERCICIO6
+AFTER INSERT ON SUMINISTRAR14
+FOR EACH ROW
+DECLARE 
+AUXTARIFADIARIA TIPO14.TARIFADIARIA%TYPE;
+BEGIN
+ SELECT TARIFADIARIA INTO AUXTARIFADIARIA FROM TIPO14 WHERE CODTIPO=:NEW.TIPO;
+ IF (:NEW.PRECIO>200*AUXTARIFADIARIA)
+ THEN
+  RAISE_APPLICATION_ERROR(-20100,'Precio muy elevado. No considerarlo');
+ ELSE
+  IF (:NEW.PRECIO<100*AUXTARIFADIARIA)
+  THEN
+    ESCRIBIR(:NEW.PROVEEDOR||' nos permite reducir la tarifa de '||:NEW.TIPO);
+    UPDATE TIPO14 SET TARIFADIARIA=0.9*TARIFADIARIA WHERE CODTIPO=:NEW.TIPO;
+  END IF;
+ END IF;
+END;

@@ -1,0 +1,7 @@
+To install the processor pack:
+
+	- check the Visual studio service pack installed on your computer ( 5 or 6 required) (if not installed see the link in the bottom of the article)
+
+	- download the processor pack whith the link in the bottom of the article's web page
+
+	- install it

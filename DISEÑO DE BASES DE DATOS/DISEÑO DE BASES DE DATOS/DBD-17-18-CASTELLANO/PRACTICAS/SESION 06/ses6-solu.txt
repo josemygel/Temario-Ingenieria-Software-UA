@@ -1,0 +1,158 @@
+-- Recuerda que para visualizar los mensajes cuando ejecutes
+-- los procedimientos debes haber ejecutado antes en tu
+-- sesión de trabajo 
+SET SERVEROUTPUT ON;
+
+-- Ejercicio 1
+alter table calendreservas 
+add alimentacion char(2) constraint valor_alimentacion check (alimentacion in ('SA','AD', 'MP','PC'));
+
+-- Ejercicio 2
+create or replace
+procedure revisarsuperficie is
+
+CURSOR c1 IS SELECT numero, superficie, nombre, supMin 
+  FROM habitacion, categoria  
+  WHERE categoria=nombre
+  ORDER BY numero;
+
+begin
+FOR regc1 IN c1 LOOP
+IF regc1.superficie is null or regc1.supMin is null THEN
+  IF regc1.superficie is null THEN
+    escribir('Habitacion '|| regc1.numero ||' falta su superficie' );
+  END IF;
+  IF regc1.supMin is null THEN
+    escribir('Categoria '|| regc1.nombre ||' falta su superficie' );
+  END IF;
+ELSE
+    IF regc1.superficie < regc1.supMin THEN
+      escribir('Habitacion '|| regc1.numero ||' dimension INCORRECTA ***');
+      INSERT INTO MALCATEGORIA VALUES(regc1.numero, regc1.supMin-regc1.superficie);
+    ELSE
+      escribir('Habitacion '|| regc1.numero ||' dimension correcta');
+    END IF;
+END IF;
+END LOOP;
+END;
+
+
+--  ***********************************************************************
+--  IMPORTANTE SE RENOMBRA LA COLUMNA código de la tabla actividad a codigo
+
+ALTER TABLE actividad rename column código to codigo
+
+-- *************************************************************************
+
+-- Ejercicio 3
+create or replace
+procedure veractividadesporfecha (p_fecha in date) is
+CURSOR cur_horario IS 
+SELECT hora, codigo, descripcion
+FROM actividad, horario
+WHERE actividad=codigo and fecha=p_fecha
+ORDER BY hora;
+BEGIN
+escribir ('Actividades para el dia ' || p_fecha);
+FOR reg_horario IN cur_horario LOOP
+  escribir(reg_horario.hora||' horas '|| reg_horario.codigo || ' '||reg_horario.descripcion);
+END LOOP;
+END;
+
+
+
+-- Ejercicio 4
+create or replace
+procedure versustitutasadultos (p_actividad in char) is
+v_nomactividad actividad.descripcion%type;
+CURSOR cur_adultos IS 
+SELECT activ2, descripcion
+FROM sustadultos, actividad
+WHERE p_actividad=activ1 and activ2=codigo
+ORDER BY descripcion;
+BEGIN
+select descripcion into v_nomactividad from actividad
+where p_actividad=codigo;
+escribir ('Las actividades sustitutas de la actividad ' || v_nomactividad||' son:');
+FOR reg_adultos IN cur_adultos LOOP
+  escribir(reg_adultos.activ2||' '|| reg_adultos.descripcion);
+END LOOP;
+END;
+
+
+
+
+-- Ejercicio 5
+create table adaptadas (
+habitacion number(3) constraint pk_adaptadas primary key
+constraint fk_adaptadas_habitacion references habitacion
+);
+
+
+
+-- Ejercicio 6
+create or replace
+procedure completaadaptadas is
+v_contador number(3):=0;
+CURSOR cur_habitacion IS SELECT numero
+  from habitacion
+  WHERE piso=0 and superficie>25;
+
+begin
+for reg_habitacion in cur_habitacion loop
+    insert into adaptadas values(reg_habitacion.numero);
+    v_contador:=v_contador+1;
+end loop;
+escribir ('Se han dado de alta '||v_contador||' habitaciones como adaptadas');
+END;
+
+
+-- SE PUEDE HACER SIN CURSORES
+create procedure CompletaAdaptadas
+is
+auxtotal number(3);
+begin
+
+insert into adaptadas
+select numero
+from habitacion 
+where superficie>25 and piso=0;
+
+select count(*) into auxtotal
+from habitacion 
+where superficie>25 and piso=0;
+
+escribir('Se han dado de alta '||auxtotal|| 'habitaciones como adaptadas');
+end;
+
+-- Ejercicio 7
+create or replace
+procedure revisarprecios (p_temporada in temporada.nombre%type) is
+begin
+    update pvptemporada set pad=psa*1.1, pmp=psa*1.2, ppc=psa*1.3
+    where temporada=p_temporada and psa is not null;
+end;
+
+
+-- Ejercicio 8
+-- Existen varias formas de definir el cursor
+create or replace
+procedure sinsustitutas  is
+cursor cur_actividad is
+  select * from actividad
+     where not exists (
+        select 1 from sustninos where codigo=activ1)
+   and not exists (
+        select 1 from sustadultos  where codigo=activ1)
+   and not exists (
+        select 1 from susttodos  where codigo=activ1);       
+begin
+for reg_actividad in cur_actividad  loop
+  escribir ('Actividad sin sustituta '||reg_actividad.codigo||' '||reg_actividad.descripcion);
+end loop;
+end;
+
+
+
+
+       

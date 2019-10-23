@@ -1,0 +1,42 @@
+IPs:
+    172.20.40.54
+    172.20.40.55
+
+WEB:
+    Compilar:
+        javac ServerWeb.java
+    Ejecutar:
+        java ServerWeb [IP][PORT]
+            IP: Es la ip a la que conectará con el controlador
+            PORT: Es el puerto que usará para conectar al controlador
+CONTROLLER:
+    Compilar:
+        javac Controller.java
+    Ejecutar:
+        java Controller [IPREGISTRY] [PORTCONTROLLER]
+            IPREGISTRY: IP en la que se localizará el Registry+Master
+            PORTCONTROLLER: Puerto por el que se recibirán las peticiones al Controller
+            
+MASTER:
+    Compilar:
+        javac MasterMain.java
+    Iniciar registro:
+        rmiregistry &
+    Ejecutar:
+        java -cp . -Djava.rmi.server.hostname=[IPREGISTRY] MasterMain
+
+STATION:
+    Compilar:
+        javac SationMain.java
+    Ejecutar:
+        java -cp . -Djava.rmi.server.hostname=127.0.0.1 StationMain 127.0.0.1 Station-1
+        java -cp . -Djava.rmi.server.hostname=[IPREGISTRY] StationMain [IPREGISTRY] Name        
+        /** Nota: Cambiar lo del ID para que lo reciba automaticamente */
+
+HITOS:
+    -RMI MASTER proporcionará a STATION un identificador a la hora de registrarse.
+    -Las IP de deben ser personalizables en todos.
+    -Crear las estaciones en una lista para Controller.
+    -Las estaciones pueden "apagarse" y "encenderse" sin que se "rompa" el programa. Debe seguir funcionando sin problemas.
+    -Se pueden modificar los datos en las estaciones y se actualizaran al refrescar.
+    -etc.

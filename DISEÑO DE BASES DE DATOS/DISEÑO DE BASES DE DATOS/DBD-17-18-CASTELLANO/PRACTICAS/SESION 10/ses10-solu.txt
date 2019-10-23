@@ -1,0 +1,178 @@
+-- ejercicio 1
+
+create or replace
+function precio_servicio (elcodigo servicio.codigo%type) return number
+is
+auxprecio servicio.precio%type:=NULL;
+begin
+select precio into auxprecio
+from servicio 
+where codigo=elcodigo;
+return(auxprecio);
+exception
+when no_data_found then
+escribir('No existe ningún servicio con ese código');
+return null;
+end;
+
+
+-- ejercicio 2
+-- El enunciado no pide la comprobación de si existe o no esa categoria y ese tipo;
+
+create or replace function media(lacategoria pvptemporada.categoria%type, eltipo varchar) return number
+is 
+auxmedia number(5,2):=0;
+total number(1); 
+no_existe_categoria exception;
+begin
+select count(*) into total from pvptemporada where categoria=upper(lacategoria);
+if total=0 then raise no_existe_categoria;
+end if;
+if (upper(eltipo)='SA') then
+select avg(PSA) into auxmedia from pvptemporada where categoria=upper(lacategoria);
+elsif (upper(eltipo)='AD') then
+     select avg(PAD) into auxmedia from pvptemporada where categoria=upper(lacategoria);
+  elsif (upper(eltipo)='MP') then
+     select avg(PMP) into auxmedia from pvptemporada where categoria=upper(lacategoria);
+    elsif (upper(eltipo)='PC') then
+    select avg(PPC) into auxmedia from pvptemporada where categoria=upper(lacategoria);
+    else escribir('El tipo es incorrecto. Debe ser SA, AD, MP, PC');
+end if;
+if auxmedia is NULL then escribir('Valores de precio sin completar'); 
+end if;
+return(auxmedia);
+exception
+when no_existe_categoria then
+escribir('No existe la categoria indicada. Debe ser I, D, DT o S');
+return null;
+end;
+
+-ejercicio 3
+
+create or replace procedure las_medias is
+cursor categ is select nombre from categoria;
+begin
+for cat in categ loop
+escribir(cat.nombre||' SA: '||media(cat.nombre,'SA')||' AD: '||media(cat.nombre,'AD')||' MP: '||media(cat.nombre,'MP')||' PC: '||media(cat.nombre,'PC'));
+end loop;
+end;
+
+-- ejercicio 4
+-- la excepción no se pide en este ejercicio aunque se ha puesto en la solución.
+create or replace
+FUNCTION total_cat_fecha(lafecha date, lacategoria categoria.nombre%type) return number
+is
+auxtotal number(5);
+auxcategoria categoria.nombre%type;
+begin
+select nombre into auxcategoria from categoria where nombre=lacategoria;
+select count(*) into auxtotal
+from calendreservas
+where fecha=lafecha
+and habitacion in 
+        (select numero from habitacion where categoria = lacategoria);
+return(auxtotal);
+exception
+when no_data_found then
+  escribir('No existe esa categoria de habitacion en el hotel.Debe ser I, D, DT o S');
+  return null;
+end;
+
+
+-- ejercicio 5
+
+-- No se pide en enunciado que se verifique número de reserva y de habitación pero en estas
+-- soluciones se ha hecho. Se muestran dos posibilidades:
+
+-- trabajando directamente con una select que lo abarque todo:
+create or replace
+function gasto_res_hab(lareserva reserva.codigo%type, lahabitacion habitacion.numero%type)
+return number
+is
+auxgasto number(7,2):=NULL;
+begin
+select sum(precio*cantidad) into auxgasto
+from calendreservas ca, consumir co, servicio
+where ca.habitacion=co.habitacion and ca.fecha=co.fecha and servicio= codigo and
+      ca.habitacion=lahabitacion and ca.reserva=lareserva;
+if auxgasto is NULL then escribir('Verifique el número de reserva y el de habitación');
+end if;
+return(auxgasto);
+end;
+
+--- utilizando un cursor
+create or replace
+function gasto_res_hab_2(lareserva reserva.codigo%type, lahabitacion habitacion.numero%type)
+return number
+is
+auxreserva reserva.codigo%type;
+auxhabitacion habitacion.numero%type;
+auxgasto number(7,2):=0;
+gasto number(7,2):=0;
+cursor dias_reserva is select fecha from calendreservas 
+            where reserva=lareserva and habitacion=lahabitacion;
+begin
+select numero into auxhabitacion from habitacion where numero=lahabitacion;
+select codigo into auxreserva from reserva where codigo=lareserva;
+for dr in dias_reserva loop
+select sum(precio*cantidad) into auxgasto
+from consumir, servicio
+where servicio= codigo and
+      habitacion=lahabitacion and fecha=dr.fecha;
+gasto:=gasto+auxgasto;
+end loop;    
+return(gasto);
+exception 
+when no_data_found then
+escribir('Verifique el número de reserva y el de habitación');
+return null;
+end;
+
+-- ejercicio 6
+
+-- Imprescindible poner DISTINCT en la definición del cursor para que si una
+-- habitación está reservada más de un día no añada su gasto total más de una vez.
+
+create or replace function gasto_reserva(lareserva reserva.codigo%type) return number
+is
+auxreserva reserva.codigo%type;
+gasto number(7,2):=0;
+cursor hab_reserva is select distinct habitacion from calendreservas 
+            where reserva=lareserva;
+begin
+select codigo into auxreserva from reserva where codigo=lareserva;
+for hr in hab_reserva loop
+gasto:=gasto+gasto_res_hab(lareserva, hr.habitacion);
+end loop;    
+return(gasto);
+exception
+when no_data_found then
+escribir('Verifique el número de reserva');
+return null;
+end;
+
+-- ejercicio 7
+
+create table clientevip(nif char(9) constraint fk_clientevip_cliente references cliente
+constraint pk_clientevip primary key);
+
+-- ejercicio 8
+
+create or replace
+function gasto_acumulado (elnif cliente.nif%type, elaño char) return number
+is 
+auxnif cliente.nif%type;
+gasto number(10,2):=0;
+cursor sus_reservas is select distinct reserva from calendreservas, reserva
+       where to_char(fecha,'yyyy')= elaño and reserva=codigo and cliente=elnif;
+begin
+select nif into auxnif from cliente where nif=elnif;
+for res in sus_reservas loop
+gasto:=gasto+ gasto_reserva(res.reserva);
+end loop;
+return(gasto);
+exception
+when no_data_found then
+escribir('El NIF introducido no corresponde a ningún cliente');
+return null;
+end;

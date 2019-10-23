@@ -1,0 +1,5 @@
+La altura del arbol a es 4
+El arbol tiene 5 nodos
+El arbol tiene 2 nodos hoja
+La raiz del arbol es a(4 0)
+[(1) (4 0), (2) (1 0), (3) (5 0), (4) (2 0), (5) (3 0)]

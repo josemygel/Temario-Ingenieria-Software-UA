@@ -1,0 +1,128 @@
+CREATE TABLE SERVICIO(
+codigo char(4) constraint cp_servicio primary key,
+ descripcion varchar2(30),
+ precio number(5,2));
+
+CREATE TABLE CLIENTE(
+nif char(9) constraint cp_cliente primary key,
+nombre varchar2(40) not null,
+telefono  char(11) not null,
+localidad varchar2(40),
+provincia varchar2(30),
+pais varchar2(30));
+
+CREATE TABLE RESERVA(
+codigo number(6) constraint cp_reserva primary key,
+cliente char(9) references CLIENTE);
+
+CREATE TABLE CALENDRESERVAS(
+habitacion number(3) constraint fk_calendreservas_habitacion references HABITACION,
+fecha date constraint calendreservas_calendario references CALENDARIO,
+camasup char(2),
+reserva number(6) constraint fk_calendreservas_reserva references reserva,
+constraint cp_calendreservas primary key(habitacion, fecha));
+
+
+
+CREATE TABLE CONSUMIR(
+habitación number(3),
+fecha date,
+servicio char(4) constraint fk_consumir_servicio references servicio,
+cantidad number(2),
+constraint  fk_consumir_calendreservas foreign key(habitación, fecha)  references calendreservas,
+constraint pk_consumir primary key(habitación, fecha, servicio));
+
+CREATE TABLE EMPLEADO(
+nif char(9) constraint cp_empleado primary key,
+nombre varchar2(40),
+dirección varchar2(30),
+población varchar2(30),
+telefono char(9),
+estudios  varchar2(50));
+
+
+CREATE TABLE EMPANIMACION(
+nif char(9) constraint fk_empanimacion_empleado references empleado 
+constraint pk_empanimacion primary key);
+
+CREATE TABLE EMPSERVICIOS(
+nif char(9) constraint fk_empservicios_empleado references empleado 
+constraint pk_empservicios primary key);
+
+CREATE TABLE EMPLIMPIEZA(
+nif char(9) constraint fk_emplimpieza_empleado references empleado 
+constraint pk_emplimpieza primary key);
+
+CREATE TABLE EMPRESTAURANTE(
+nif char(9) constraint fk_emprestaurante_empleado references empleado 
+constraint pk_emprestaurante primary key);
+
+CREATE TABLE EMPRECEPCION(
+nif char(9) constraint fk_emprecepcion_empleado references empleado 
+constraint pk_emprecepcion primary key);
+
+--Habrá que controlar que la generalización de EMPLEADO es TOTAL y DISJUNTA.
+
+CREATE TABLE AGENCIAVIAJES(
+cif char(9) constraint pk_agenciaviajes primary key,
+nombre varchar2(30),
+telefono char(9));
+
+CREATE TABLE RESAGENCIA(
+reserva number(6) constraint fk_resagencia_reserva references reserva
+constraint pk_resagencia primary key,
+agencia char(9) constraint fk_resagencia_agencia references agenciaviajes not null,
+emprecepcion char(9) constraint fk_resagencia_emprecepcion  references emprecepcion not null);
+
+CREATE TABLE RESTELEFONO(
+reserva number(6) constraint fk_restelefono_reserva references reserva 
+constraint pk_restelefono primary key,
+emprecepcion char(9) constraint fk_restelefono_emprecepcion references emprecepcion  not null);
+
+CREATE TABLE RESHOTEL(
+reserva number(6)  constraint fk_reshotel_reserva references reserva
+ constraint pk_reshotel primary key,
+emprecepcion char(9) constraint fk_reshotel_emprecepcion references emprecepcion  not null);
+
+CREATE TABLE RESINTERNET (
+reserva number(6)  constraint fk_resinternet_reserva references reserva
+ constraint pk_resinternet primary key,
+localizador number(6)  not null);
+
+--Habrá que controlar que la generalización de EMPLEADO es TOTAL y DISJUNTA.
+
+CREATE TABLE TRATAMIENTO(
+codigo char(5) constraint pk_tratamiento primary key,
+observaciones varchar2(50),
+precio number(3) not null);
+
+CREATE TABLE REALIZAR(
+tratamiento char(5) constraint fk_realizar_tratamiento references tratamiento,
+empleado char(9) constraint fk_realizar_empservicios references empservicios,
+constraint pk_realizar primary key(tratamiento, empleado));
+
+CREATE TABLE CITA(
+fecha date,
+momento number(1) constraint check_momento check(momento between 1 and 6),
+empleado char(9),
+cliente char(9) constraint fk_cita_cliente references cliente not null,
+tratamiento char(5)  not null,
+constraint pk_cita primary key(fecha, momento, empleado),
+constraint fk_cita_realizar foreign key (tratamiento, empleado) references realizar);
+
+--Para controlar que el empleado de servicio realice el servicio de la cita se ha dirigido
+-- la clave ajena compuesta a la tabla realizar. Siguiendo las reglas de transformación 
+-- del EER al MR tendríamos dos claves ajenas empleado y tratamiento hacia sus respectivas tablas.
+
+
+---- TABLAS YA CREADAS A LAS QUE FALTA RELACIONAR CON LAS NUEVAS
+
+ALTER TABLE CALENDARIO
+add emplimpieza char(9) constraint fk_calendario_emplimpieza references emplimpieza;
+
+ALTER TABLE ACTIVIDAD
+add empanimacion char(9) constraint fk_actividad_empanimacion references empanimacion;
+
+
+
+

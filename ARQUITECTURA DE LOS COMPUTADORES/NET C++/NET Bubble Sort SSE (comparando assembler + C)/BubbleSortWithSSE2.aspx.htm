@@ -1,0 +1,1494 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>CodeProject: Implementing Bubble Sort with SSE2. Free source code and programming help</title>
+
+
+
+
+
+	
+	
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="Description" content="How much faster will implementing &quot;the generic bad algorithm&quot; in SSE2 make it?; Author: codekaizen; Section: Algorithms &amp; Recipes; Chapter: General Programming">
+<meta name="Keywords" content="VC8.0, .NET 2.0, .NET 3.0, .NET 3.5, C++, C++/CLI, Windows, .NET, Win32, Dev, ASM, Intermediate, Advanced,Algorithms &amp; Recipes,General Programming,Free source code, tutorials">
+<meta name="Author" content="The Code Project">
+<meta name="Rating" content="General">
+<meta name="Robots" content="index, follow">
+<meta name="Revisit-After" content="1 days">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - All topics" href="http://www.codeproject.com/webservices/articlerss.aspx?cat=1">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - MFC / C++" href="http://www.codeproject.com/webservices/articlerss.aspx?cat=2">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - C#" href="http://www.codeproject.com/webservices/articlerss.aspx?cat=3">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - ASP.NET" href="http://www.codeproject.com/webservices/articlerss.aspx?cat=4">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - .NET" href="http://www.codeproject.com/webservices/articlerss.aspx?cat=5">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - VB.NET" href="http://www.codeproject.com/webservices/articlerss.aspx?cat=6">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Lounge Postings" href="http://www.codeproject.com/webservices/LoungeRSS.aspx">
+<link rel="search" type="application/opensearchdescription+xml" title="CodeProject" href="http://www.codeproject.com/info/OpenSearch.xml">
+	<link rel="stylesheet" type="text/css" href="BubbleSortWithSSE2.aspx_files/CodeProject.css">	
+	<link rel="stylesheet" type="text/css" href="BubbleSortWithSSE2.aspx_files/ForumClassic.css">	
+	<!-- base -->
+	
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="BubbleSortWithSSE2.aspx_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+   var pageTracker = _gat._getTracker("UA-1735123-1");
+   pageTracker._setDomainName("www.codeproject.com");
+   pageTracker._setSessionTimeout("1200"); // 20 mins
+   pageTracker._initData();
+   pageTracker._trackPageview();
+</script>
+	
+	<script type="text/javascript" language="Javascript">//<![CDATA[
+if(top!=self)top.location.href=location.href; if(typeof(DemoUrl)!="undefined")document.write(unescape('%3Cme')+'ta http'+'-equiv="re' +'fresh" con'+'tent="1;url='+DemoUrl+unescape('"%3CE'));
+//]]></script>
+
+<script type="text/javascript" language="Javascript" src="BubbleSortWithSSE2.aspx_files/oncopy.js"></script>
+<script type="text/javascript" language="Javascript" src="BubbleSortWithSSE2.aspx_files/jxs.js"></script>
+<script type="text/javascript" language="Javascript" src="BubbleSortWithSSE2.aspx_files/bookmark.js"></script>
+<script type="text/javascript" language="Javascript" src="BubbleSortWithSSE2.aspx_files/rateitem.js"></script>
+<script type="text/javascript" language="Javascript">//<![CDATA[
+function ToggleMenu(itemName)
+{
+	var elm = document.getElementById(itemName);
+	var i,others = document.getElementById('SectionMenu');
+	for(i=0; i < others.childNodes.length; i++)
+	{
+		var other = others.childNodes[i];
+		if ((other.className == 'MenuSectionBlock') && (other != elm))
+			other.style.display='none';
+	}
+	if (elm.style.display == 'block') elm.style.display='none';
+	else elm.style.display='block';
+	return false;
+}
+
+//]]></script>
+
+<script type="text/javascript" language="Javascript" src="BubbleSortWithSSE2.aspx_files/addto.js"></script>
+<script type="text/javascript" language="Javascript">//<![CDATA[
+var Selected = "-1";
+
+function SwitchMessage(e, msgId)
+{
+  if (!msgId) {
+    if(!e)e=window.event;
+    var target=e.target?e.target:e.srcElement;
+    while(target&&target.id!='DynMessLink')target=target.parentNode;
+    if(!target||target.id!='DynMessLink')return;
+    msgId=target.name;
+  }
+  if(Selected&&Selected!=""){
+    var body=eval("document.getElementById('F" + Selected + "_h1')");
+    if(body) body.style.display = 'none';
+    var head=eval("document.getElementById('F" + Selected + "_h0')");
+    if(head) head.className = head.className.replace("Sel", "UnSel");
+  }
+  if(Selected==msgId.toString())
+    Selected="";
+  else {
+    Selected=msgId.toString();
+    var body=eval("document.getElementById('F" + Selected + "_h1')");
+    if(body){
+      if(body.style.display=='none') body.style.display='';
+      else body.style.display = 'none';
+    }
+    var head=eval("document.getElementById('F" + Selected + "_h0')");
+    if (head) 
+      head.className = head.className.replace("UnSel", "Sel");
+    if(body&&head&&body.style.display!='none'){
+      document.body.scrollTop = getRealPos(head, "Top") - document.body.clientHeight/10;
+      EnsureMessageVisible(Selected, true);
+    }
+  }
+  if (e){if(e.preventDefault)e.preventDefault;else e.returnValue=false;}
+  return false;
+}
+
+//]]></script>
+
+<script type="text/javascript" language="Javascript" src="BubbleSortWithSSE2.aspx_files/ShortCuts.js"></script>
+<link rel="icon" href="http://www.codeproject.com/favicon.ico" type="image/ico">
+<link rel="shortcut icon" href="http://www.codeproject.com/favicon.ico" type="image/ico"></head><body style="background-color: rgb(255, 255, 255);">
+
+<table id="ctl00_AT" border="0" cellpadding="0" cellspacing="0">
+	<tbody><tr valign="top">
+		<td colspan="2">
+	<table border="0" cellpadding="0" cellspacing="0">
+	<tbody><tr>
+		<td class="HeaderLogo"><a href="http://www.codeproject.com/"><img id="ctl00_Logo" src="BubbleSortWithSSE2.aspx_files/logo225x90.gif" alt="The Code Project" style="border-width: 0px; height: 90px; width: 225px;"></a></td>				 
+		<td class="HeaderBanner" align="right" width="100%">
+		<script type="text/javascript">document.write(unescape("%3ca%20href%3d%22http%3a%2f%2fwww.codeproject.com%2fRedir.aspx%3fadid%3d6112%26way%3dban%22%20target%3d%22_blank%22%20rel%3d%22nofollow%22%3e%3cimg%20src%3d%22http%3a%2f%2fwww.codeproject.com%2fscript%2fAdm%2fServeImg.aspx%3fFile%3d%252fscript%252fadmentor%252fimages%252faspose_728x90_Ani_Total_Str.gif%26C%3dFalse%26adid%3d6112%22%20alt%3d%22%22%20border%3d%220%22%20width%3d%22728%22%20height%3d%2290%22%3e%3c%2fa%3e"));</script><a href="http://www.codeproject.com/Redir.aspx?adid=6112&amp;way=ban" target="_blank" rel="nofollow"><img src="BubbleSortWithSSE2.aspx_files/ServeImg.htm" alt="" border="0" height="90" width="728"></a></td>
+	</tr>
+	<tr><td colspan="2">
+
+<table class="MemberNavBar" cellpadding="5" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="SmallText" style="font-weight: bold;">5,565,363 members and growing! (17,598 online)</td>
+<td align="right">
+
+
+
+<div id="ctl00_MemberMenu_LoggedOffOptions" class="MemberNavBarText" style="margin: 0pt; padding: 0pt;">
+			<a name="SignUp"></a>
+<form name="subForm" id="subForm" action="/script/Membership/LogOn.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx" method="post" style="margin: 0pt; padding: 0pt;">
+Email    <input class="SmallText" name="Email" id="Email" style="width: 100px;" type="text">
+Password <input class="SmallText" name="Password" id="Password" style="width: 60px;" type="password">
+<input value="Sign in" class="FormButton" type="submit">
+<script type="text/javascript">
+function Join(){document.location.href='/script/Membership/Modify.aspx';return false;}
+document.write('<input type="button" class="FormButton" onclick="return Join();" value="Join"');
+document.write('<input type="hidden" name="fld_quicksign" value="true" />');
+</script><input class="FormButton" onclick="return Join();" value="Join" type="button"><input name="fld_quicksign" value="true" type="hidden">
+<input checked="checked" name="cookie" id="RememberMeCheck" type="checkbox">
+<label for="RememberMeCheck">Remember me?</label>&nbsp;
+<a id="ctl00_MemberMenu_SendPassword" href="http://www.codeproject.com/script/Membership/SendPassword.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx"><img alt="help" src="BubbleSortWithSSE2.aspx_files/help.gif" align="middle" border="0" height="16" width="16">Lost your password?</a>
+</form>
+
+		</div>
+
+</td>
+</tr>
+</tbody></table></td></tr>
+	<tr><td colspan="2">
+<table class="SiteNavBar" id="tblSiteToolbar" cellpadding="0" cellspacing="0">
+<tbody><tr>
+
+<td nowrap="nowrap"><a href="http://www.codeproject.com/">Home</a></td><td> &nbsp; </td><td style="font-weight: normal;" align="right" nowrap="nowrap">Current Site:</td><td class="SelCat" nowrap="nowrap"><a href="http://www.codeproject.com/">C++ / .NET</a></td>
+<td nowrap="nowrap"><a href="http://java.codeproject.com/">Java</a></td>
+<td nowrap="nowrap"><a href="http://sql.codeproject.com/">SQL</a></td>
+<td nowrap="nowrap"><a href="http://lamp.codeproject.com/">Linux / Unix</a></td>
+
+<td width="100%">&nbsp;</td>
+<td id="ctl00_TopNavBar_RightMenus">
+	<div id="MenuPos" style="position: relative; width: 380px; height: 22px; top: 1px;">
+	<table style="border-width: 0px; height: 20px;" cellpadding="0" cellspacing="0" width="380">
+	<tbody><tr valign="middle">
+	<td style="border-width: 0pt;" nowrap="nowrap"><a href="http://www.codeproject.com/info/FAQ.aspx">Help!</a></td>
+<td style="border-width: 0pt;" nowrap="nowrap"><a href="http://www.codeproject.com/script/Articles/Latest.aspx">Articles</a></td>
+<td style="border-width: 0pt;" nowrap="nowrap"><a href="http://www.codeproject.com/script/Forums/List.aspx">Message Boards</a></td>
+<td style="border-width: 0pt;" nowrap="nowrap"><a href="http://www.codeproject.com/script/Jobs/List.aspx">Job Board</a></td>
+<td style="border-width: 0pt;" nowrap="nowrap"><a href="http://www.codeproject.com/Lounge.aspx">Lounge</a></td>
+
+	</tr>
+	</tbody></table>
+	</div>
+</td>
+		
+</tr>
+
+</tbody></table>
+</td></tr>
+	</tbody></table>
+</td>
+	</tr>
+	<tr>
+		<td colspan="2" valign="top">
+		<a name="_top"></a>
+		<table id="ctl00_ArticleTopHeader_HeaderTable" class="ArticleHeader" border="0" cellpadding="3" cellspacing="0" width="100%">
+			<tbody><tr valign="top">
+				<td class="SmallText">
+	<a id="ctl00_ArticleTopHeader_ChapterLink" href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=6">General Programming</a> »
+	<a id="ctl00_ArticleTopHeader_SectionLink" href="http://www.codeproject.com/KB/recipes/">Algorithms &amp; Recipes</a> »
+	<a id="ctl00_ArticleTopHeader_SubsectionLink" href="http://www.codeproject.com/KB/recipes/index.aspx?#Algorithms%20&amp;%20Recipes%20-%20Sorting">Sorting</a>
+	<span id="ctl00_ArticleTopHeader_SkillLevel" class="ArticleIntermediate">&nbsp;&nbsp;&nbsp; Intermediate</span> <span id="ctl00_ArticleTopHeader_LicenceTerms" class="SmallText" style="margin-left: 40px;">License: <a href="http://www.opensource.org/licenses/ms-pl.html">The Microsoft Public License (Ms-PL)</a></span>
+	<br><br>
+	<h1><span id="ctl00_ArticleTopHeader_ArticleTitle" class="ArticleTopTitle">Implementing Bubble Sort with SSE2</span></h1>
+	<b>By <a href="http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=91332">codekaizen</a></b><br><br>
+    <span id="ctl00_ArticleTopHeader_ArticleDescr" class="ArticleTopDescr">How much faster will implementing "the generic bad algorithm" in SSE2 make it?</span>	
+</td>
+				<td class="SmallText" style="width: 210px;">
+	<span id="ctl00_ArticleTopHeader_ArticleAttributes">C++ (VC8.0, C++), C++/CLI, ASM, Windows, .NET (.NET, .NET 2.0, .NET 3.0, .NET 3.5), Win32, Dev</span><br><br>
+	<span style="width: 14ex;">Posted</span>: <b>11 Feb 2008</b><br>
+	<span style="width: 14ex;">Updated</span>: <b>19 Feb 2008</b>
+	<br>
+	<span style="width: 14ex;">Views</span>: <b>11,382</b><br>
+	
+	    <span style="width: 14ex;">Bookmarked</span>: <b>17 times</b><br>
+	    
+	
+</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+	<table width="100%">
+	<tbody><tr>
+	<td></td>
+	<td style="white-space: nowrap;" class="SmallText" align="right">
+	</td>
+	</tr>
+	</tbody></table>
+</td>
+			</tr>
+		</tbody></table>
+		
+
+	</td>
+	</tr>
+	<tr valign="top">
+		<td id="ctl00_LeftNavCell" class="LHNavBar">
+	
+
+<div class="FeatureBlockHeader">Announcements</div>
+<div class="FeatureBlockContent RHFeatureBar" style="margin: 0pt; padding: 0pt;">
+<table cellpadding="2">
+
+
+
+
+			
+
+
+<tbody><tr valign="middle"><td><img src="BubbleSortWithSSE2.aspx_files/MonthlyComp.png" alt="Comp" align="middle" height="24" width="24"></td>
+<td><a id="ctl00_Announcements_CompLink" href="http://www.codeproject.com/Feature/ArticleCompetition/">Monthly Competition</a></td></tr>
+
+</tbody></table>
+</div>
+	
+	
+	<div class="FeatureBlockHeader" style="margin-top: 7px;">Want a new Job?</div>
+	<div class="FeatureBlockContent RHFeatureBar">
+	<ul class="InfoList"><li><a href="http://www.codeproject.com/script/Jobs/View.aspx?jid=225">J2ee Sr. Web Developer </a> at Quantum in Canada</li><li><a href="http://www.codeproject.com/script/Jobs/View.aspx?jid=304">Software Developer, J2EE (Project Manager)</a> at Austin Park Management Group Inc. in Canada</li><li><a href="http://www.codeproject.com/script/Jobs/View.aspx?jid=122">Senior Microsoft C#. NET Developer</a> at De Winter International in New Zealand</li><li><a href="http://www.codeproject.com/script/Jobs/List.aspx">View Latest Jobs...</a></li></ul>
+	</div>
+	
+	
+	
+	<div id="SectionMenu">
+<div class="MenuCat">Chapters</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=1" onclick="return ToggleMenu('Chapter1');">Desktop Development</a></div>
+<div class="MenuSectionBlock" id="Chapter1" style="display: none;">
+<div class="MI" id="Section1"><a href="http://www.codeproject.com/KB/buttons/">Button Controls</a></div>
+<div class="MI" id="Section15"><a href="http://www.codeproject.com/KB/clipboard/">Clipboard</a></div>
+<div class="MI" id="Section2"><a href="http://www.codeproject.com/KB/combobox/">Combo &amp; List Boxes</a></div>
+<div class="MI" id="Section67"><a href="http://www.codeproject.com/KB/dialog/">Dialogs and Windows</a></div>
+<div class="MI" id="Section107"><a href="http://www.codeproject.com/KB/gadgets/">Desktop Gadgets</a></div>
+<div class="MI" id="Section16"><a href="http://www.codeproject.com/KB/docview/">Document / View</a></div>
+<div class="MI" id="Section4"><a href="http://www.codeproject.com/KB/edit/">Edit Controls</a></div>
+<div class="MI" id="Section17"><a href="http://www.codeproject.com/KB/files/">Files and Folders</a></div>
+<div class="MI" id="Section3"><a href="http://www.codeproject.com/KB/grid/">Grid &amp; Data Controls</a></div>
+<div class="MI" id="Section5"><a href="http://www.codeproject.com/KB/list/">List Controls</a></div>
+<div class="MI" id="Section6"><a href="http://www.codeproject.com/KB/menus/">Menus</a></div>
+<div class="MI" id="Section14"><a href="http://www.codeproject.com/KB/miscctrl/">Miscellaneous</a></div>
+<div class="MI" id="Section18"><a href="http://www.codeproject.com/KB/printing/">Printing</a></div>
+<div class="MI" id="Section95"><a href="http://www.codeproject.com/KB/progress/">Progress Controls</a></div>
+<div class="MI" id="Section11"><a href="http://www.codeproject.com/KB/selection/">Selection Controls</a></div>
+<div class="MI" id="Section19"><a href="http://www.codeproject.com/KB/shell/">Shell and IE programming</a></div>
+<div class="MI" id="Section68"><a href="http://www.codeproject.com/KB/smart/">Smart Client</a></div>
+<div class="MI" id="Section8"><a href="http://www.codeproject.com/KB/splitter/">Splitter Windows</a></div>
+<div class="MI" id="Section9"><a href="http://www.codeproject.com/KB/static/">Static &amp; Panel Controls</a></div>
+<div class="MI" id="Section10"><a href="http://www.codeproject.com/KB/statusbar/">Status Bar</a></div>
+<div class="MI" id="Section7"><a href="http://www.codeproject.com/KB/tabs/">Tabs &amp; Property Pages</a></div>
+<div class="MI" id="Section12"><a href="http://www.codeproject.com/KB/toolbars/">Toolbars &amp; Docking windows</a></div>
+<div class="MI" id="Section13"><a href="http://www.codeproject.com/KB/tree/">Tree Controls</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=2" onclick="return ToggleMenu('Chapter2');">Web Development</a></div>
+<div class="MenuSectionBlock" id="Chapter2" style="display: none;">
+<div class="MI" id="Section70"><a href="http://www.codeproject.com/KB/ajax/">Ajax and Atlas</a></div>
+<div class="MI" id="Section27"><a href="http://www.codeproject.com/KB/applications/">Applications &amp; Tools</a></div>
+<div class="MI" id="Section85"><a href="http://www.codeproject.com/KB/asp/">ASP</a></div>
+<div class="MI" id="Section89"><a href="http://www.codeproject.com/KB/aspnet/">ASP.NET</a></div>
+<div class="MI" id="Section28"><a href="http://www.codeproject.com/KB/webforms/">ASP.NET Controls</a></div>
+<div class="MI" id="Section38"><a href="http://www.codeproject.com/KB/ATL-Server/">ATL Server</a></div>
+<div class="MI" id="Section29"><a href="http://www.codeproject.com/KB/web-cache/">Caching</a></div>
+<div class="MI" id="Section91"><a href="http://www.codeproject.com/KB/web-image/">Charts, Graphs and Images</a></div>
+<div class="MI" id="Section25"><a href="http://www.codeproject.com/KB/scripting/">Client side scripting</a></div>
+<div class="MI" id="Section30"><a href="http://www.codeproject.com/KB/custom-controls/">Custom Controls</a></div>
+<div class="MI" id="Section23"><a href="http://www.codeproject.com/KB/HTML/">HTML / CSS</a></div>
+<div class="MI" id="Section24"><a href="http://www.codeproject.com/KB/ISAPI/">ISAPI</a></div>
+<div class="MI" id="Section33"><a href="http://www.codeproject.com/KB/server-management/">Site &amp; Server Management</a></div>
+<div class="MI" id="Section34"><a href="http://www.codeproject.com/KB/session/">Session State</a></div>
+<div class="MI" id="Section113"><a href="http://www.codeproject.com/KB/silverlight/">Silverlight</a></div>
+<div class="MI" id="Section36"><a href="http://www.codeproject.com/KB/trace/">Trace and Logs</a></div>
+<div class="MI" id="Section31"><a href="http://www.codeproject.com/KB/user-controls/">User Controls</a></div>
+<div class="MI" id="Section37"><a href="http://www.codeproject.com/KB/validation/">Validation</a></div>
+<div class="MI" id="Section35"><a href="http://www.codeproject.com/KB/viewstate/">View State</a></div>
+<div class="MI" id="Section26"><a href="http://www.codeproject.com/KB/WAP/">WAP / WML</a></div>
+<div class="MI" id="Section32"><a href="http://www.codeproject.com/KB/web-security/">Web Security</a></div>
+<div class="MI" id="Section20"><a href="http://www.codeproject.com/KB/webservices/">Web Services</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=9" onclick="return ToggleMenu('Chapter9');">Enterprise Systems</a></div>
+<div class="MenuSectionBlock" id="Chapter9" style="display: none;">
+<div class="MI" id="Section98"><a href="http://www.codeproject.com/KB/MCMS/">Content Management Server</a></div>
+<div class="MI" id="Section99"><a href="http://www.codeproject.com/KB/biztalk/">Microsoft BizTalk Server</a></div>
+<div class="MI" id="Section102"><a href="http://www.codeproject.com/KB/exchange/">Microsoft Exchange</a></div>
+<div class="MI" id="Section90"><a href="http://www.codeproject.com/KB/office/">Office Development</a></div>
+<div class="MI" id="Section101"><a href="http://www.codeproject.com/KB/sharepoint/">SharePoint Server</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=3" onclick="return ToggleMenu('Chapter3');">Multimedia</a></div>
+<div class="MenuSectionBlock" id="Chapter3" style="display: none;">
+<div class="MI" id="Section42"><a href="http://www.codeproject.com/KB/audio-video/">Audio and Video</a></div>
+<div class="MI" id="Section44"><a href="http://www.codeproject.com/KB/directx/">DirectX</a></div>
+<div class="MI" id="Section46"><a href="http://www.codeproject.com/KB/GDI/">GDI</a></div>
+<div class="MI" id="Section47"><a href="http://www.codeproject.com/KB/GDI-plus/">GDI+</a></div>
+<div class="MI" id="Section43"><a href="http://www.codeproject.com/KB/graphics/">General Graphics</a></div>
+<div class="MI" id="Section45"><a href="http://www.codeproject.com/KB/openGL/">OpenGL</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=4" onclick="return ToggleMenu('Chapter4');">Database</a></div>
+<div class="MenuSectionBlock" id="Chapter4" style="display: none;">
+<div class="MI" id="Section66"><a href="http://www.codeproject.com/KB/database/">Database</a></div>
+<div class="MI" id="Section100"><a href="http://www.codeproject.com/KB/reporting-services/">SQL Reporting Services</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=8" onclick="return ToggleMenu('Chapter8');">Platforms, Frameworks &amp; Libraries</a></div>
+<div class="MenuSectionBlock" id="Chapter8" style="display: none;">
+<div class="MI" id="Section83"><a href="http://www.codeproject.com/KB/atl/">ATL</a></div>
+<div class="MI" id="Section117"><a href="http://www.codeproject.com/KB/MFC/">MFC</a></div>
+<div class="MI" id="Section88"><a href="http://www.codeproject.com/KB/stl/">STL</a></div>
+<div class="MI" id="Section84"><a href="http://www.codeproject.com/KB/wtl/">WTL</a></div>
+<div class="MI" id="Section49"><a href="http://www.codeproject.com/KB/COM/">COM / COM+</a></div>
+<div class="MI" id="Section76"><a href="http://www.codeproject.com/KB/dotnet/">.NET Framework</a></div>
+<div class="MI" id="Section92"><a href="http://www.codeproject.com/KB/winsdk/">Win32/64 SDK &amp; OS</a></div>
+<div class="MI" id="Section108"><a href="http://www.codeproject.com/KB/vista/">Vista API</a></div>
+<div class="MI" id="Section110"><a href="http://www.codeproject.com/KB/vista-security/">Vista Security</a></div>
+<div class="MI" id="Section82"><a href="http://www.codeproject.com/KB/cross-platform/">Cross Platform</a></div>
+<div class="MI" id="Section69"><a href="http://www.codeproject.com/KB/game/">Game Development</a></div>
+<div class="MI" id="Section73"><a href="http://www.codeproject.com/KB/mobile/">Mobile Development</a></div>
+<div class="MI" id="Section106"><a href="http://www.codeproject.com/KB/WC/">Windows CardSpace</a></div>
+<div class="MI" id="Section103"><a href="http://www.codeproject.com/KB/WCF/">Windows Communication Foundation</a></div>
+<div class="MI" id="Section104"><a href="http://www.codeproject.com/KB/WPF/">Windows Presentation Foundation</a></div>
+<div class="MI" id="Section105"><a href="http://www.codeproject.com/KB/WF/">Windows Workflow Foundation</a></div>
+<div class="MI" id="Section119"><a href="http://www.codeproject.com/KB/library/">Libraries</a></div>
+<div class="MI" id="Section122"><a href="http://www.codeproject.com/KB/powershell/">Windows Powershell</a></div>
+<div class="MI" id="Section123"><a href="http://www.codeproject.com/KB/linq/">LINQ</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=5" onclick="return ToggleMenu('Chapter5');">Languages</a></div>
+<div class="MenuSectionBlock" id="Chapter5" style="display: none;">
+<div class="MI" id="Section71"><a href="http://www.codeproject.com/KB/cpp/">C / C++ Language</a></div>
+<div class="MI" id="Section72"><a href="http://www.codeproject.com/KB/mcpp/">C++ / CLI</a></div>
+<div class="MI" id="Section93"><a href="http://www.codeproject.com/KB/cs/">C#</a></div>
+<div class="MI" id="Section78"><a href="http://www.codeproject.com/KB/msil/">MSIL</a></div>
+<div class="MI" id="Section86"><a href="http://www.codeproject.com/KB/vbscript/">VBScript</a></div>
+<div class="MI" id="Section87"><a href="http://www.codeproject.com/KB/vb/">VB.NET</a></div>
+<div class="MI" id="Section115"><a href="http://www.codeproject.com/KB/vb-interop/">VB6 Interop</a></div>
+<div class="MI" id="Section77"><a href="http://www.codeproject.com/KB/net-languages/">Other .NET Languages</a></div>
+<div class="MI" id="Section21"><a href="http://www.codeproject.com/KB/XML/">XML</a></div>
+<div class="MI" id="Section96"><a href="http://www.codeproject.com/KB/java/">Java</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=6" onclick="return ToggleMenu('Chapter6');">General Programming</a></div>
+<div class="MenuSectionBlock" id="Chapter6">
+<div class="MIS" id="Section57"><a href="http://www.codeproject.com/KB/recipes/">Algorithms &amp; Recipes</a></div>
+<div class="MI" id="Section64"><a href="http://www.codeproject.com/KB/bugs/">Bugs &amp; Workarounds</a></div>
+<div class="MI" id="Section79"><a href="http://www.codeproject.com/KB/collections/">Collections</a></div>
+<div class="MI" id="Section56"><a href="http://www.codeproject.com/KB/security/">Cryptography &amp; Security</a></div>
+<div class="MI" id="Section50"><a href="http://www.codeproject.com/KB/datetime/">Date and Time</a></div>
+<div class="MI" id="Section52"><a href="http://www.codeproject.com/KB/DLL/">DLLs &amp; Assemblies</a></div>
+<div class="MI" id="Section80"><a href="http://www.codeproject.com/KB/exception/">Exception Handling</a></div>
+<div class="MI" id="Section81"><a href="http://www.codeproject.com/KB/locale/">Localisation</a></div>
+<div class="MI" id="Section53"><a href="http://www.codeproject.com/KB/macros/">Macros and Add-ins</a></div>
+<div class="MI" id="Section54"><a href="http://www.codeproject.com/KB/tips/">Programming Tips</a></div>
+<div class="MI" id="Section55"><a href="http://www.codeproject.com/KB/string/">String handling</a></div>
+<div class="MI" id="Section22"><a href="http://www.codeproject.com/KB/IP/">Internet / Network</a></div>
+<div class="MI" id="Section58"><a href="http://www.codeproject.com/KB/threads/">Threads, Processes &amp; IPC</a></div>
+<div class="MI" id="Section59"><a href="http://www.codeproject.com/KB/winhelp/">WinHelp / HTMLHelp</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=10" onclick="return ToggleMenu('Chapter10');">Graphics / Design</a></div>
+<div class="MenuSectionBlock" id="Chapter10" style="display: none;">
+<div class="MI" id="Section40"><a href="http://www.codeproject.com/KB/expression/">Expression</a></div>
+<div class="MI" id="Section114"><a href="http://www.codeproject.com/KB/usability/">Usability</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=11" onclick="return ToggleMenu('Chapter11');">Development Lifecycle</a></div>
+<div class="MenuSectionBlock" id="Chapter11" style="display: none;">
+<div class="MI" id="Section51"><a href="http://www.codeproject.com/KB/debug/">Debug Tips</a></div>
+<div class="MI" id="Section39"><a href="http://www.codeproject.com/KB/architecture/">Design and Architecture</a></div>
+<div class="MI" id="Section112"><a href="http://www.codeproject.com/KB/install/">Installation</a></div>
+<div class="MI" id="Section41"><a href="http://www.codeproject.com/KB/work/">Work Issues</a></div>
+<div class="MI" id="Section126"><a href="http://www.codeproject.com/KB/codegen/">Code Generation</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=7" onclick="return ToggleMenu('Chapter7');">General Reading</a></div>
+<div class="MenuSectionBlock" id="Chapter7" style="display: none;">
+<div class="MI" id="Section60"><a href="http://www.codeproject.com/KB/books/">Book Chapters</a></div>
+<div class="MI" id="Section61"><a href="http://www.codeproject.com/KB/book-reviews/">Book Reviews</a></div>
+<div class="MI" id="Section109"><a href="http://www.codeproject.com/KB/hardware-review/">Hardware Reviews</a></div>
+<div class="MI" id="Section63"><a href="http://www.codeproject.com/KB/interviews/">Interviews</a></div>
+<div class="MI" id="Section62"><a href="http://www.codeproject.com/KB/scrapbook/">Scrapbook</a></div>
+<div class="MI" id="Section48"><a href="http://www.codeproject.com/KB/system/">Hardware &amp; System</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=12" onclick="return ToggleMenu('Chapter12');">Third Party Products</a></div>
+<div class="MenuSectionBlock" id="Chapter12" style="display: none;">
+<div class="MI" id="Section65"><a href="http://www.codeproject.com/KB/showcase/">Product Showcase</a></div>
+<div class="MI" id="Section124"><a href="http://www.codeproject.com/KB/solution-center/">Solution Center</a></div>
+</div>
+</div>
+<br>
+<div class="MenuCat">Services</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Jobs/List.aspx">Job Board</a></div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/Services/coffee.aspx">Code Project Coffee</a></div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/Services/TradePub.aspx">Free Magazines</a></div>
+<br><div class="MenuCat">Feature Zones</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/kb/Showcase/">Product Showcase</a></div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/Zones/IBM">IBM DeveloperWorks</a></div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/Zones/WhitePapers">WhitePapers / Webcasts</a></div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/Zones/Acresso">InstallShield 2009</a></div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/Zones/APress">Apress Bookstore</a></div>
+<br>
+
+	<div style="text-align: center; margin-bottom: 10px;">
+		<script type="text/javascript">document.write(unescape("%3ca%20href%3d%22http%3a%2f%2fwww.codeproject.com%2fRedir.aspx%3fadid%3d7689%26way%3dban%22%20target%3d%22_blank%22%20rel%3d%22nofollow%22%3e%3cimg%20src%3d%22http%3a%2f%2fwww.codeproject.com%2fscript%2fAdm%2fServeImg.aspx%3fFile%3d%252fscript%252fAdm%252fimages%252fPDClogo.png%26C%3dFalse%26adid%3d7689%22%20alt%3d%22%22%20border%3d%220%22%20width%3d%22150%22%20height%3d%2280%22%3e%3c%2fa%3e"));</script><a href="http://www.codeproject.com/Redir.aspx?adid=7689&amp;way=ban" target="_blank" rel="nofollow"><img src="BubbleSortWithSSE2.aspx_files/ServeImg_003.htm" alt="" border="0" height="80" width="150"></a>
+	</div>
+	
+	<iframe src="BubbleSortWithSSE2.aspx_files/ServeHTML.htm" frameborder="0" height="600" scrolling="no" width="160"></iframe>						 
+</td>
+		<td class="ArticlePane" valign="top">
+
+	
+<table class="SearchHeaderBar" cellspacing="0" width="100%">
+<tbody><tr>
+<td style="white-space: nowrap; width: 60%;" align="right" valign="middle">
+<form method="get" action="/info/search.aspx" name="Search" style="margin: 0pt;">
+<b>Search &nbsp;</b>
+<input class="SmallText" name="artkw" style="width: 200px;">
+<select class="SmallText" style="font-weight: bold;" name="sbo">
+<option value="kw">Articles</option>
+<!--<option value="au">Authors</option>-->
+<option value="fm">Messages</option>
+<option value="s">Jobs</option>
+</select>
+<input class="SmallText" style="font-weight: bold;" value=" Go! " type="submit"> &nbsp;
+</form>
+</td>
+
+<td class="TinyText" style="white-space: nowrap;">
+<a href="http://www.codeproject.com/info/search.aspx">Advanced Search</a><br>
+<a href="http://www.codeproject.com/script/Content/SiteMap.aspx">Sitemap</a>
+
+</td>
+</tr>
+</tbody></table>
+
+	<span id="ctl00_ResultMessage"></span>
+	
+	
+    
+	<div id="ctl00_ArtDiv">
+	<table border="0" cellpadding="0" cellspacing="0">	
+	<tbody><tr valign="top">
+		<td valign="top" width="100%">
+		    
+<table>
+
+</table>
+
+
+
+			
+<div class="SmallText">
+<img src="BubbleSortWithSSE2.aspx_files/print.gif" alt="print" style="vertical-align: middle;" height="16" width="16">
+<a id="ctl00_ArticleHeaderLinks_PrintLnk" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?display=Print">Print</a> &nbsp;
+
+<img src="BubbleSortWithSSE2.aspx_files/report.gif" alt="Broken Article?" style="vertical-align: middle;" height="16" width="16">
+<a id="ctl00_ArticleHeaderLinks_BrokenLnk" href="http://www.codeproject.com/script/Articles/Report.aspx?aid=23558">Report Article</a> &nbsp;
+
+ &nbsp;
+ &nbsp;
+
+<img src="BubbleSortWithSSE2.aspx_files/discuss.gif" alt="Discuss" style="vertical-align: middle;" height="16" width="15">
+<a href="#_comments">Discuss</a> &nbsp;
+
+<img src="BubbleSortWithSSE2.aspx_files/mail.gif" alt="Recommend Article" style="vertical-align: middle;" height="16" width="16">&nbsp;<a id="ctl00_ArticleHeaderLinks_Recommend" href="http://www.codeproject.com/script/common/TellFriend.aspx?obtid=2&amp;obid=23558">Send&nbsp;to&nbsp;a&nbsp;friend</a>	
+</div>
+		</td>
+		<td style="text-align: right; white-space: nowrap; width: 100px;">
+		<table id="CurRat"><tbody><tr><td>            
+<table><tbody><tr><td id="ctl00_ArticleRating_VL" style="white-space: nowrap;" class="SmallText" align="right"> 
+<span id="ctl00_ArticleRating_VoteLabel">19 votes for this Article.</span></td>
+		
+<td><table border="1" cellpadding="0" cellspacing="0">
+			<tbody><tr>
+				<td bgcolor="White" height="7" width="20"><img src="BubbleSortWithSSE2.aspx_files/red.gif" align="middle" border="0" height="7" width="20"></td>
+				<td bgcolor="White" height="7" width="20"><img src="BubbleSortWithSSE2.aspx_files/red.gif" align="middle" border="0" height="7" width="20"></td>
+				<td bgcolor="White" height="7" width="20"><img src="BubbleSortWithSSE2.aspx_files/red.gif" align="middle" border="0" height="7" width="20"></td>
+				<td bgcolor="White" height="7" width="20"><img src="BubbleSortWithSSE2.aspx_files/red.gif" align="middle" border="0" height="7" width="20"></td>
+				<td bgcolor="White" height="7" nowrap="nowrap" width="20"><img src="BubbleSortWithSSE2.aspx_files/red.gif" align="middle" border="0" height="7" width="13"></td>
+			</tr>
+		</tbody></table>
+		</td></tr>
+<tr id="ctl00_ArticleRating_PopularityRow">
+			<td colspan="2" class="SmallText" align="right">
+<a id="ctl00_ArticleRating_PopularityLnk" title="Calculated as rating x Log10(# votes)" href="http://www.codeproject.com/script/Articles/TopArticles.aspx?ta_so=1">Popularity: 5.95</a>
+<span id="ctl00_ArticleRating_PopularityLbl"></span><span id="ratingVal">Rating: <b>4.65</b> out of 5</span></td>
+		</tr>
+		</tbody></table>
+
+
+
+</td>
+		<td>            
+<div>
+<table class="HistTable" title="Voting Distribution. Recent data only"><tbody><tr><td><img src="BubbleSortWithSSE2.aspx_files/pollcol.gif" alt="1 vote, 5.3%" title="1 vote, 5.3%" border="0" height="1" width="10"><br>1</td>
+<td><img src="BubbleSortWithSSE2.aspx_files/t.htm" alt="0 votes, 0.0%" title="0 votes, 0.0%" border="0" height="1" width="10"><br>2</td>
+<td><img src="BubbleSortWithSSE2.aspx_files/t.htm" alt="0 votes, 0.0%" title="0 votes, 0.0%" border="0" height="1" width="10"><br>3</td>
+<td><img src="BubbleSortWithSSE2.aspx_files/pollcol.gif" alt="2 votes, 10.5%" title="2 votes, 10.5%" border="0" height="2" width="10"><br>4</td>
+<td><img src="BubbleSortWithSSE2.aspx_files/pollcol.gif" alt="16 votes, 84.2%" title="16 votes, 84.2%" border="0" height="20" width="10"><br>5</td>
+</tr></tbody></table>
+</div>
+
+
+
+</td></tr></tbody></table>
+		</td>
+	</tr>
+	</tbody></table>
+	
+	
+	
+	
+
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div id="contentdiv">
+	
+	<!-- Main Page Contents Start -->
+	
+
+<!-- Article Starts -->
+
+
+<ul class="download">
+<li><a href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2/BubbleSortSSE2.zip">Download source - 6.24 KB</a></li>
+</ul>
+
+<h2>Introduction</h2>
+
+<p>When we sit down to solve a computational problem, the most obvious
+solution is often the worst. Let's look at Bubble Sort, for example. It
+is likely the first algorithm to appear to someone who is just
+beginning to think about the problem of sorting, given a computer to do
+the work: start with the first two items, compare them, swap them if
+the order in the list is reversed, and move to the next item. This
+algorithm performs equally "well" regardless of the initial condition
+of the list it is used to sort. Given <strong>n</strong> items in a list, there will always need to be <strong>n<sup>2</sup>-n</strong> comparisons. Usually, we'd move on from this algorithm quickly, noting that this O(n<sup>2</sup>)
+performance can get out of hand very, very quickly, and this makes
+Bubble Sort virtually useless in the face of much better algorithms
+which are not too much more difficult to implement.</p>
+
+<p>There is something we can use it for, however - testing how quickly
+we can run a bad algorithm. Since performance degrades geometrically
+(specifically: quadratically), we see performance differences between
+implementations more clearly, since doubling the number of items will
+much more than double the time that the algorithm takes. Plus, Bubble
+Sort is very easy to implement, and when you are hand-coding SSE2
+assembly instructions for the first time, this is a big help.</p>
+
+<h2>Background</h2>
+
+<p>I'm working on a set of computational geometry algorithms for <a href="http://code.google.com/p/nettopologysuite/" target="_blank">NetTopologySuite</a>, and some of them have O(n<sup>2</sup>)
+performance. Since the algorithms are mostly numerical and perform
+sorting, and alternative algorithms appear to be hard to implement, I
+wanted to find a way to take advantage of modern hardware to speed up
+the operations. Since SSE2 is present on most peoples' computers these
+days (both Intel and AMD), it seemed like a good choice to work with.</p>
+
+<p>I also found, while investigating various data structures to hold
+numbers, and to my dismay, that Java does a better job of sorting
+arrays of numbers, since apparently (after browsing the process' code
+pages during run-time) Sun's HotSpot Java VM takes advantage of SSE2
+instructions, and MS's CLR JIT compiler doesn't. It was a shocker. I
+wanted to set things right again, and out came the C++/CLI guns to
+regain some ownership on the platform. Et Voilá: a managed assembly
+which smokes all comers. Too bad it isn't verifiable, though. I think
+MS has some work to do on the JIT compiler in this area to get the JIT
+to create more specialized code, especially for vector arrays.</p>
+
+<h3>Preparing to use SSE2</h3>
+
+<p>The first thing to know when writing to SSE2 instructions is that we
+will be using registers and memory locations which are 16 bytes (128
+bits) wide. The names of the registers are XMM0 through XMM7 (64-bit
+systems also have XMM8 through XMM15). They are usually divided into
+two 64-bit regions called "quadwords" (for double precision
+floating-point values). They can also be divided into four 32-bit
+regions called "doublewords" (for single precision floating-point
+values). Similar divisions exist for integers, words, and bytes. The
+whole length is called a "double quadword". The registers look like
+this:</p>
+
+<p><img alt="XMM register" src="BubbleSortWithSSE2.aspx_files/XMM_register.png" align="bottom" border="0" height="60" hspace="0" width="468"></p>
+
+<p>If you are used to the general-purpose registers on the x86 platform (EAX, EBX, etc.), these registers are four times larger.</p>
+
+<p>In order to move data in and out of these registers, you need<sup>1</sup> to work with a block of memory which is aligned to a 16-byte (128-bit) boundary. The MS CRT has a function to do this for us: <a href="http://msdn2.microsoft.com/en-us/library/8z34s9c6%28VS.80%29.aspx" target="_blank"><code>_aligned_malloc</code></a>. This gives us back a <code><span class="code-keyword">void</span>*</code>, which we can cast to a <code><span class="code-keyword">double</span>*</code> to get our number list.</p>
+
+<h3>Plodding along with the code</h3>
+
+<p>The next thing I found out is that there is very little guidance in
+writing the SSE2 assembly. Sure, there are some simple examples of
+basic operations usage or data movement as well as examples about
+fairly advanced numerical methods on the 'Net (and here at
+CodeProject), but I couldn't find any which shows how to construct a
+basic general-purpose algorithm based on the instructions.</p>
+
+<p>The Intel processor manuals were essential, although they were much
+more about reference, and any usage had to be inferred after much trial
+and error. Further, having done regular 32-bit x86 assembly
+programming, working with SSE2 was like a separate world in the
+processor altogether. There are a few ways to communicate from the XMM
+registers to the general registers (like EAX, EBX, etc.). Eventually, I
+found the <code>MOVMSKPD</code> command, and realized that compares (like the CMPLTPD I used) set <em>all</em> the bits in a quadword, and the mask of <code>MOVMSKPD</code>
+extracts one of them into a given register. I was tripping up over the
+use of the sign bit as being significant somehow - sure it is the sign
+bit in an IEEE 754 double, but it is also just a bit, and I can use it
+for control flow. After struggling with this, I found that this is
+exactly what is described in the Intel Basic Architecture manual (Sec.
+11.6.12).</p>
+
+<p>I also had to go through three or four approaches before I figured
+out how to move data around from register to register. I mostly
+struggled with <code>SHUFPD</code>, which shuffles values among registers and high and low quadwords, <code>UNPCKHPD</code>, which can copy the high quadword from two registers into a destination, and <code>UNPCKLPD</code>, which works on the low quadwords. Then, I hit upon using <code>MINPD</code> and <code>MAXPD</code>, <code>which</code> perform compares and moves the values. Combining this with a <code>SHUFPD</code>
+operation to get two registers with the quadwords reversed allowed me
+to compare and move data in just a few operations and completely with
+registers. I suspect this approach won't work with smaller values, like
+single precision floating point values or integers, however, since the
+number of permutations of values exceed the number of registers
+available.</p>
+
+<h2>The code</h2>
+
+<p>The code provided consists of a method which contains the
+implementation of the Bubble Sort algorithm in an "asm" code block and
+a managed C++/CLI framework around it to run it and output some
+interesting stats to the console. This approach also highlights that it
+is possible to use C++/CLI to hand code assembly blocks and easily use
+them from any managed language like C#, VB.NET or IronPython.</p>
+
+<p>After setting up an aligned buffer (see above), we can get the address of the list and set up our loops:</p>
+
+<div class="SmallText" id="premain0" style="width: 100%; cursor: pointer;"><img preid="0" src="BubbleSortWithSSE2.aspx_files/minus.gif" id="preimg0" height="9" width="9"><span preid="0" style="margin-bottom: 0pt;" id="precollapse0"> Collapse</span></div><pre style="margin-top: 0pt;" id="pre0" lang="masm">// values is a double* to an _aligned_malloc() block
+// byteCount is the size of the aligned buffer at *values
+
+    _asm
+    {
+        // save state
+        pusha;
+begin:
+        mov  esi, values;        // get pointer to data
+
+        // init loop counters to itemCount
+        //    ECX: outer loop counter
+        //    EDX: inner loop counter
+        mov  ecx, 0;
+
+outer_loop:
+        // check if counter is 0; end sorting if true
+        cmp  ecx, byteCount;
+        je   end_outer;
+
+        // reset inner loop counter
+        mov  edx, byteCount;
+        sub  edx, ecx;
+
+        // setup data indexer
+        mov  ebx, 0
+
+inner_loop:
+        cmp  edx, 16;
+        je   end_inner;</pre>
+
+<p>Then comes the body, where the SSE2 registers and instructions are
+used. There are generally two variants of each SSE2 instruction: a
+packed variant, for working on multiple data values, and a scalar
+variant, for working on single values. We want the packed variants so
+we can compare two numbers at once. The packed variants end in "pd" for
+"packed double".</p>
+
+<p>First, we move data in from the buffer:</p>
+
+<pre lang="masm">  // load xmm registers with data to sort
+  movapd xmm0, [esi+ebx];
+  movapd xmm1, xmm0;
+  movapd xmm2, [esi+ebx+16];
+  movapd xmm3, xmm2;</pre>
+
+<p>Now, we have two copies of each of the first four entries in the
+list: the first two in the XMM0 and XMM1 registers, and the second two
+in the XMM2 and XMM3 registers. The XMM0 and XMM1 registers look like
+this:</p>
+
+<p><img alt="Memory_load_offset_into_XMM.png" src="BubbleSortWithSSE2.aspx_files/Memory_load_offset_into_XMM.png" height="60" width="468"></p>
+
+<p>Since we are not sure that these two values are ordered within the
+register, we need to compare them. To do this, we will swap the doubles
+within one of the registers for each pair (this is why we loaded each
+pair into two registers):</p>
+
+<pre lang="masm">  // reverse values to compare
+  shufpd xmm1, xmm1, 1;
+  shufpd xmm3, xmm3, 1;</pre>
+
+<p>The operation <code>SHUFPD</code> stands for "Shuffle Packed
+Double". It takes an "immediate operand" which gives it different
+behavior depending on the value. In this case, with an immediate
+operand of 1, <code>SHUFPD</code> picks the low quadword of the
+destination to go into the high quadword of the destination and the low
+quadword of the source to go into the high quadword of the destination,
+like this:</p>
+
+<p><img alt="Swap_XMM.png" src="BubbleSortWithSSE2.aspx_files/Swap_XMM.png" height="194" width="468"></p>
+
+<p>When called with the same register, <code>SHUFPD</code> swaps the doubles within the register.</p>
+
+<p>The registers XMM0, XMM1, XMM2, and XMM3 now exist in a condition
+such that some choice of XMM0 or XMM1 and some choice of XMM2 or XMM3
+results in four sorted elements. The trick was to find SSE2
+instructions which would make the decision on which pair of registers
+to keep. After rummaging through the Intel processor manuals for a few
+hours over a month or so, I found some that work: <code>MINPD</code> and <code>MAXPD</code>.
+They will keep the minimum or the maximum of the values in a given pair
+of XMM registers. However, in doing this, they overwrite the source
+register. The only way I could figure out how to arrange the min and
+max comparisons in order to get the minimum values into the [0-1]
+registers and the maximum values into the [2-3] registers was to save
+off a temporary copy of the XMM0 register. I put this into XMM4. I am
+not happy about this, since I had secretly hoped to interleave two sets
+of the algorithm and use the XMM4-XMM7 registers for this. With this
+saving off of the XMM0 register to XMM4, this won't work. Sure, I could
+use a memory location to store it, but I'm trying to avoid that
+(register to register is the fastest a processor can get). On the other
+hand, doing twice the work in the same pass might be worth it, but I
+haven't tested it yet. So, here is the code to save it off:</p>
+
+<pre lang="masm">    // save value for use in max compare
+    movapd xmm4, xmm0;</pre>
+
+<p>Now comes a series of comparisons to push the smallest values into XMM0 and XMM1 and the largest into XMM2 and XMM3:</p>
+
+<pre lang="masm">    // push the minimum values down into xmm[0-1]
+    minpd xmm0, xmm2;
+    minpd xmm1, xmm2;
+
+    // push the maximum values up into xmm[2-3]
+    maxpd xmm2, xmm4;
+    maxpd xmm3, xmm4;</pre>
+
+<p>The code isn't quite obvious, so let's look at it a bit. The instruction <code>MINPD</code>
+compares each double in two XMM registers in order - meaning the lower
+64 bits of the source register with the lower 64 bits of the
+destination, and the high 64 bits of the source with the high 64 bits
+of the destination. It puts the minimum value of each of these
+comparisons in the source register. Since XMM0 and XMM1 are reflections
+of each other, using <code>MINPD</code> on each of these with XMM2
+will result in the smallest values in both the high and low quadwords
+of the XMM2 register and the XMM0 register to be stored in XMM0 and
+XMM1. The same thing happens with <code>MAXPD</code>, only it, rather more obviously, chooses the maximum values. Since XMM0 and XMM1 were possibly completely overwritten by the <code>MINPD</code> compare with XMM2, we use the XMM4 register that we saved off at the beginning.</p>
+
+<p>Finally, we need to compare intra-register to make sure the two double values within a register are ordered:</p>
+
+<div class="SmallText" id="premain5" style="width: 100%; cursor: pointer;"><img preid="5" src="BubbleSortWithSSE2.aspx_files/minus.gif" id="preimg5" height="9" width="9"><span preid="5" style="margin-bottom: 0pt;" id="precollapse5"> Collapse</span></div><pre style="margin-top: 0pt;" id="pre5" lang="masm">        // order the doubles in xmm[0-1]
+order_min0:
+        movapd xmm4, xmm0;
+        shufpd xmm4, xmm4, 1;
+        cmpltpd xmm4, xmm0;
+        movmskpd eax, xmm4;
+        cmp eax, 2;
+        je order_min1;
+        shufpd xmm0, xmm0, 1;
+order_min1:
+        movapd xmm4, xmm1;
+        shufpd xmm4, xmm4, 1;
+        cmpltpd xmm4, xmm1;
+        movmskpd eax, xmm4;
+        cmp eax, 2;
+        je finish_min;
+        shufpd xmm1, xmm1, 1;
+finish_min:
+        minpd xmm0, xmm1;
+
+        // order the doubles in xmm[2-3]
+order_max0:
+        movapd xmm4, xmm2;
+        shufpd xmm4, xmm4, 1;
+        cmpltpd xmm4, xmm2;
+        movmskpd eax, xmm4;
+        cmp eax, 2;
+        je order_max1;
+        shufpd xmm2, xmm2, 1;
+order_max1:
+        movapd xmm4, xmm3;
+        shufpd xmm4, xmm4, 1;
+        cmpltpd xmm4, xmm3;
+        movmskpd eax, xmm4;
+        cmp eax, 2;
+        je finish_max;
+        shufpd xmm3, xmm3, 1;
+finish_max:
+        maxpd xmm2, xmm3;</pre>
+
+<p>The trick here is to use <code>CMPLTPD</code> (Compare Less Than
+Packed Double) to set the high and/or low 64 bits of an XMM register to
+all 1 or all 0, depending on if the compare result is true or false,
+respectively. One of these bits in each quadword (the sign bit in the
+double floating point value) is then extracted, via one of the few
+operations that allow using both general and XMM registers: <code>MOVMSKPD</code>, to <code lang="asm"><span class="code-keyword">EAX</span></code>,
+where the resulting value will be two bits: 0, 1, 2, or 3. The high bit
+corresponds to the high quadword of the XMM register operand, and the
+low bit corresponds to the low quadword, like this:</p>
+
+<p><img alt="Compare_and_extract_XMM.png" src="BubbleSortWithSSE2.aspx_files/Compare_and_extract_XMM.png" height="401" width="468"></p>
+
+<p>The value of 2 in the <code lang="asm"><span class="code-keyword">EAX</span></code>
+(bits: 10) means that the high quadword is less than the low quadword,
+which is what we want. If it is any other value, we swap them via a
+call to <code>SHUFPD</code> with an immediate operand of 1. When the
+values are swapped, we can compare them with the original register to
+determine which is lower, and therefore which ordering to keep.</p>
+
+<p>At this point, the registers XMM0 and XMM2 are ordered correctly,
+and we save them back to the data buffer, moving on to the next pair in
+the Bubble Sort.</p>
+
+<h2>Results</h2>
+
+<p>The sort appears to be almost, but not quite, twice as fast as a
+scalar pointer implementation. This is about what we should expect,
+since the SSE2 version is making twice the compares in the same number
+of executions - which is the whole benefit of a vector processor, after
+all. This isn't true when dealing with a small number of items, say
+under 64. In this case, it appears that the overhead of SSE2 makes the
+pointer implementation faster. Perhaps, there are ways to eliminate
+this overhead by getting the processor to fetch pages from the RAM into
+the cache before processing them. The following shows a typical run:</p>
+
+<p><img src="BubbleSortWithSSE2.aspx_files/result1.jpg" height="415" width="268"></p>
+
+<p>If we compare a scalar implementation using pointers, we find the following timings:</p>
+
+<p><img src="BubbleSortWithSSE2.aspx_files/result1.jpg" height="415" width="268"></p>
+
+<h2>Further investigation</h2>
+
+<p>I've made this code part of a project on CodePlex: <a href="http://www.codeplex.com/coderule" target="_blank">Code Rule</a>.
+The idea here is to implement algorithms across a number of languages /
+frameworks to help visualize the relative performance of algorithms and
+the machines they are run on.</p>
+
+<p>Some of the more interesting things to try out with this example
+would be to use pre-fetching to control the caching of upcoming data,
+if the buffer is too big to fit in the processor's data cache.
+Exploiting the extra registers on a 64-bit system or the other cores in
+a multi-core machine would also be useful. Of course, this would
+ultimately be practical only if a better algorithm were implemented,
+like QuickSort.</p>
+
+<h2>Reference</h2>
+
+<p>I mostly used the Intel processor manuals, <a href="http://download.intel.com/design/processor/manuals/253665.pdf" target="_blank">Volumes 1</a>, <a href="http://download.intel.com/design/processor/manuals/253666.pdf" target="_blank">2A</a>, and <a href="http://download.intel.com/design/processor/manuals/253667.pdf" target="_blank">2B</a> to construct this example. These, and more, can also be found <a href="http://www.intel.com/products/processor/manuals/index.htm">here</a>.</p>
+
+<h2>Footnotes</h2>
+
+<p>1) OK, you don't <em>need</em> to, however, you probably really, really want to, since it is a big performance hit otherwise.</p>
+
+<h2>History</h2>
+
+<ul>
+<li>2008-02-12 - Style edits.</li>
+
+<li>2008-02-11 - Initial submission.</li>
+</ul>
+
+
+
+<!-- Article Ends -->
+
+
+	<!-- Main Page Contents End -->
+	
+	</div>
+	
+	
+	<form name="aspnetForm" method="post" action="BubbleSortWithSSE2.aspx" id="aspnetForm" style="margin: 0pt; padding: 0pt;">
+		<div>
+		<input name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjhkZHh4aT4oFIAEAKtY6nh8R9lmarDK" type="hidden">
+		</div>
+		
+
+	
+	<h2>License</h2>
+	<div id="ctl00_LicenseTerms"><p>This article, along with any associated source code and files, is licensed under <a href="http://www.opensource.org/licenses/ms-pl.html">The Microsoft Public License (Ms-PL)</a></p></div>
+	
+	<h2>About the Author</h2>
+	
+			
+            
+<table border="0" cellpadding="0" cellspacing="5" width="100%">
+<tbody><tr valign="top">
+<td id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberPhotoTable" style="width: 155px;" valign="top">
+	<b><a id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberProfileLink" href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=91332">codekaizen</a></b><br><br>
+	<center><img id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberPhoto" src="BubbleSortWithSSE2.aspx_files/07656D04-DD3E-4794-AEBB-2246B25DDBEB.jpg" style="border-width: 0px;"></center><br>
+	<span id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberType" class="SmallText"></span>
+		
+</td>
+		
+<td> I'm a software engineer with 25 years of experience in areas from
+game and simulation development, enterprise development, systems
+management, machine learning, real-time and embedded systems
+development and geospaitial systems development.<br><br>You
+can find more of my work at http://www.codeplex.com and my articles at
+http://vectordotnet.blogspot.com/ and http://dotnoted.spaces.live.com.<br>	
+
+	<table>
+	<tbody><tr id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_jobTitleRow">
+			<td class="SmallText" nowrap="nowrap">Occupation: </td>
+			<td width="100%"><span id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberJobTitle" class="SmallText">Architect</span></td>
+		</tr>
+		
+
+	
+
+	<tr id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_locationRow">
+			<td class="SmallText">Location: </td>
+			<td width="100%"><span id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberLocation" class="SmallText"><img src="BubbleSortWithSSE2.aspx_files/US.gif" alt="United States" height="11" width="16"> United States</span></td>
+		</tr>
+		
+	</tbody></table>
+	
+</td>
+</tr>
+</tbody></table>
+
+			<br>
+		
+	
+	<table border="0" cellpadding="0" cellspacing="0" width="100%">	
+	<tbody><tr valign="top">			
+		<td style="width: 100%;">
+			<h2>Other popular Algorithms &amp; Recipes articles:</h2><ul><li><a href="http://www.codeproject.com/KB/recipes/Differentiation.aspx">Symbolic Differentiation</a><div class="SmallText">This article demonstrates differentiating expressions using a stack and displaying the input expression and its derivative.</div></li><li><a href="http://www.codeproject.com/KB/recipes/colorspace1.aspx">Manipulating colors in .NET - Part 1</a><div class="SmallText">Understand and use color models in .NET</div></li><li><a href="http://www.codeproject.com/KB/recipes/graphs_astar.aspx">C#: A-Star is born</a><div class="SmallText">Understand graphs and A* path-finding algorithm with C#</div></li><li><a href="http://www.codeproject.com/KB/recipes/sota_expression_evaluator.aspx">State of the Art Expression Evaluation</a><div class="SmallText">A tutorial on how to realize an expression evaluator in CSharp with ANTLR</div></li><li><a href="http://www.codeproject.com/KB/recipes/FastMathParser.aspx">Fast mathematical expressions parser</a><div class="SmallText">Code for a fast math parser library.</div></li></ul>
+		</td>
+		<td>
+			<iframe src="BubbleSortWithSSE2.aspx_files/ServeHTML_002.htm" frameborder="0" height="250" scrolling="no" width="300"></iframe>
+		</td>
+	</tr>
+	</tbody></table>
+
+	<div id="ctl00_AddTo_AddTo" style="margin: 10px;">
+<script language="JavaScript" type="text/javascript">
+var socialLinks = new social();
+socialLinks.addtoMethod=1;
+socialLinks.DrawLinks("socialLinks", document.location.href, escape(document.title), 100, 0, "SmallText Bold", "AddTo");
+</script><span class="SmallText Bold">Add this article to: </span> <a class="AddTo" title="Add this page to Digg" onclick="return socialLinks.addto(0);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_Digg.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Del.icio.us" onclick="return socialLinks.addto(1);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_Delicious.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Google" onclick="return socialLinks.addto(2);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_Google.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Windows Live" onclick="return socialLinks.addto(3);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_Live.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Yahoo! MyWeb" onclick="return socialLinks.addto(4);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_Yahoo.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Technorati" onclick="return socialLinks.addto(5);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_Technorati.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Blink" onclick="return socialLinks.addto(6);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_Blink.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Facebook" onclick="return socialLinks.addto(7);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_Facebook.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Furl" onclick="return socialLinks.addto(8);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_Furl.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Simpy" onclick="return socialLinks.addto(9);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_Simpy.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Reddit" onclick="return socialLinks.addto(10);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_Reddit.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Newsvine" onclick="return socialLinks.addto(11);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_Newsvine.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Stumbleupon" onclick="return socialLinks.addto(12);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_stumbleupon.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Mr. Wong" onclick="return socialLinks.addto(13);" href="#"><img src="BubbleSortWithSSE2.aspx_files/AddTo_MrWong.png" align="absmiddle" border="0" height="16" width="16"></a>  
+</div>
+	
+	<table id="ctl00_RateArticleRow" class="RatingBar" border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tbody><tr>
+				<td><a href="#_top">Article Top</a></td>
+				<td align="right">            
+<table cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+
+	
+	
+	<td id="voteTbl" style="white-space: nowrap;" class="SmallText" align="right">
+	
+		<table><tbody><tr>
+		<td id="ctl00_RateArticle_SignIn" nowrap="nowrap"><a href="#SignUp">Sign Up</a> to vote for this article</td>
+				
+		
+		
+		
+		
+		<td><span id="ctl00_RateArticle_ErrorMessage"></span></td>
+		</tr></tbody></table>
+	</td>
+</tr></tbody></table>
+
+
+
+</td>
+			</tr>
+		</tbody></table>
+		
+	</form>
+	
+	<div style="padding: 10px; overflow: hidden; text-align: center; white-space: nowrap;">
+		<script type="text/javascript">document.write(unescape("%3ca%20href%3d%22http%3a%2f%2fwww.codeproject.com%2fRedir.aspx%3fadid%3d5303%26way%3dban%22%20target%3d%22_blank%22%20rel%3d%22nofollow%22%3e%3cimg%20src%3d%22http%3a%2f%2fwww.codeproject.com%2fscript%2fAdm%2fServeImg.aspx%3fFile%3d%252fscript%252fadmentor%252fimages%252fIBMdeveloperWorks_468x60.gif%26C%3dFalse%26adid%3d5303%22%20alt%3d%22%22%20border%3d%220%22%20width%3d%22468%22%20height%3d%2260%22%3e%3c%2fa%3e"));</script><a href="http://www.codeproject.com/Redir.aspx?adid=5303&amp;way=ban" target="_blank" rel="nofollow"><img src="BubbleSortWithSSE2.aspx_files/ServeImg_002.htm" alt="" border="0" height="60" width="468"></a>
+		<iframe src="BubbleSortWithSSE2.aspx_files/ServeLinks.htm" frameborder="0" height="60" scrolling="no" width="300"></iframe>					  
+	</div>
+
+	<a name="_comments"></a><!-- Forum Start -->
+<div id="_MessageBoard" onclick="return SwitchMessage(event, null)">
+	<table id="ForumTable" class="Frm_MainTable" cellpadding="0" cellspacing="0">
+		<tbody><tr>
+			<td class="Frm_MsgAlert"><b>You must <a href="http://www.codeproject.com/script/Membership/LogOn.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx%3ffid%3d1011568">Sign In</a> to use this message board.</b></td>
+		</tr><tr>
+			<td><form action="/script/Forums/SetOptions.aspx?floc=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx&amp;fid=1011568" method="get" style="margin: 0pt; padding: 0pt;">
+				<input name="fid" value="1011568" type="hidden"><input name="currentQS" value="?floc=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx&amp;fid=1011568" type="hidden"><input name="floc" value="/KB/recipes/BubbleSortWithSSE2.aspx" type="hidden"><table border="0" cellpadding="3" cellspacing="0" width="100%">
+					<tbody><tr class="Frm_HeaderRow1">
+						<td style="white-space: nowrap;"><img src="BubbleSortWithSSE2.aspx_files/forum_faq.gif" alt="FAQ" align="middle" border="0" height="16" width="16">&nbsp;<a href="http://www.codeproject.com/script/Forums/FAQ.aspx"><b>FAQ</b></a>&nbsp;</td><td style="white-space: nowrap; text-align: right;">Noise Tolerance<select size="1" class="Frm_DropDown" name="noise">
+							<option value="1">Very High</option><option value="2">High</option><option selected="selected" value="3">Medium</option><option value="4">Low</option><option value="5">Very Low</option>
+						</select></td><td colspan="2" style="white-space: nowrap; text-align: right;"><img src="BubbleSortWithSSE2.aspx_files/forum_search.gif" alt="Search" align="top" border="0" height="15" width="16">&nbsp;<a href="http://www.codeproject.com/script/Forums/Search.aspx?fid=1011568">Search Messages</a>&nbsp;</td><td style="text-align: right;"><input value="Set Options" name="SetOpt" class="Frm_Button" type="submit"></td>
+					</tr><tr class="Frm_HeaderRow2">
+						<td style="width: 100%;">&nbsp;</td><td style="white-space: nowrap; text-align: right;">Layout<select size="1" class="Frm_DropDown" name="view">
+							<option selected="selected" value="Quick">Normal</option><option value="Topic">Expand Root Messages</option><option value="Expanded">Expand All Messages</option><option value="Thread">Thread View</option><option value="Normal">No Javascript (slow)</option><option value="Preview">No Javascript Preview</option>
+						</select>&nbsp;&nbsp;</td><td style="white-space: nowrap;">Per page<select size="1" class="Frm_DropDown" name="mpp">
+							<option value="10">10</option><option selected="selected" value="25">25</option><option value="50">50</option>
+						</select>&nbsp;&nbsp;</td><td colspan="2">&nbsp;</td>
+					</tr>
+				</tbody></table>
+			</form></td>
+		</tr><tr>
+			<td><a name="xx0xx"></a><table border="0" cellpadding="2" cellspacing="0" width="100%">
+				<tbody><tr class="Frm_NavigationBar">
+					<td>&nbsp;</td><td>Msgs 1 to 10 of 10 (Total in Forum: 10) (<a href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568">Refresh</a>)</td><td style="text-align: right; white-space: nowrap;"><span class="Frm_HL">First</span><span class="Frm_HL">Prev</span><span class="Frm_HL">Next</span></td>
+				</tr>
+			</tbody></table></td>
+		</tr><tr>
+			<td><table class="Frm_MsgTable" border="0" cellpadding="0" cellspacing="0" width="100%">
+				
+
+<!-- Column Headers -->
+
+				<tbody><tr class="Frm_ColumnHeaders">
+					<td style="width: 100%;"><table border="0" cellpadding="2" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td>Subject&nbsp;</td><td class="Frm_MsgAuthor">&nbsp;Author&nbsp;</td><td class="Frm_MsgDate">Date&nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr>
+					<td><img src="BubbleSortWithSSE2.aspx_files/t.gif" alt="" border="0" height="5" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd Rt HdUnSel" id="F2463273_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="16"><a name="xx2463273xx"></a><img src="BubbleSortWithSSE2.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2463273" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;select=2463273#xx2463273xx">bubble sort</a></td><td style="width: 20px; white-space: nowrap;"><img src="BubbleSortWithSSE2.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=8407">ed welch</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">5:08 12 Mar '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2463273_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 16px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">Don't
+say bubble sort is useless. It's easier to implement than other
+algorithms and it may not be the performance bottle neck. What's really
+is useless is optimising something without check first whether it's the
+performance bottleneck.<br>Anyways, nice artical. SSE is cool! <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Membership/LogOn.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx">Sign In</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;tid=2463273" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=1011568&amp;msg=2463273" title="Get permanent link">PermaLink</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2463273" style="white-space: nowrap;"></span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgRtDivide"><img src="BubbleSortWithSSE2.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd Rt HdUnSel" id="F2439795_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="16"><a name="xx2439795xx"></a><img src="BubbleSortWithSSE2.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2439795" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;select=2439795#xx2439795xx">Interesting article</a></td><td style="width: 20px; white-space: nowrap;"><img src="BubbleSortWithSSE2.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=4869468">Gilmore Radnor</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">23:41 24 Feb '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2439795_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 16px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">got my 5! <img src="BubbleSortWithSSE2.aspx_files/smiley_smile.gif" alt="Smile" align="top"> <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Membership/LogOn.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx">Sign In</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;tid=2439795" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=1011568&amp;msg=2439795" title="Get permanent link">PermaLink</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2439795" style="white-space: nowrap;"></span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgRtDivide"><img src="BubbleSortWithSSE2.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HiVote Rt HdUnSel" id="F2433132_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="16"><a name="xx2433132xx"></a><img src="BubbleSortWithSSE2.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2433132" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;select=2433132#xx2433132xx">Fun!  And here is a performance tip...</a></td><td style="width: 20px; white-space: nowrap;"><img src="BubbleSortWithSSE2.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=1056067">wtwhite</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">3:20 19 Feb '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2433132_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 16px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">Nice
+article, I enjoyed following your exploration of SSE2. Your style is
+very up-front and readable, and I think we have some similarities when
+it comes to how we approach programming (I too harbour a secret lust to
+pack everything into registers... <img src="BubbleSortWithSSE2.aspx_files/smiley_smile.gif" alt="Smile" align="top">)<br><br>Now here is the tip:<br><br>Modern
+CPUs HATE conditional jumps, especially ones that cannot be accurately
+predicted in advance. That is because internally they are heavily
+pipelined, meaning that successive instructions begin executing before
+the current instruction completes, and when the CPU encounters a
+conditional jump it usually does not know which sequence of
+instructions to begin executing next because the result of the test is
+not "in yet". (A P4 has around 20 instructions on the go at a time!)
+The CPU makes a best guess at whether the jump will be taken and begins
+executing those instructions "speculatively"... But if the guess turns
+out to be wrong, the results of all that work must be discarded! So
+when I saw those <code>CMP EAX,2 / JE ...</code> sequences in your
+second code snippet I winced a little -- each of those jumps will occur
+almost exactly 50% of the time, in a completely random ( =
+unpredictable) fashion, so you are incurring 0.5 pipeline stalls per
+jump.<br><br>Fortunately, there exists a much better way to do the type
+of thing you want to do here, without using ANY conditional jumps.
+Suppose you have a pair of values L and H in the low and high quadwords
+of <code>xmm0</code>.  You do the comparison using <code>cmpltpd</code>
+as usual, then what you do is create two temporary register values, one
+containing L in both its quadwords, the other containing H in both its
+quadwords. Then, by using the mask value produced by <code>cmpltpd</code>, you can use <code>pand</code>
+on the first value to effectively "place" L in its rightful place --
+the resulting value will contain L in either its low quadword or its
+high quadword, depending on whether L was less or greater than H, with
+the other quadword containing all 0-bits. <code>pandn</code> can be used to "place" H in the opposite quadword of another register.  Finally the two register values can be combined with <code>por</code>
+to produce a value containing the lesser of L and H in its low
+quadword, and the greater of L and H in its high quadword. This
+technique of "selecting out" and "combining" with bitmasks produced by
+comparisons is quite general.<br><br>So here is the code I propose:<br><br><pre>movapd xmm4,xmm0<br>movapd xmm5,xmm0   // Save xmm0 for later<br>shufpd xmm4,xmm4,1<br>cmpltpd xmm0,xmm4  // Mask in xmm0: all 1s in low qword if xmm4's low qword was less<br>movapd xmm6,xmm0   // Save a copy of the mask<br>shufpd xmm4,xmm4,0 // Set both qwords in xmm4 to the low qword of xmm4<br>shufpd xmm5,xmm5,0 // Set both qwords in xmm5 to the (original) high qword of xmm4<br>pand xmm0,xmm4     // Places the low qword from xmm4 in its rightful place<br>pandn xmm6,xmm5    // Places the high qword from xmm4 in its rightful place<br>por xmm0,xmm6      // Combine the two qwords<br></pre><br><br>Although
+there are 10 instructions here, I'm almost certain they will execute
+faster than the 7 in your comparable code segment shown below, due to
+absence of unpredictable code flows:<br><br><pre>// order the doubles in xmm[0-1]<br>  order_min0:<br>  movapd xmm4, xmm0;<br>  shufpd xmm4, xmm4, 1;<br>  cmpltpd xmm4, xmm0;<br>  movmskpd eax, xmm4;<br>  cmp eax, 2;<br>  je order_min1;<br>  shufpd xmm0, xmm0, 1;<br>order_min1:<br></pre><br><br>Hope this helps!<br><br>Tim <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Membership/LogOn.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx">Sign In</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;tid=2433132" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=1011568&amp;msg=2433132" title="Get permanent link">PermaLink</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2433132" style="white-space: nowrap;">5.00/5 (3 votes) </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="BubbleSortWithSSE2.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HdUnSel" id="F2433816_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="34"><a name="xx2433816xx"></a><img src="BubbleSortWithSSE2.aspx_files/msg_question.gif" alt="Question" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2433816" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;select=2433816#xx2433816xx">Re: Fun!  And here is a performance tip...</a></td><td style="width: 20px; white-space: nowrap;"><img src="BubbleSortWithSSE2.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=91332">codekaizen</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">13:39 19 Feb '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2433816_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 34px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">Well, it's comments like this which pretty much make the whole effort of writing an article worthwhile.<br><br>The only thing I <strike>know</strike> knew about branch prediction <strike>is</strike> was that it exists and how to spell it.<br><br>Now I have some concrete material to go on... <br><br>I certainly will explore the great lead you've given me here, and am much obliged for it.<br><br>One
+thing I'm not clear on yet is how is it that the CPU doesn't just go
+ahead and execute both branches simultaneously? I am really ignorant
+about how and where a CPU stores the results of branch prediction, but
+it would seem to me that it could just as easily grind out both
+execution paths when they are this short, and reassemble the correct
+one into the flow after the cmp instruction. <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Membership/LogOn.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx">Sign In</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;tid=2433132" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=1011568&amp;msg=2433816" title="Get permanent link">PermaLink</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2433816" style="white-space: nowrap;"></span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="BubbleSortWithSSE2.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HdUnSel" id="F2435318_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="52"><a name="xx2435318xx"></a><img src="BubbleSortWithSSE2.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2435318" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;select=2435318#xx2435318xx">Re: Fun!  And here is a performance tip...</a></td><td style="width: 20px; white-space: nowrap;"><img src="BubbleSortWithSSE2.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=199861">RobinMessage</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">12:03 20 Feb '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2435318_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 52px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2"><blockquote class="FQ"><div class="FQA">codekaizen wrote:</div>One
+thing I'm not clear on yet is how is it that the CPU doesn't just go
+ahead and execute both branches simultaneously? I am really ignorant
+about how and where a CPU stores the results of branch prediction, but
+it would seem to me that it could just as easily grind out both
+execution paths when they are this short, and reassemble the correct
+one into the flow after the cmp instruction. </blockquote><br><br>The problem is:<br>1. The CPU doesn't have the resources to run both side of branches<br>2. It doesn't know which side of the branch to start loading into the pipeline until the compare is done<br>3. Therefore, it needs to start loading instructions up to 30 instructions before it finishes executing the compare<br><br>So it is impossible to know which bit of code to run, and you can't run both, so the processor has to sit doing nothing.<br><br>This
+is where the prediction part comes in: since the processor has probably
+been through this patch of code before, it can guess which way the
+branch will go and start taking instructions from there and running
+them. If it guesses right, no problem. If it's wrong, this is no
+problem as it would have been stalled doing nothing anyway, so it backs
+up to where it was.<br><br>(Note, in the Pentium 4 and other advanced
+processors, sometimes what you suggest does happen - both parts of the
+branch are run. The Pentium 4 had to do this because it's pipeline was
+too long and Intel were essentially wrong about processor design. This
+is why the Core architecture is much closer to the Pentium 3 and
+Pentium M - the Pentium 4 was an evolutionary dead-end. Note also, the
+Pentium 4 had a very long pipeline to enable it to run at high clock
+speeds - orginially it was aimed to reach at least 5GHz, but it didn't
+work out, so they had to change tac.) <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Membership/LogOn.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx">Sign In</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;tid=2433132" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=1011568&amp;msg=2435318" title="Get permanent link">PermaLink</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2435318" style="white-space: nowrap;"></span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="BubbleSortWithSSE2.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HdUnSel" id="F2435531_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="70"><a name="xx2435531xx"></a><img src="BubbleSortWithSSE2.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2435531" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;select=2435531#xx2435531xx">Re: Fun!  And here is a performance tip...</a></td><td style="width: 20px; white-space: nowrap;"><img src="BubbleSortWithSSE2.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=1056067">wtwhite</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">18:34 20 Feb '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2435531_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 70px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">RobinMessage:
+I didn't know that the Pentium 4 sometimes takes both paths. But it
+makes sense in a case like this. Can't imagine how complicated the core
+of that Pentium 4 CPU must be -- reordering instructions, checking for
+dependencies, renaming registers on the fly!<br><br>codekaizen, I'm
+glad you found my post helpful. I enjoy exploring things like this and
+I've picked up quite a number of "nifty" performance tricks from
+various places over time. Hope you continue to post about your code
+travels!<br><br>One more thing: looking back at the code snippet I posted, I can eliminate one <code>movapd</code> instruction and one register (<code>xmm6</code>):<br><br><pre>movapd xmm4,xmm0<br>movapd xmm5,xmm0   // Save xmm0 for later<br>shufpd xmm4,xmm4,1<br>cmpltpd xmm0,xmm4  // Mask in xmm0: all 1s in low qword if xmm4's low qword was less<br>shufpd xmm4,xmm4,0 // Set both qwords in xmm4 to the low qword of xmm4<br>shufpd xmm5,xmm5,0 // Set both qwords in xmm5 to the (original) high qword of xmm4<br>andpd xmm4,xmm0    // Places the low qword from xmm4 in its rightful place in xmm4<br>andnpd xmm0,xmm5   // Places the high qword from xmm4 in its rightful place<br>orpd xmm0,xmm4      // Combine the two qwords<br></pre><br><br>I also changed <code>pand</code>, <code>pandn</code> and <code>por</code> to <code>andpd</code>, <code>andnpd</code> and <code>orpd</code> respectively -- these do exactly the same thing, but apparently are faster when working with double-precision FP values.<br><br>I've got the optimization bug!  <img src="BubbleSortWithSSE2.aspx_files/smiley_smile.gif" alt="Smile" align="top"><br><br>Tim <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Membership/LogOn.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx">Sign In</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;tid=2433132" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=1011568&amp;msg=2435531" title="Get permanent link">PermaLink</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2435531" style="white-space: nowrap;"></span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgRtDivide"><img src="BubbleSortWithSSE2.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd Rt HdUnSel" id="F2424599_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="16"><a name="xx2424599xx"></a><img src="BubbleSortWithSSE2.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2424599" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;select=2424599#xx2424599xx">How fast it is really?</a></td><td style="width: 20px; white-space: nowrap;"><img src="BubbleSortWithSSE2.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=673848">Jcmorin</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">5:45 12 Feb '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2424599_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 16px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">I check your benchmark and it's seems to deadly slow for a high-level assembly code implementation.<br><br>65000 items take 35 seconds to sort?? That's doesn't make sense to me at all.<br><br>I'm wondering about the code or the profiling technique. <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Membership/LogOn.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx">Sign In</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;tid=2424599" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=1011568&amp;msg=2424599" title="Get permanent link">PermaLink</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2424599" style="white-space: nowrap;">3.85/5 (4 votes) </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="BubbleSortWithSSE2.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HiVote HdUnSel" id="F2424791_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="34"><a name="xx2424791xx"></a><img src="BubbleSortWithSSE2.aspx_files/msg_answer.gif" alt="Answer" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2424791" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;select=2424791#xx2424791xx">Re: How fast it is really?</a></td><td style="width: 20px; white-space: nowrap;"><img src="BubbleSortWithSSE2.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=91332">codekaizen</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">7:11 12 Feb '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2424791_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 34px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">Yes,
+it is very slow. That is because I am using a Bubble Sort, which is
+almost, but not quite, the slowest sort which you can possibly imagine
+(only the BogoSort is worse, but it is arguably not even a sorting
+algorithm).<br><br>Since it is O(n^2) performance, you are doing ~ 2^16
+* 2^16, or 2^32 (4.2 billion) comparisons in 20 seconds (not 35, that
+is the pointer table you are referring to). That is extremely fast. <br><br>It is the algorithm that is slow, not the implementation. <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Membership/LogOn.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx">Sign In</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;tid=2424599" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=1011568&amp;msg=2424791" title="Get permanent link">PermaLink</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2424791" style="white-space: nowrap;">5.00/5 (2 votes) </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="BubbleSortWithSSE2.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HdUnSel" id="F2432370_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="52"><a name="xx2432370xx"></a><img src="BubbleSortWithSSE2.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2432370" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;select=2432370#xx2432370xx">Re: How fast it is really?</a></td><td style="width: 20px; white-space: nowrap;"><img src="BubbleSortWithSSE2.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=4218235">azonenberg</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">14:12 18 Feb '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2432370_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 52px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">Just as an experiment, can you try implementing a quicksort or an insertion sort and show us how much faster it is? <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Membership/LogOn.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx">Sign In</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;tid=2424599" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=1011568&amp;msg=2432370" title="Get permanent link">PermaLink</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2432370" style="white-space: nowrap;"></span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="BubbleSortWithSSE2.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HdUnSel" id="F2432379_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="70"><a name="xx2432379xx"></a><img src="BubbleSortWithSSE2.aspx_files/msg_answer.gif" alt="Answer" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2432379" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;select=2432379#xx2432379xx">Re: How fast it is really?</a></td><td style="width: 20px; white-space: nowrap;"><img src="BubbleSortWithSSE2.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=91332">codekaizen</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">14:29 18 Feb '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2432379_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 70px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">It's in the works now, however it won't be done soon.<br><br>You'll be able to track the progress at <a href="http://www.codeplex.com/CodeRule">http://www.codeplex.com/CodeRule</a> as I get time to get around to it.<br><br>Even
+more fun will be had when more than one core can be taken advantage of.
+Since quicksort, for example, is a binary partitioning algorithm, you
+could place each partition on a separate core and watch it fly.<br><br>Of
+course, it really isn't very portable, and it is certainly not
+verifiable, but it seems it would be useful to have some of these
+performance-oriented primitives for the .Net platform. <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Membership/LogOn.aspx?rp=%2fKB%2frecipes%2fBubbleSortWithSSE2.aspx">Sign In</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/BubbleSortWithSSE2.aspx?fid=1011568&amp;tid=2424599" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=1011568&amp;msg=2432379" title="Get permanent link">PermaLink</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2432379" style="white-space: nowrap;"></span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr>
+					<td><img src="BubbleSortWithSSE2.aspx_files/t.gif" alt="" border="0" height="5" width="1"></td>
+				</tr>
+			</tbody></table></td>
+		</tr><tr>
+			<td><table cellpadding="2" cellspacing="0" width="100%">
+				<tbody><tr class="Frm_Footer">
+					<td>Last Visit: Saturday, October 18, 2008 11:07 AM &nbsp; &nbsp; Last Update:Saturday, October 18, 2008 11:07 AM</td><td style="text-align: right; white-space: nowrap;"></td>
+				</tr>
+			</tbody></table></td>
+		</tr>
+	</tbody></table>
+</div><p class="SmallText"><img src="BubbleSortWithSSE2.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"> General &nbsp;&nbsp; <img src="BubbleSortWithSSE2.aspx_files/msg_news.gif" alt="News" align="top" height="16" width="16"> News &nbsp;&nbsp; <img src="BubbleSortWithSSE2.aspx_files/msg_question.gif" alt="Question" align="top" height="16" width="16"> Question &nbsp;&nbsp; <img src="BubbleSortWithSSE2.aspx_files/msg_answer.gif" alt="Answer" align="top" height="16" width="16"> Answer &nbsp;&nbsp; <img src="BubbleSortWithSSE2.aspx_files/msg_joke.gif" alt="Joke" align="top" height="16" width="16"> Joke &nbsp;&nbsp; <img src="BubbleSortWithSSE2.aspx_files/msg_rant.gif" alt="Rant" align="top" height="16" width="16"> Rant &nbsp;&nbsp; <img src="BubbleSortWithSSE2.aspx_files/msg_admin.gif" alt="Admin" align="top" height="16" width="16"> Admin &nbsp;&nbsp; </p>
+<!-- Forum End -->
+
+
+
+
+	
+	</div>
+	<table width="100%">
+	<tbody><tr valign="top">
+		<td class="TinyText" align="left">
+		    <a id="ctl00_PermaLink" href="http://www.codeproject.com/script/Articles/Article.aspx?aid=23558">PermaLink</a> | 
+			<a id="ctl00_PrivacyLink" href="http://www.codeproject.com/info/privacy.aspx">Privacy</a> |
+			<a id="ctl00_TermsOfUseLink" href="http://www.codeproject.com/info/TermsOfUse.aspx">Terms of Use</a>
+			<br>Last Updated: 19 Feb 2008<br>
+			Editor: <a id="ctl00_ArticleEditor" href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=28970">Smitha Vijayan</a><br>
+		</td>
+		<td class="TinyText" align="right" valign="top">
+			Copyright 2008 by codekaizen<br>Everything else
+			Copyright © <a href="mailto:webmaster@codeproject.com">CodeProject</a>, 1999-2008 <br>
+			Web10 |
+			<a id="ctl00_AdvertiseLink" href="http://www.codeproject.com/info/MediaKit.aspx">Advertise on the Code Project </a>
+		</td>
+	</tr>
+	
+	</tbody></table>
+	
+	<center>
+		
+	</center>
+</td>
+</tr>
+<tr>
+	<td colspan="2" align="center">
+	
+
+
+
+	</td>
+</tr>
+</tbody></table>
+
+<br>
+<script type="text/javascript" language="Javascript">//<![CDATA[
+if (document.all) try {window.attachEvent("oncopy",copyCode);}catch(e){};
+//]]></script>
+
+<script type="text/javascript" language="Javascript" src="BubbleSortWithSSE2.aspx_files/TogglePre.js"></script>
+<script type="text/javascript" language="Javascript" src="BubbleSortWithSSE2.aspx_files/menu132_com.js"></script>
+<script type="text/javascript" language="Javascript" src="BubbleSortWithSSE2.aspx_files/TopNavBar.js"></script>
+<script type="text/javascript" language="Javascript">//<![CDATA[
+new HVMenu(new menu_NavbarConfig());
+//]]></script>
+
+
+<div style="position: absolute; visibility: visible; z-index: 101; width: 386px; height: 22px; top: 127px; left: 620px;"><div class="NavBarMain" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 40px; height: 16px; padding-left: 5px; padding-top: 2px; left: 7px; top: 2px;">Help!</div><div class="NavBarMain" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 55px; height: 16px; padding-left: 5px; padding-top: 2px; left: 55px; top: 2px;">Articles</div><div class="NavBarMain" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 115px; height: 16px; padding-left: 5px; padding-top: 2px; left: 118px; top: 2px;">Message Boards</div><div class="NavBarMain" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 75px; height: 16px; padding-left: 5px; padding-top: 2px; left: 241px; top: 2px;">Job Board</div><div class="NavBarMain" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 55px; height: 16px; padding-left: 5px; padding-top: 2px; left: 324px; top: 2px;">Lounge</div></div><div class="NavBarCont" style="position: absolute; visibility: hidden; z-index: 102; width: 198px; height: 104px; top: 0pt; left: 0pt;"><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 183px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 5px;">What is 'The Code Project'?</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 183px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 24px;">General FAQ</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 183px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 43px;">Post a Question</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 183px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 62px;">Site Directory</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 183px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 81px;">About Us</div></div><div class="NavBarCont" style="position: absolute; visibility: hidden; z-index: 102; width: 158px; height: 161px; top: 0pt; left: 0pt;"><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 5px;">Latest</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 24px;">Search</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 43px;">Most Popular</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 62px;">Beginner Articles</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 81px;">Topic List</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 100px;">Submit an Article</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 119px;">Update an Article</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 138px;">Article Competition</div></div><div class="NavBarCont" style="position: absolute; visibility: hidden; z-index: 102; width: 183px; height: 389px; top: 0pt; left: 0pt;"><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 5px;">ASP.NET</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 24px;">ATL / WTL / STL</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 43px;">C++ / MFC</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 62px;">(Managed) C++/CLI</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 81px;">C#</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 100px;">COM</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 119px;">Hardware</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 138px;">LINQ and .NET 3.5</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 157px;">.NET Framework</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 176px;">OS / SysAdmin</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 195px;">Silverlight</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 214px;">SQL and Database</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 233px;">VB.NET</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 252px;">Web Development</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 271px;">WPF / WCF / WF</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 290px;">XML / XSL</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 309px;">General Discussions</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 328px;">Suggestions / Site Bugs</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 347px;">The Soapbox</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 366px;">All Message Boards...</div></div></body></html>

@@ -1,0 +1,6 @@
+teUrl='http://te.kontera.com/ContentLink/ContentLink?publisherId=2409&layout=adlinks&sId=&cb=1224366971&creative=L&cn=es';
+setMaxLinksOnPage(1);
+pageTopicVector="";
+setKonaResults(1,0,"L|0|0|0|white|none&pRfr=http://www.functionx.com/visualc/inlineassembly/add.htm&dc_aff_id=");
+onKonaReturn(0);
+

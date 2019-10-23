@@ -1,0 +1,1505 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>CodeProject: Inner Product Experiment: CPU, FPU vs. SSE*. Free source code and programming help</title>
+
+
+
+
+
+	
+	
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="Description" content="The article demonstrating inner product operation performed with shorts, ints, floats and doubles with CPU/FPU and SSE for comparison.; Author: Chesnokov Yuriy; Section: Algorithms &amp; Recipes; Chapter: General Programming">
+<meta name="Keywords" content="VC6, VC7, VC7.1, VC8.0, C++, C++/CLI, C, Windows, Dev, Beginner,Algorithms &amp; Recipes,General Programming,Free source code, tutorials">
+<meta name="Author" content="The Code Project">
+<meta name="Rating" content="General">
+<meta name="Robots" content="index, follow">
+<meta name="Revisit-After" content="1 days">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - All topics" href="http://www.codeproject.com/webservices/articlerss.aspx?cat=1">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - MFC / C++" href="http://www.codeproject.com/webservices/articlerss.aspx?cat=2">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - C#" href="http://www.codeproject.com/webservices/articlerss.aspx?cat=3">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - ASP.NET" href="http://www.codeproject.com/webservices/articlerss.aspx?cat=4">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - .NET" href="http://www.codeproject.com/webservices/articlerss.aspx?cat=5">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - VB.NET" href="http://www.codeproject.com/webservices/articlerss.aspx?cat=6">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Lounge Postings" href="http://www.codeproject.com/webservices/LoungeRSS.aspx">
+<link rel="search" type="application/opensearchdescription+xml" title="CodeProject" href="http://www.codeproject.com/info/OpenSearch.xml">
+	<link rel="stylesheet" type="text/css" href="innerprod1_experiment.aspx_files/CodeProject.css">	
+	<link rel="stylesheet" type="text/css" href="innerprod1_experiment.aspx_files/ForumClassic.css">	
+	<!-- base -->
+	
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="innerprod1_experiment.aspx_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+   var pageTracker = _gat._getTracker("UA-1735123-1");
+   pageTracker._setDomainName("www.codeproject.com");
+   pageTracker._setSessionTimeout("1200"); // 20 mins
+   pageTracker._initData();
+   pageTracker._trackPageview();
+</script>
+	
+	<script type="text/javascript" language="Javascript">//<![CDATA[
+if(top!=self)top.location.href=location.href; if(typeof(DemoUrl)!="undefined")document.write(unescape('%3Cme')+'ta http'+'-equiv="re' +'fresh" con'+'tent="1;url='+DemoUrl+unescape('"%3CE'));
+//]]></script>
+
+<script type="text/javascript" language="Javascript" src="innerprod1_experiment.aspx_files/oncopy.js"></script>
+<script type="text/javascript" language="Javascript" src="innerprod1_experiment.aspx_files/jxs.js"></script>
+<script type="text/javascript" language="Javascript" src="innerprod1_experiment.aspx_files/bookmark.js"></script>
+<script type="text/javascript" language="Javascript" src="innerprod1_experiment.aspx_files/rateitem.js"></script>
+<script type="text/javascript" language="Javascript">//<![CDATA[
+function ToggleMenu(itemName)
+{
+	var elm = document.getElementById(itemName);
+	var i,others = document.getElementById('SectionMenu');
+	for(i=0; i < others.childNodes.length; i++)
+	{
+		var other = others.childNodes[i];
+		if ((other.className == 'MenuSectionBlock') && (other != elm))
+			other.style.display='none';
+	}
+	if (elm.style.display == 'block') elm.style.display='none';
+	else elm.style.display='block';
+	return false;
+}
+
+//]]></script>
+
+<script type="text/javascript" language="Javascript" src="innerprod1_experiment.aspx_files/addto.js"></script>
+<script type="text/javascript" language="Javascript" src="innerprod1_experiment.aspx_files/jquery-1.js"></script>
+<script type="text/javascript" language="Javascript">//<![CDATA[
+function MarkAns(MemberID,MsgID,QID) {
+ document.write(unescape("%3Cdiv class=\"CallOut\"%3E"));
+ document.write("Was this a good answer to your question? ");
+ document.write(unescape("%3Ca href=\"#xx" + MsgID.toString() + "xx\" "));
+ document.write("onclick=\"RateMsg("+MemberID.toString()+", "+MsgID.toString()+",6,"+QID.toString()+");\"");
+ document.write(unescape("%3E"));
+ document.write(unescape("%3Cimg height=\"20\" width=\"20\" src=\"/script/Forums/Images/good.png\" alt=\"correct\" border=\"0\" align=\"absmiddle\" /%3E Yes%3C/a%3E"));
+ document.write(unescape("%3Ca href=\"#xx" + MsgID.toString() + "xx\" "));
+ document.write("onclick=\"RateMsg("+MemberID.toString()+","+MsgID.toString()+",7,"+QID.toString()+");\"");
+ document.write(unescape("%3E"));
+ document.write(unescape("%3Cimg height=\"20\" width=\"20\" src=\"/script/Forums/Images/bad.png\" alt=\"correct\" style=\"margin-left:10px\" border=\"0\" align=\"absmiddle\" /%3E No%3C/a%3E"));
+ document.write(unescape("%3C/div%3E"));
+}
+function MsgVFrm(MemberID,MsgID,GB,gp,bp,mt){
+ if(!GB)document.write("Rate this message: ");
+ document.write(unescape("%3Ca href=\"#xx" + MsgID.toString() + "xx\" onclick=\"RateMsg(" + MemberID.toString() + ", " + MsgID.toString() + ","));document.write((GB?"5":"1")+unescape(",0);\"%3E"));
+ if(GB) document.write(unescape("%3Cimg height=\"20\" width=\"20\" src=\"/script/Forums/Images/good.png\" alt=\"good\" border=\"0\" align=\"absmiddle\" /%3E "+gp+" "+mt+"%3C/a%3E "));
+ else document.write(unescape("%3Cimg height=\"14\" width=\"14\" src=\"/script/Forums/Images/thumbs_down.gif\" alt=\"vote 1\" border=\"0\" align=\"middle\" /%3E%3C/a%3E "));
+ if(GB)document.write(" &nbsp;"); else for(var i=1; i<=5;i++)
+  document.write(unescape("%3Ca class=\"Frm_MHL\" href=\"#xx" + MsgID.toString() + "xx\" title=\"vote this message a " + i.toString() + "\" onclick=\"RateMsg(" + MemberID.toString() + ", " + MsgID.toString() + ", " + i.toString() + ",0)\"%3E%3Cb%3E" + i.toString() + "%3C/b%3E%3C/a%3E "));
+ document.write(unescape("%3Ca href=\"#xx" + MsgID.toString() + "xx\" onclick=\"RateMsg(" + MemberID.toString() + ", " + MsgID.toString() + ","));document.write((GB?"1":"5")+unescape(",0);\"%3E"));
+ if(GB)document.write(unescape("%3Cimg height=\"20\" width=\"20\" src=\"/script/Forums/Images/bad.png\" alt=\"bad\" border=\"0\" align=\"absmiddle\" /%3E "+bp+" "+mt+"%3C/a%3E"));
+ else document.write(unescape("%3Cimg height=\"14\" width=\"14\" src=\"/script/Forums/Images/thumbs_up.gif\" border=\"0\" alt=\"vote 5\" align=\"middle\" /%3E%3C/a%3E "));
+}
+
+function ReportMsg(userid, msgid, score) {
+ if (confirm("Are you sure you want to report this message?"))
+  return RateMsg(userid, msgid, score, 0);
+ else return false;
+}
+function RateMsg(memberid, msgid, score, questionId) {
+ var req = new XMLHttpRequest();
+ req.onreadystatechange = function() {
+  if (req.readyState == 4){
+   if (req.status == 200){
+    var respText = req.responseText;
+    var re = new RegExp(unescape("\%3Cdiv\%3E([^\%3C]*)\%3C/div\%3E"), "g");
+    var match = re.exec(respText);
+    voteStatus.innerHTML = unescape("%3Cb%3E") + (match&&match[1])?match[1]:"An error occured" + unescape("%3C/b%3E");
+   } else
+    voteStatus.innerHTML = unescape("%3Cb style='color:red'%3EFailed!") + req.statusText + unescape("%3C/b%3E");
+  }
+ }
+ var voteStatus = document.getElementById("MVF" + msgid);
+ if (!voteStatus) return;
+ voteStatus.innerHTML = unescape("%3Cb style='color:green'%3EVoting...%3C/b%3E");
+ var strAction = "/script/Forums/Vote.aspx?js=1&fmid="+memberid.toString()+"&select="+msgid.toString()+"&score="+score.toString()+"&qid="+questionId.toString();
+ req.open("GET", strAction, true);
+ req.send(null);
+  return false;
+}
+//]]></script>
+
+<script type="text/javascript" language="Javascript">//<![CDATA[
+var Selected = "-1";
+
+function SwitchMessage(e, msgId)
+{
+  if (!msgId) {
+    if(!e)e=window.event;
+    var target=e.target?e.target:e.srcElement;
+    while(target&&target.id!='DynMessLink')target=target.parentNode;
+    if(!target||target.id!='DynMessLink')return;
+    msgId=target.name;
+  }
+  if(Selected&&Selected!=""){
+    var body=eval("document.getElementById('F" + Selected + "_h1')");
+    if(body) body.style.display = 'none';
+    var head=eval("document.getElementById('F" + Selected + "_h0')");
+    if(head) head.className = head.className.replace("Sel", "UnSel");
+  }
+  if(Selected==msgId.toString())
+    Selected="";
+  else {
+    Selected=msgId.toString();
+    var body=eval("document.getElementById('F" + Selected + "_h1')");
+    if(body){
+      if(body.style.display=='none') body.style.display='';
+      else body.style.display = 'none';
+    }
+    var head=eval("document.getElementById('F" + Selected + "_h0')");
+    if (head) 
+      head.className = head.className.replace("UnSel", "Sel");
+    if(body&&head&&body.style.display!='none'){
+      document.body.scrollTop = getRealPos(head, "Top") - document.body.clientHeight/10;
+      EnsureMessageVisible(Selected, true);
+    }
+  }
+  if (e){if(e.preventDefault)e.preventDefault;else e.returnValue=false;}
+  return false;
+}
+
+//]]></script>
+
+<script type="text/javascript" language="Javascript" src="innerprod1_experiment.aspx_files/ShortCuts.js"></script>
+<link rel="icon" href="http://www.codeproject.com/favicon.ico" type="image/ico">
+<link rel="shortcut icon" href="http://www.codeproject.com/favicon.ico" type="image/ico"></head><body style="background-color: rgb(255, 255, 255);">
+
+<table id="ctl00_AT" border="0" cellpadding="0" cellspacing="0">
+	<tbody><tr valign="top">
+		<td colspan="2">
+	<table border="0" cellpadding="0" cellspacing="0">
+	<tbody><tr>
+		<td class="HeaderLogo"><a href="http://www.codeproject.com/"><img id="ctl00_Logo" src="innerprod1_experiment.aspx_files/logo225x90.gif" alt="The Code Project" style="border-width: 0px; height: 90px; width: 225px;"></a></td>				 
+		<td class="HeaderBanner" align="right" width="100%">
+		<script type="text/javascript">document.write(unescape("%3ca%20href%3d%22http%3a%2f%2fwww.codeproject.com%2fRedir.aspx%3fadid%3d6562%26way%3dban%22%20target%3d%22_blank%22%20rel%3d%22nofollow%22%3e%3cimg%20src%3d%22http%3a%2f%2fwww.codeproject.com%2fscript%2fAdm%2fServeImg.aspx%3fFile%3d%252fscript%252fadmentor%252fimages%252fSyncfusion_728x90.gif%26C%3dFalse%26adid%3d6562%22%20alt%3d%22%22%20border%3d%220%22%20width%3d%22728%22%20height%3d%2290%22%3e%3c%2fa%3e"));</script><a href="http://www.codeproject.com/Redir.aspx?adid=6562&amp;way=ban" target="_blank" rel="nofollow"><img src="innerprod1_experiment.aspx_files/ServeImg_002.htm" alt="" border="0" height="90" width="728"></a></td>
+	</tr>
+	<tr><td colspan="2">
+
+<table class="MemberNavBar" cellpadding="5" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="SmallText" style="font-weight: bold;">5,565,869 members and growing! (16,584 online)</td>
+<td align="right">
+
+<div id="ctl00_MemberMenu_LoggedOnOptions" class="MemberNavBarText">
+			
+<a id="ctl00_MemberMenu_MyProfile" href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=5573597">mda2008</a> | 
+<a id="ctl00_MemberMenu_MySettings" href="http://www.codeproject.com/script/Membership/Modify.aspx">My Settings</a> |
+<a id="ctl00_MemberMenu_MyCodeProject" href="http://www.codeproject.com/script/Membership/MyCodeProject.aspx"><b>My CodeProject</b></a> |
+<a id="ctl00_MemberMenu_MyBookmarks" href="http://www.codeproject.com/script/Bookmarks/List.aspx?obtid=2"><img src="innerprod1_experiment.aspx_files/fave.gif" align="absmiddle" border="0" height="16" width="16"> My Bookmarks</a> |
+<a id="ctl00_MemberMenu_MyArticles" href="http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=5573597">My Articles</a> |
+
+<a id="ctl00_MemberMenu_Signout" href="http://www.codeproject.com/script/Membership/LogOff.aspx?rp=%2fKB%2frecipes%2finnerprod1_experiment.aspx">Sign out</a>
+
+		</div>
+
+
+
+</td>
+</tr>
+</tbody></table></td></tr>
+	<tr><td colspan="2">
+<table class="SiteNavBar" id="tblSiteToolbar" cellpadding="0" cellspacing="0">
+<tbody><tr>
+
+<td nowrap="nowrap"><a href="http://www.codeproject.com/">Home</a></td><td> &nbsp; </td><td style="font-weight: normal;" align="right" nowrap="nowrap">Current Site:</td><td class="SelCat" nowrap="nowrap"><a href="http://www.codeproject.com/">C++ / .NET</a></td>
+<td nowrap="nowrap"><a href="http://java.codeproject.com/">Java</a></td>
+<td nowrap="nowrap"><a href="http://sql.codeproject.com/">SQL</a></td>
+<td nowrap="nowrap"><a href="http://lamp.codeproject.com/">Linux / Unix</a></td>
+
+<td width="100%">&nbsp;</td>
+<td id="ctl00_TopNavBar_RightMenus">
+	<div id="MenuPos" style="position: relative; width: 380px; height: 22px; top: 1px;">
+	<table style="border-width: 0px; height: 20px;" cellpadding="0" cellspacing="0" width="380">
+	<tbody><tr valign="middle">
+	<td style="border-width: 0pt;" nowrap="nowrap"><a href="http://www.codeproject.com/info/FAQ.aspx">Help!</a></td>
+<td style="border-width: 0pt;" nowrap="nowrap"><a href="http://www.codeproject.com/script/Articles/Latest.aspx">Articles</a></td>
+<td style="border-width: 0pt;" nowrap="nowrap"><a href="http://www.codeproject.com/script/Forums/List.aspx">Message Boards</a></td>
+<td style="border-width: 0pt;" nowrap="nowrap"><a href="http://www.codeproject.com/script/Jobs/List.aspx">Job Board</a></td>
+<td style="border-width: 0pt;" nowrap="nowrap"><a href="http://www.codeproject.com/Lounge.aspx">Lounge</a></td>
+
+	</tr>
+	</tbody></table>
+	</div>
+</td>
+		
+</tr>
+
+</tbody></table>
+</td></tr>
+	</tbody></table>
+</td>
+	</tr>
+	<tr>
+		<td colspan="2" valign="top">
+		<a name="_top"></a>
+		<table id="ctl00_ArticleTopHeader_HeaderTable" class="ArticleUneditedHeader" border="0" cellpadding="3" cellspacing="0" width="100%">
+			<tbody><tr valign="top">
+				<td class="SmallText">
+	<a id="ctl00_ArticleTopHeader_ChapterLink" href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=6">General Programming</a> »
+	<a id="ctl00_ArticleTopHeader_SectionLink" href="http://www.codeproject.com/KB/recipes/">Algorithms &amp; Recipes</a> »
+	<a id="ctl00_ArticleTopHeader_SubsectionLink" href="http://www.codeproject.com/KB/recipes/index.aspx?#Algorithms%20&amp;%20Recipes%20-%20Math">Math</a>
+	<span id="ctl00_ArticleTopHeader_SkillLevel" class="ArticleBeginner">&nbsp;&nbsp;&nbsp; Beginner</span> <span id="ctl00_ArticleTopHeader_LicenceTerms" class="SmallText" style="margin-left: 40px;">License: <a href="http://www.opensource.org/licenses/gpl-license.php">The GNU General Public License (GPL)</a></span>
+	<br><br>
+	<h1><span id="ctl00_ArticleTopHeader_ArticleTitle" class="ArticleTopTitle">Inner Product Experiment: CPU, FPU vs. SSE*</span></h1>
+	<b>By <a href="http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=4613314">Chesnokov Yuriy</a></b><br><br>
+    <span id="ctl00_ArticleTopHeader_ArticleDescr" class="ArticleTopDescr">The
+article demonstrating inner product operation performed with shorts,
+ints, floats and doubles with CPU/FPU and SSE for comparison.</span>	
+</td>
+				<td class="SmallText" style="width: 210px;">
+	<span id="ctl00_ArticleTopHeader_ArticleAttributes">C++ (VC6, VC7, VC7.1, VC8.0, C++), C++/CLI, C, Windows, Dev</span><br><br>
+	<span style="width: 14ex;">Posted</span>: <b>25 Oct 2007</b><br>
+	<span style="width: 14ex;">Updated</span>: <b>20 May 2008</b>
+	<br>
+	<span style="width: 14ex;">Views</span>: <b>9,020</b><br>
+	
+	    <span style="width: 14ex;">Bookmarked</span>: <b>12 times</b><br>
+	    
+	
+</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+	<table width="100%">
+	<tbody><tr>
+	<td><div id="ctl00_ArticleTopHeader_UneditedDiv"><b>Note: <a id="ctl00_ArticleTopHeader_UneditedLnk" href="http://www.codeproject.com/script/Articles/Unedited.aspx">This is an unedited reader contribution</a></b>
+	</div></td>
+	<td style="white-space: nowrap;" class="SmallText" align="right">
+	</td>
+	</tr>
+	</tbody></table>
+</td>
+			</tr>
+		</tbody></table>
+		
+
+	</td>
+	</tr>
+	<tr valign="top">
+		<td id="ctl00_LeftNavCell" class="LHNavBar">
+	
+
+<div class="FeatureBlockHeader">Announcements</div>
+<div class="FeatureBlockContent RHFeatureBar" style="margin: 0pt; padding: 0pt;">
+<table cellpadding="2">
+
+
+
+
+			
+
+
+<tbody><tr valign="middle"><td><img src="innerprod1_experiment.aspx_files/MonthlyComp.png" alt="Comp" align="middle" height="24" width="24"></td>
+<td><a id="ctl00_Announcements_CompLink" href="http://www.codeproject.com/Feature/ArticleCompetition/">Monthly Competition</a></td></tr>
+
+</tbody></table>
+</div>
+	
+	
+	<div class="FeatureBlockHeader" style="margin-top: 7px;">Want a new Job?</div>
+	<div class="FeatureBlockContent RHFeatureBar">
+	<ul class="InfoList"><li><a href="http://www.codeproject.com/script/Jobs/View.aspx?jid=162">SharePoint .NET Developer</a> at Innovative Emergency Management in United States</li><li><a href="http://www.codeproject.com/script/Jobs/View.aspx?jid=281">Application Developer</a> at Undisclosed in United States</li><li><a href="http://www.codeproject.com/script/Jobs/View.aspx?jid=50">Senior .NET Programmer/Architect</a> at Greater Than Solutions  in United States</li><li><a href="http://www.codeproject.com/script/Jobs/List.aspx">View Latest Jobs...</a></li></ul>
+	</div>
+	
+	
+	
+	<div id="SectionMenu">
+<div class="MenuCat">Chapters</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=1" onclick="return ToggleMenu('Chapter1');">Desktop Development</a></div>
+<div class="MenuSectionBlock" id="Chapter1" style="display: none;">
+<div class="MI" id="Section1"><a href="http://www.codeproject.com/KB/buttons/">Button Controls</a></div>
+<div class="MI" id="Section15"><a href="http://www.codeproject.com/KB/clipboard/">Clipboard</a></div>
+<div class="MI" id="Section2"><a href="http://www.codeproject.com/KB/combobox/">Combo &amp; List Boxes</a></div>
+<div class="MI" id="Section67"><a href="http://www.codeproject.com/KB/dialog/">Dialogs and Windows</a></div>
+<div class="MI" id="Section107"><a href="http://www.codeproject.com/KB/gadgets/">Desktop Gadgets</a></div>
+<div class="MI" id="Section16"><a href="http://www.codeproject.com/KB/docview/">Document / View</a></div>
+<div class="MI" id="Section4"><a href="http://www.codeproject.com/KB/edit/">Edit Controls</a></div>
+<div class="MI" id="Section17"><a href="http://www.codeproject.com/KB/files/">Files and Folders</a></div>
+<div class="MI" id="Section3"><a href="http://www.codeproject.com/KB/grid/">Grid &amp; Data Controls</a></div>
+<div class="MI" id="Section5"><a href="http://www.codeproject.com/KB/list/">List Controls</a></div>
+<div class="MI" id="Section6"><a href="http://www.codeproject.com/KB/menus/">Menus</a></div>
+<div class="MI" id="Section14"><a href="http://www.codeproject.com/KB/miscctrl/">Miscellaneous</a></div>
+<div class="MI" id="Section18"><a href="http://www.codeproject.com/KB/printing/">Printing</a></div>
+<div class="MI" id="Section95"><a href="http://www.codeproject.com/KB/progress/">Progress Controls</a></div>
+<div class="MI" id="Section11"><a href="http://www.codeproject.com/KB/selection/">Selection Controls</a></div>
+<div class="MI" id="Section19"><a href="http://www.codeproject.com/KB/shell/">Shell and IE programming</a></div>
+<div class="MI" id="Section68"><a href="http://www.codeproject.com/KB/smart/">Smart Client</a></div>
+<div class="MI" id="Section8"><a href="http://www.codeproject.com/KB/splitter/">Splitter Windows</a></div>
+<div class="MI" id="Section9"><a href="http://www.codeproject.com/KB/static/">Static &amp; Panel Controls</a></div>
+<div class="MI" id="Section10"><a href="http://www.codeproject.com/KB/statusbar/">Status Bar</a></div>
+<div class="MI" id="Section7"><a href="http://www.codeproject.com/KB/tabs/">Tabs &amp; Property Pages</a></div>
+<div class="MI" id="Section12"><a href="http://www.codeproject.com/KB/toolbars/">Toolbars &amp; Docking windows</a></div>
+<div class="MI" id="Section13"><a href="http://www.codeproject.com/KB/tree/">Tree Controls</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=2" onclick="return ToggleMenu('Chapter2');">Web Development</a></div>
+<div class="MenuSectionBlock" id="Chapter2" style="display: none;">
+<div class="MI" id="Section70"><a href="http://www.codeproject.com/KB/ajax/">Ajax and Atlas</a></div>
+<div class="MI" id="Section27"><a href="http://www.codeproject.com/KB/applications/">Applications &amp; Tools</a></div>
+<div class="MI" id="Section85"><a href="http://www.codeproject.com/KB/asp/">ASP</a></div>
+<div class="MI" id="Section89"><a href="http://www.codeproject.com/KB/aspnet/">ASP.NET</a></div>
+<div class="MI" id="Section28"><a href="http://www.codeproject.com/KB/webforms/">ASP.NET Controls</a></div>
+<div class="MI" id="Section38"><a href="http://www.codeproject.com/KB/ATL-Server/">ATL Server</a></div>
+<div class="MI" id="Section29"><a href="http://www.codeproject.com/KB/web-cache/">Caching</a></div>
+<div class="MI" id="Section91"><a href="http://www.codeproject.com/KB/web-image/">Charts, Graphs and Images</a></div>
+<div class="MI" id="Section25"><a href="http://www.codeproject.com/KB/scripting/">Client side scripting</a></div>
+<div class="MI" id="Section30"><a href="http://www.codeproject.com/KB/custom-controls/">Custom Controls</a></div>
+<div class="MI" id="Section23"><a href="http://www.codeproject.com/KB/HTML/">HTML / CSS</a></div>
+<div class="MI" id="Section24"><a href="http://www.codeproject.com/KB/ISAPI/">ISAPI</a></div>
+<div class="MI" id="Section33"><a href="http://www.codeproject.com/KB/server-management/">Site &amp; Server Management</a></div>
+<div class="MI" id="Section34"><a href="http://www.codeproject.com/KB/session/">Session State</a></div>
+<div class="MI" id="Section113"><a href="http://www.codeproject.com/KB/silverlight/">Silverlight</a></div>
+<div class="MI" id="Section36"><a href="http://www.codeproject.com/KB/trace/">Trace and Logs</a></div>
+<div class="MI" id="Section31"><a href="http://www.codeproject.com/KB/user-controls/">User Controls</a></div>
+<div class="MI" id="Section37"><a href="http://www.codeproject.com/KB/validation/">Validation</a></div>
+<div class="MI" id="Section35"><a href="http://www.codeproject.com/KB/viewstate/">View State</a></div>
+<div class="MI" id="Section26"><a href="http://www.codeproject.com/KB/WAP/">WAP / WML</a></div>
+<div class="MI" id="Section32"><a href="http://www.codeproject.com/KB/web-security/">Web Security</a></div>
+<div class="MI" id="Section20"><a href="http://www.codeproject.com/KB/webservices/">Web Services</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=9" onclick="return ToggleMenu('Chapter9');">Enterprise Systems</a></div>
+<div class="MenuSectionBlock" id="Chapter9" style="display: none;">
+<div class="MI" id="Section98"><a href="http://www.codeproject.com/KB/MCMS/">Content Management Server</a></div>
+<div class="MI" id="Section99"><a href="http://www.codeproject.com/KB/biztalk/">Microsoft BizTalk Server</a></div>
+<div class="MI" id="Section102"><a href="http://www.codeproject.com/KB/exchange/">Microsoft Exchange</a></div>
+<div class="MI" id="Section90"><a href="http://www.codeproject.com/KB/office/">Office Development</a></div>
+<div class="MI" id="Section101"><a href="http://www.codeproject.com/KB/sharepoint/">SharePoint Server</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=3" onclick="return ToggleMenu('Chapter3');">Multimedia</a></div>
+<div class="MenuSectionBlock" id="Chapter3" style="display: none;">
+<div class="MI" id="Section42"><a href="http://www.codeproject.com/KB/audio-video/">Audio and Video</a></div>
+<div class="MI" id="Section44"><a href="http://www.codeproject.com/KB/directx/">DirectX</a></div>
+<div class="MI" id="Section46"><a href="http://www.codeproject.com/KB/GDI/">GDI</a></div>
+<div class="MI" id="Section47"><a href="http://www.codeproject.com/KB/GDI-plus/">GDI+</a></div>
+<div class="MI" id="Section43"><a href="http://www.codeproject.com/KB/graphics/">General Graphics</a></div>
+<div class="MI" id="Section45"><a href="http://www.codeproject.com/KB/openGL/">OpenGL</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=4" onclick="return ToggleMenu('Chapter4');">Database</a></div>
+<div class="MenuSectionBlock" id="Chapter4" style="display: none;">
+<div class="MI" id="Section66"><a href="http://www.codeproject.com/KB/database/">Database</a></div>
+<div class="MI" id="Section100"><a href="http://www.codeproject.com/KB/reporting-services/">SQL Reporting Services</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=8" onclick="return ToggleMenu('Chapter8');">Platforms, Frameworks &amp; Libraries</a></div>
+<div class="MenuSectionBlock" id="Chapter8" style="display: none;">
+<div class="MI" id="Section83"><a href="http://www.codeproject.com/KB/atl/">ATL</a></div>
+<div class="MI" id="Section117"><a href="http://www.codeproject.com/KB/MFC/">MFC</a></div>
+<div class="MI" id="Section88"><a href="http://www.codeproject.com/KB/stl/">STL</a></div>
+<div class="MI" id="Section84"><a href="http://www.codeproject.com/KB/wtl/">WTL</a></div>
+<div class="MI" id="Section49"><a href="http://www.codeproject.com/KB/COM/">COM / COM+</a></div>
+<div class="MI" id="Section76"><a href="http://www.codeproject.com/KB/dotnet/">.NET Framework</a></div>
+<div class="MI" id="Section92"><a href="http://www.codeproject.com/KB/winsdk/">Win32/64 SDK &amp; OS</a></div>
+<div class="MI" id="Section108"><a href="http://www.codeproject.com/KB/vista/">Vista API</a></div>
+<div class="MI" id="Section110"><a href="http://www.codeproject.com/KB/vista-security/">Vista Security</a></div>
+<div class="MI" id="Section82"><a href="http://www.codeproject.com/KB/cross-platform/">Cross Platform</a></div>
+<div class="MI" id="Section69"><a href="http://www.codeproject.com/KB/game/">Game Development</a></div>
+<div class="MI" id="Section73"><a href="http://www.codeproject.com/KB/mobile/">Mobile Development</a></div>
+<div class="MI" id="Section106"><a href="http://www.codeproject.com/KB/WC/">Windows CardSpace</a></div>
+<div class="MI" id="Section103"><a href="http://www.codeproject.com/KB/WCF/">Windows Communication Foundation</a></div>
+<div class="MI" id="Section104"><a href="http://www.codeproject.com/KB/WPF/">Windows Presentation Foundation</a></div>
+<div class="MI" id="Section105"><a href="http://www.codeproject.com/KB/WF/">Windows Workflow Foundation</a></div>
+<div class="MI" id="Section119"><a href="http://www.codeproject.com/KB/library/">Libraries</a></div>
+<div class="MI" id="Section122"><a href="http://www.codeproject.com/KB/powershell/">Windows Powershell</a></div>
+<div class="MI" id="Section123"><a href="http://www.codeproject.com/KB/linq/">LINQ</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=5" onclick="return ToggleMenu('Chapter5');">Languages</a></div>
+<div class="MenuSectionBlock" id="Chapter5" style="display: none;">
+<div class="MI" id="Section71"><a href="http://www.codeproject.com/KB/cpp/">C / C++ Language</a></div>
+<div class="MI" id="Section72"><a href="http://www.codeproject.com/KB/mcpp/">C++ / CLI</a></div>
+<div class="MI" id="Section93"><a href="http://www.codeproject.com/KB/cs/">C#</a></div>
+<div class="MI" id="Section78"><a href="http://www.codeproject.com/KB/msil/">MSIL</a></div>
+<div class="MI" id="Section86"><a href="http://www.codeproject.com/KB/vbscript/">VBScript</a></div>
+<div class="MI" id="Section87"><a href="http://www.codeproject.com/KB/vb/">VB.NET</a></div>
+<div class="MI" id="Section115"><a href="http://www.codeproject.com/KB/vb-interop/">VB6 Interop</a></div>
+<div class="MI" id="Section77"><a href="http://www.codeproject.com/KB/net-languages/">Other .NET Languages</a></div>
+<div class="MI" id="Section21"><a href="http://www.codeproject.com/KB/XML/">XML</a></div>
+<div class="MI" id="Section96"><a href="http://www.codeproject.com/KB/java/">Java</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=6" onclick="return ToggleMenu('Chapter6');">General Programming</a></div>
+<div class="MenuSectionBlock" id="Chapter6">
+<div class="MIS" id="Section57"><a href="http://www.codeproject.com/KB/recipes/">Algorithms &amp; Recipes</a></div>
+<div class="MI" id="Section64"><a href="http://www.codeproject.com/KB/bugs/">Bugs &amp; Workarounds</a></div>
+<div class="MI" id="Section79"><a href="http://www.codeproject.com/KB/collections/">Collections</a></div>
+<div class="MI" id="Section56"><a href="http://www.codeproject.com/KB/security/">Cryptography &amp; Security</a></div>
+<div class="MI" id="Section50"><a href="http://www.codeproject.com/KB/datetime/">Date and Time</a></div>
+<div class="MI" id="Section52"><a href="http://www.codeproject.com/KB/DLL/">DLLs &amp; Assemblies</a></div>
+<div class="MI" id="Section80"><a href="http://www.codeproject.com/KB/exception/">Exception Handling</a></div>
+<div class="MI" id="Section81"><a href="http://www.codeproject.com/KB/locale/">Localisation</a></div>
+<div class="MI" id="Section53"><a href="http://www.codeproject.com/KB/macros/">Macros and Add-ins</a></div>
+<div class="MI" id="Section54"><a href="http://www.codeproject.com/KB/tips/">Programming Tips</a></div>
+<div class="MI" id="Section55"><a href="http://www.codeproject.com/KB/string/">String handling</a></div>
+<div class="MI" id="Section22"><a href="http://www.codeproject.com/KB/IP/">Internet / Network</a></div>
+<div class="MI" id="Section58"><a href="http://www.codeproject.com/KB/threads/">Threads, Processes &amp; IPC</a></div>
+<div class="MI" id="Section59"><a href="http://www.codeproject.com/KB/winhelp/">WinHelp / HTMLHelp</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=10" onclick="return ToggleMenu('Chapter10');">Graphics / Design</a></div>
+<div class="MenuSectionBlock" id="Chapter10" style="display: none;">
+<div class="MI" id="Section40"><a href="http://www.codeproject.com/KB/expression/">Expression</a></div>
+<div class="MI" id="Section114"><a href="http://www.codeproject.com/KB/usability/">Usability</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=11" onclick="return ToggleMenu('Chapter11');">Development Lifecycle</a></div>
+<div class="MenuSectionBlock" id="Chapter11" style="display: none;">
+<div class="MI" id="Section51"><a href="http://www.codeproject.com/KB/debug/">Debug Tips</a></div>
+<div class="MI" id="Section39"><a href="http://www.codeproject.com/KB/architecture/">Design and Architecture</a></div>
+<div class="MI" id="Section112"><a href="http://www.codeproject.com/KB/install/">Installation</a></div>
+<div class="MI" id="Section41"><a href="http://www.codeproject.com/KB/work/">Work Issues</a></div>
+<div class="MI" id="Section126"><a href="http://www.codeproject.com/KB/codegen/">Code Generation</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=7" onclick="return ToggleMenu('Chapter7');">General Reading</a></div>
+<div class="MenuSectionBlock" id="Chapter7" style="display: none;">
+<div class="MI" id="Section60"><a href="http://www.codeproject.com/KB/books/">Book Chapters</a></div>
+<div class="MI" id="Section61"><a href="http://www.codeproject.com/KB/book-reviews/">Book Reviews</a></div>
+<div class="MI" id="Section109"><a href="http://www.codeproject.com/KB/hardware-review/">Hardware Reviews</a></div>
+<div class="MI" id="Section63"><a href="http://www.codeproject.com/KB/interviews/">Interviews</a></div>
+<div class="MI" id="Section62"><a href="http://www.codeproject.com/KB/scrapbook/">Scrapbook</a></div>
+<div class="MI" id="Section48"><a href="http://www.codeproject.com/KB/system/">Hardware &amp; System</a></div>
+</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Content/Chapter.aspx?chptId=12" onclick="return ToggleMenu('Chapter12');">Third Party Products</a></div>
+<div class="MenuSectionBlock" id="Chapter12" style="display: none;">
+<div class="MI" id="Section65"><a href="http://www.codeproject.com/KB/showcase/">Product Showcase</a></div>
+<div class="MI" id="Section124"><a href="http://www.codeproject.com/KB/solution-center/">Solution Center</a></div>
+</div>
+</div>
+<br>
+<div class="MenuCat">Services</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/script/Jobs/List.aspx">Job Board</a></div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/Services/coffee.aspx">Code Project Coffee</a></div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/Services/TradePub.aspx">Free Magazines</a></div>
+<br><div class="MenuCat">Feature Zones</div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/kb/Showcase/">Product Showcase</a></div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/Zones/IBM">IBM DeveloperWorks</a></div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/Zones/WhitePapers">WhitePapers / Webcasts</a></div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/Zones/Acresso">InstallShield 2009</a></div>
+<div class="MenuChapter"><a href="http://www.codeproject.com/Zones/APress">Apress Bookstore</a></div>
+<br>
+
+	<div style="text-align: center; margin-bottom: 10px;">
+		<iframe src="innerprod1_experiment.aspx_files/ServeHTML.htm" frameborder="0" height="80" scrolling="no" width="150"></iframe>
+	</div>
+	
+	<script type="text/javascript">document.write(unescape("%3ca%20href%3d%22http%3a%2f%2fwww.codeproject.com%2fRedir.aspx%3fadid%3d5305%26way%3dban%22%20target%3d%22_blank%22%20rel%3d%22nofollow%22%3e%3cimg%20src%3d%22http%3a%2f%2fwww.codeproject.com%2fscript%2fAdm%2fServeImg.aspx%3fFile%3d%252fscript%252fadmentor%252fimages%252fIBMdeveloperWorks_160x600.gif%26C%3dFalse%26adid%3d5305%22%20alt%3d%22%22%20border%3d%220%22%20width%3d%22160%22%20height%3d%22600%22%3e%3c%2fa%3e"));</script><a href="http://www.codeproject.com/Redir.aspx?adid=5305&amp;way=ban" target="_blank" rel="nofollow"><img src="innerprod1_experiment.aspx_files/ServeImg.htm" alt="" border="0" height="600" width="160"></a>						 
+</td>
+		<td class="ArticlePane" valign="top">
+
+	
+<table class="SearchHeaderBar" cellspacing="0" width="100%">
+<tbody><tr>
+<td style="white-space: nowrap; width: 60%;" align="right" valign="middle">
+<form method="get" action="/info/search.aspx" name="Search" style="margin: 0pt;">
+<b>Search &nbsp;</b>
+<input class="SmallText" name="artkw" style="width: 200px;">
+<select class="SmallText" style="font-weight: bold;" name="sbo">
+<option value="kw">Articles</option>
+<!--<option value="au">Authors</option>-->
+<option value="fm">Messages</option>
+<option value="s">Jobs</option>
+</select>
+<input class="SmallText" style="font-weight: bold;" value=" Go! " type="submit"> &nbsp;
+</form>
+</td>
+
+<td class="TinyText" style="white-space: nowrap;">
+<a href="http://www.codeproject.com/info/search.aspx">Advanced Search</a><br>
+<a href="http://www.codeproject.com/script/Content/SiteMap.aspx">Sitemap</a>
+
+</td>
+</tr>
+</tbody></table>
+
+	<span id="ctl00_ResultMessage"></span>
+	
+	
+    
+	<div id="ctl00_ArtDiv">
+	<table border="0" cellpadding="0" cellspacing="0">	
+	<tbody><tr valign="top">
+		<td valign="top" width="100%">
+		    
+<table>
+
+</table>
+
+
+
+			
+<div class="SmallText">
+<img src="innerprod1_experiment.aspx_files/print.gif" alt="print" style="vertical-align: middle;" height="16" width="16">
+<a id="ctl00_ArticleHeaderLinks_PrintLnk" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?display=Print">Print</a> &nbsp;
+
+<img src="innerprod1_experiment.aspx_files/report.gif" alt="Broken Article?" style="vertical-align: middle;" height="16" width="16">
+<a id="ctl00_ArticleHeaderLinks_BrokenLnk" href="http://www.codeproject.com/script/Articles/Report.aspx?aid=21024">Report Article</a> &nbsp;
+
+
+
+<img src="innerprod1_experiment.aspx_files/watchon.png" alt="Watch" style="vertical-align: middle;">
+
+<a id="ctl00_ArticleHeaderLinks_ArticleBmkWatch_WatchMe" name="bmw_21024_2" class="" onclick="return watchMe(21024, 2);" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=21024&amp;obtid=2&amp;bma=AddWatch">Watch</a>
+<span id="ctl00_ArticleHeaderLinks_ArticleBmkWatch_StatusMsg" class="TinyText" style="visibility: hidden;" name="bmw_21024_2"></span>
+ &nbsp;
+
+<img src="innerprod1_experiment.aspx_files/link.png" alt="Bookmark" style="vertical-align: middle;" height="16" width="16">
+
+<a id="ctl00_ArticleHeaderLinks_ArticleBmk_BookmarkMe" name="bm_21024_2" class="" onclick="return bookmarkMe(21024, 2);" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=21024&amp;obtid=2&amp;bma=AddBookmark">Bookmark</a>
+<span id="ctl00_ArticleHeaderLinks_ArticleBmk_StatusMsg" class="TinyText" style="visibility: hidden;" name="bm_21024_2"></span>
+
+ &nbsp;
+
+<img src="innerprod1_experiment.aspx_files/discuss.gif" alt="Discuss" style="vertical-align: middle;" height="16" width="15">
+<a href="#_comments">Discuss</a> &nbsp;
+
+<img src="innerprod1_experiment.aspx_files/mail.gif" alt="Recommend Article" style="vertical-align: middle;" height="16" width="16">&nbsp;<a id="ctl00_ArticleHeaderLinks_Recommend" href="http://www.codeproject.com/script/common/TellFriend.aspx?obtid=2&amp;obid=21024">Send&nbsp;to&nbsp;a&nbsp;friend</a>	
+</div>
+		</td>
+		<td style="text-align: right; white-space: nowrap; width: 100px;">
+		<table id="CurRat"><tbody><tr><td>            
+<table><tbody><tr><td id="ctl00_ArticleRating_VL" style="white-space: nowrap;" class="SmallText" align="right"> 
+<span id="ctl00_ArticleRating_VoteLabel">17 votes for this Article.</span></td>
+		
+<td><table border="1" cellpadding="0" cellspacing="0">
+			<tbody><tr>
+				<td bgcolor="White" height="7" width="20"><img src="innerprod1_experiment.aspx_files/red.gif" align="middle" border="0" height="7" width="20"></td>
+				<td bgcolor="White" height="7" width="20"><img src="innerprod1_experiment.aspx_files/red.gif" align="middle" border="0" height="7" width="20"></td>
+				<td bgcolor="White" height="7" width="20"><img src="innerprod1_experiment.aspx_files/red.gif" align="middle" border="0" height="7" width="20"></td>
+				<td bgcolor="White" height="7" nowrap="nowrap" width="20"><img src="innerprod1_experiment.aspx_files/red.gif" align="middle" border="0" height="7" width="13"></td>
+				<td bgcolor="White" height="7" width="20"><img src="innerprod1_experiment.aspx_files/white.gif" align="middle" border="0" height="7" width="20"></td>
+			</tr>
+		</tbody></table>
+		</td></tr>
+<tr id="ctl00_ArticleRating_PopularityRow">
+			<td colspan="2" class="SmallText" align="right">
+<a id="ctl00_ArticleRating_PopularityLnk" title="Calculated as rating x Log10(# votes)" href="http://www.codeproject.com/script/Articles/TopArticles.aspx?ta_so=1">Popularity: 4.51</a>
+<span id="ctl00_ArticleRating_PopularityLbl"></span><span id="ratingVal">Rating: <b>3.67</b> out of 5</span></td>
+		</tr>
+		</tbody></table>
+
+
+
+</td>
+		<td>            
+<div>
+<table class="HistTable" title="Voting Distribution. Recent data only"><tbody><tr><td><img src="innerprod1_experiment.aspx_files/pollcol.gif" alt="4 votes, 23.5%" title="4 votes, 23.5%" border="0" height="7" width="10"><br>1</td>
+<td><img src="innerprod1_experiment.aspx_files/pollcol.gif" alt="1 vote, 5.9%" title="1 vote, 5.9%" border="0" height="1" width="10"><br>2</td>
+<td><img src="innerprod1_experiment.aspx_files/t.htm" alt="0 votes, 0.0%" title="0 votes, 0.0%" border="0" height="1" width="10"><br>3</td>
+<td><img src="innerprod1_experiment.aspx_files/pollcol.gif" alt="1 vote, 5.9%" title="1 vote, 5.9%" border="0" height="1" width="10"><br>4</td>
+<td><img src="innerprod1_experiment.aspx_files/pollcol.gif" alt="11 votes, 64.7%" title="11 votes, 64.7%" border="0" height="20" width="10"><br>5</td>
+</tr></tbody></table>
+</div>
+
+
+
+</td></tr></tbody></table>
+		</td>
+	</tr>
+	</tbody></table>
+	
+	
+	
+	
+
+	
+	
+
+	
+	
+	<div id="ctl00_UneditedRow" class="SmallText" style="border-top: 1px dashed rgb(255, 153, 0); border-bottom: 1px dashed rgb(255, 153, 0); margin: 5px; padding: 5px;">
+		<b>Note:</b> This is an unedited contribution. If this article is inappropriate,
+		needs attention or copies someone else's work without reference then please
+		<a id="ctl00_ReportProblem" href="http://www.codeproject.com/script/Articles/Report.aspx?aid=21024">Report This Article</a>
+	</div>
+	
+	
+	
+	<div id="ctl00_confirmError" class="Callout SmallText" style="margin: 20px; padding: 10px;"><img style="float: left; margin-right: 10px;" src="innerprod1_experiment.aspx_files/warning_32.png" height="32" width="32"><b>Is your email address OK?</b>
+	You are signed up for our <a id="ctl00_SubscribeLink2" href="http://www.codeproject.com/script/Membership/Subscribe.aspx?rp=%2fKB%2frecipes%2finnerprod1_experiment.aspx">newsletters</a>
+	but your email address is either unconfirmed, or has not been reconfirmed in a long time.
+	Please click <a id="ctl00_RequestConfirmLink2" href="http://www.codeproject.com/script/Membership/SendConfirmRequest.aspx?rp=%2fKB%2frecipes%2finnerprod1_experiment.aspx">here</a> 
+	to have a confirmation email sent so we can confirm your email address and start sending
+	you newsletters again.</div>
+	
+	
+	<div id="contentdiv">
+	
+	<!-- Main Page Contents Start -->
+	
+
+<!-- Article Starts -->
+
+<ul class="download">
+<li><a href="http://www.codeproject.com/KB/recipes/innerprod1_experiment/inner_demo.zip">Download inner_demo.zip - 9.6 KB </a></li>
+
+<li><a href="http://www.codeproject.com/KB/recipes/innerprod1_experiment/inner_src.zip">Download inner_src.zip - 4.38 KB </a></li>
+</ul>
+
+<h2>Introduction</h2>
+
+<p>The inner product (or dot product, scalar product) operation is the
+major one in digital signal processing field. It is used everywhere,
+Fourier (FFT, DCT), wavelet-analysis, filtering operations and so on.
+With advances of SSE technology you can parallelize this operation to
+perform multiplication and addition on several numbers instantly.
+However what precision in calculations to choose, integer, floats,
+doubles? In this article I demonstrate inner product operation on
+shorts, ints, floats, doubles performed with both CPU and SSE/SSE2/SSE3
+optimized versions.</p>
+
+<h2>Background (optional)</h2>
+
+<p>You need understanding of inner product operation and SSE technology
+understanding. I like wikipedia for having answers to every question,
+have a look at <a href="http://en.wikipedia.org/wiki/Dot_product">inner product</a>.
+In short you take 2 std::vector arrays (floats, ints, shorts, doubles)
+of equal length, multiply them element wise and sum up the entries in
+resulting vector producing one number. For SSE programming there is
+nice article <a href="http://www.codeproject.com/cpp/sseintro.asp">Introduction to SSE Programming</a> at codeproject.</p>
+
+<h2>Using the code</h2>
+
+<p>Just run the console application and provide the first argument as
+the length of array for inner product. It creates 2 vectors of the same
+length with random entries and computes their inner product printing
+the results and processing times for chars, shorts/shorts SSE2, ins,
+floats/floats SSE/floats SSE3, doubles/doubles SSE2.</p>
+
+<pre lang="c++"><span class="code-keyword">&gt;</span>inner.exe <span class="code-digit">5000000</span>
+ chars          processing time: <span class="code-digit">13</span> ms
+ -<span class="code-digit">119</span>
+ shorts         processing time: <span class="code-digit">17</span> ms
+ <span class="code-digit">3241</span>
+ shorts sse2    processing time: <span class="code-digit">6</span> ms
+ <span class="code-digit">3241</span>
+ ints           processing time: <span class="code-digit">16</span> ms
+ <span class="code-digit">786540</span>
+ floats         processing time: <span class="code-digit">30</span> ms
+ <span class="code-digit">1339854</span>
+ sse2 intrin    processing time: <span class="code-digit">13</span> ms
+ <span class="code-digit">1339854</span>
+ sse3 assembly  processing time: <span class="code-digit">12</span> ms
+ <span class="code-digit">1339854</span>
+ doubles        processing time: <span class="code-digit">22</span> ms
+ <span class="code-digit">1107822</span>
+ doubles sse2   processing time: <span class="code-digit">25</span> ms
+ <span class="code-digit">1107822</span>
+</pre>
+
+<p>That provided results for inner product of 2 vectors of size
+5000000. The second line after each type denotes rounded result of
+operation. I ran it on my AMD turion 64 2.2Ghz processor. We can see
+that short precision is the fastest one with SSE2. Novel haddps
+instruction in SSE3 allows faster processing than SSE2. Double
+precision performed with FPU outperformed FPU floats. However SSE2
+optimization of doubles decrease the speed of computation compared to
+floats where we have more than 2 times increase in speed with SSE
+compared to FPU.</p>
+
+<p>If you perform DSP on image data use SSE2 with shorts, using integer
+filters, or floats. Do not optimize doubles, that will lead to decrease
+of performance. If you are not going to use SSE optimization use double
+precision, it is faster than floats.</p>
+
+<p>I did not try it on other processors and if your results will be
+different let me know. The code for performing inner product operation
+presented below</p>
+
+<p>On floats with FPU:</p>
+
+<pre lang="c++">std::vector<span class="code-keyword">&lt;</span><span class="code-keyword">float</span><span class="code-keyword">&lt;</span> v1;
+std::vector<span class="code-keyword">&lt;</span><span class="code-keyword">float</span><span class="code-keyword">&gt;</span> v2;
+v1.resize(size);
+v2.resize(size);
+<span class="code-keyword">float</span>* pv1 = &amp;v1[<span class="code-digit">0</span>];
+<span class="code-keyword">float</span>* pv2 = &amp;v2[<span class="code-digit">0</span>];
+
+<span class="code-keyword">for</span> (<span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> i = <span class="code-digit">0</span>; i <span class="code-keyword">&lt;</span> size; i++) {
+        pv1[i] = <span class="code-keyword">float</span>(rand() % <span class="code-digit">64</span> - <span class="code-digit">32</span>);
+        pv2[i] = <span class="code-keyword">float</span>(rand() % <span class="code-digit">64</span> - <span class="code-digit">32</span>);
+}
+
+<span class="code-keyword">float</span> sum = <span class="code-digit">0</span>;
+<span class="code-keyword">for</span> (<span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> i = <span class="code-digit">0</span>; i <span class="code-keyword">&lt;</span> size; i++)
+    sum += pv1[i] * pv2[i];        
+wprintf(L<span class="code-string">"</span><span class="code-string"> %d\n"</span>, (<span class="code-keyword">int</span>)sum);
+</pre>
+
+<p>SSE2 optimized shorts:</p>
+
+<pre lang="c++"><span class="code-keyword">short</span> sse2_inner_s(<span class="code-keyword">const</span> <span class="code-keyword">short</span>* p1, <span class="code-keyword">const</span> <span class="code-keyword">short</span>* p2, <span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> size)
+{
+        __m128i* mp1 = (__m128i *)p1;
+        __m128i* mp2 = (__m128i *)p2;
+        __m128i mres = _mm_set_epi16(<span class="code-digit">0</span>, <span class="code-digit">0</span>, <span class="code-digit">0</span>, <span class="code-digit">0</span>, <span class="code-digit">0</span>, <span class="code-digit">0</span>, <span class="code-digit">0</span>, <span class="code-digit">0</span>);
+        
+        <span class="code-keyword">for</span>(<span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> i = <span class="code-digit">0</span>; i <span class="code-keyword">&lt;</span> size/8; i++) {                 
+                __m128i mtmp = _mm_mullo_epi16(_mm_loadu_si128(mp1),
+                    _mm_loadu_si128(mp2)); 
+                mres = _mm_add_epi16(mres, mtmp);
+                mp1++;
+                mp2++;
+        }
+
+        <span class="code-keyword">short</span> res[<span class="code-digit">8</span>];
+        __m128i* pmres = (__m128i *)res;
+        _mm_storeu_si128(pmres, mres);
+
+        <span class="code-keyword">return</span> res[<span class="code-digit">0</span>]+res[<span class="code-digit">1</span>]+res[<span class="code-digit">2</span>]+res[<span class="code-digit">3</span>]+res[<span class="code-digit">4</span>]+res[<span class="code-digit">5</span>]+res[<span class="code-digit">6</span>]+res[<span class="code-digit">7</span>];
+}
+</pre>
+
+<p>SSE optimized floats:</p>
+
+<div class="SmallText" id="premain3" style="width: 100%; cursor: pointer;"><img preid="3" src="innerprod1_experiment.aspx_files/minus.gif" id="preimg3" height="9" width="9"><span preid="3" style="margin-bottom: 0pt;" id="precollapse3"> Collapse</span></div><pre style="margin-top: 0pt;" id="pre3" lang="c++"><span class="code-keyword">float</span> sse_inner(<span class="code-keyword">const</span> <span class="code-keyword">float</span>* a, <span class="code-keyword">const</span> <span class="code-keyword">float</span>* b, <span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> size)
+{
+        <span class="code-keyword">float</span> z = <span class="code-digit">0</span>.0f, fres = <span class="code-digit">0</span>.0f;
+        <span class="code-keyword">__declspec</span>(align(<span class="code-digit">16</span>)) <span class="code-keyword">float</span> ftmp[<span class="code-digit">4</span>] = { <span class="code-digit">0</span>.0f, <span class="code-digit">0</span>.0f, <span class="code-digit">0</span>.0f, <span class="code-digit">0</span>.0f };
+        <span class="code-keyword">__m128</span> mres;
+
+        <span class="code-keyword">if</span> ((size / <span class="code-digit">4</span>) != <span class="code-digit">0</span>) {
+                mres = _mm_load_ss(&amp;z);
+                <span class="code-keyword">for</span> (<span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> i = <span class="code-digit">0</span>; i <span class="code-keyword">&lt;</span> size / <span class="code-digit">4</span>; i++)
+                        mres = _mm_add_ps(mres, _mm_mul_ps(_mm_loadu_ps(&amp;a[<span class="code-digit">4</span>*i]),
+                        _mm_loadu_ps(&amp;b[<span class="code-digit">4</span>*i])));
+
+                <span class="code-comment">//</span><span class="code-comment">mres = a,b,c,d</span>
+                <span class="code-keyword">__m128</span> mv1 = _mm_movelh_ps(mres, mres);     <span class="code-comment">//</span><span class="code-comment">a,b,a,b</span>
+                <span class="code-keyword">__m128</span> mv2 = _mm_movehl_ps(mres, mres);     <span class="code-comment">//</span><span class="code-comment">c,d,c,d</span>
+                mres = _mm_add_ps(mv1, mv2);                <span class="code-comment">//</span><span class="code-comment">res[0],res[1]</span>
+
+                _mm_store_ps(ftmp, mres);                
+
+                fres = ftmp[<span class="code-digit">0</span>] + ftmp[<span class="code-digit">1</span>];
+        }
+
+        <span class="code-keyword">if</span> ((size % <span class="code-digit">4</span>) != <span class="code-digit">0</span>) {
+                <span class="code-keyword">for</span> (<span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> i = size - size % <span class="code-digit">4</span>; i <span class="code-keyword">&lt;</span> size; i++)
+                        fres += a[i] * b[i];
+        }
+
+        <span class="code-keyword">return</span> fres;
+}
+</pre>
+
+<p>SSE3 optimized floats:</p>
+
+<div class="SmallText" id="premain4" style="width: 100%; cursor: pointer;"><img preid="4" src="innerprod1_experiment.aspx_files/minus.gif" id="preimg4" height="9" width="9"><span preid="4" style="margin-bottom: 0pt;" id="precollapse4"> Collapse</span></div><pre style="margin-top: 0pt;" id="pre4" lang="c++"><span class="code-keyword">float</span> sse3_inner(<span class="code-keyword">const</span> <span class="code-keyword">float</span>* a, <span class="code-keyword">const</span> <span class="code-keyword">float</span>* b, <span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> size)
+{
+        <span class="code-keyword">float</span> z = <span class="code-digit">0</span>.0f, fres = <span class="code-digit">0</span>.0f;
+        
+        <span class="code-keyword">if</span> ((size / <span class="code-digit">4</span>) != <span class="code-digit">0</span>) {
+                <span class="code-keyword">const</span> <span class="code-keyword">float</span>* pa = a;
+                <span class="code-keyword">const</span> <span class="code-keyword">float</span>* pb = b;
+                <span class="code-keyword">__asm</span> {
+                        movss   xmm0, xmmword ptr[z]
+                }
+                <span class="code-keyword">for</span> (<span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> i = <span class="code-digit">0</span>; i <span class="code-keyword">&lt;</span> size / <span class="code-digit">4</span>; i++) {
+                        <span class="code-keyword">__asm</span> {
+                                mov     eax, dword ptr[pa]
+                                mov     ebx, dword ptr[pb]
+                                movups  xmm1, [eax]
+                                movups  xmm2, [ebx]
+                                mulps   xmm1, xmm2
+                                addps   xmm0, xmm1
+                        }
+                        pa += <span class="code-digit">4</span>;
+                        pb += <span class="code-digit">4</span>;
+                }  
+                <span class="code-keyword">__asm</span> {
+                        haddps  xmm0, xmm0
+                        haddps  xmm0, xmm0
+                        movss   dword ptr[fres], xmm0                        
+                }                
+        }
+
+        <span class="code-keyword">return</span> fres;
+}
+</pre>
+
+<p>SSE optimized doubles:</p>
+
+<pre lang="c++"><span class="code-keyword">double</span> sse_inner_d(<span class="code-keyword">const</span> <span class="code-keyword">double</span>* a, <span class="code-keyword">const</span> <span class="code-keyword">double</span>* b, <span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> size)
+{
+        <span class="code-keyword">double</span> z = <span class="code-digit">0</span>.<span class="code-digit">0</span>, fres = <span class="code-digit">0</span>.<span class="code-digit">0</span>;
+        <span class="code-keyword">__declspec</span>(align(<span class="code-digit">16</span>)) <span class="code-keyword">double</span> ftmp[<span class="code-digit">2</span>] = { <span class="code-digit">0</span>.<span class="code-digit">0</span>, <span class="code-digit">0</span>.<span class="code-digit">0</span> };
+        __m128d mres;
+        
+        <span class="code-keyword">if</span> ((size / <span class="code-digit">2</span>) != <span class="code-digit">0</span>) {
+                mres = _mm_load_sd(&amp;z);
+                <span class="code-keyword">for</span> (<span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> i = <span class="code-digit">0</span>; i <span class="code-keyword">&lt;</span> size / <span class="code-digit">2</span>; i++)
+                        mres = _mm_add_pd(mres, _mm_mul_pd(_mm_loadu_pd(&amp;a[<span class="code-digit">2</span>*i]),
+                        _mm_loadu_pd(&amp;b[<span class="code-digit">2</span>*i])));                
+
+                _mm_store_pd(ftmp, mres);                
+
+                fres = ftmp[<span class="code-digit">0</span>] + ftmp[<span class="code-digit">1</span>];
+        }
+
+        <span class="code-keyword">if</span> ((size % <span class="code-digit">2</span>) != <span class="code-digit">0</span>) {
+                <span class="code-keyword">for</span> (<span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> i = size - size % <span class="code-digit">2</span>; i <span class="code-keyword">&lt;</span> size; i++)
+                        fres += a[i] * b[i];
+        }
+
+        <span class="code-keyword">return</span> fres;
+}
+</pre>
+
+
+
+<!-- Article Ends -->
+
+
+	<!-- Main Page Contents End -->
+	
+	</div>
+	
+	
+	<form name="aspnetForm" method="post" action="innerprod1_experiment.aspx" id="aspnetForm" style="margin: 0pt; padding: 0pt;">
+		<div>
+		<input name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEwMDUyNjYzMjhkZNuG9qH1/KeveybZBfKM0qg9N5da" type="hidden">
+		</div>
+		
+
+	
+	<h2>License</h2>
+	<div id="ctl00_LicenseTerms"><p>This article, along with any associated source code and files, is licensed under <a href="http://www.opensource.org/licenses/gpl-license.php">The GNU General Public License (GPL)</a></p></div>
+	
+	<h2>About the Author</h2>
+	
+			
+            
+<table border="0" cellpadding="0" cellspacing="5" width="100%">
+<tbody><tr valign="top">
+<td id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberPhotoTable" style="width: 155px;" valign="top">
+	<b><a id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberProfileLink" href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=4613314">Chesnokov Yuriy</a></b><br><br>
+	<center><img id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberPhoto" src="innerprod1_experiment.aspx_files/ACBF1064-BEFB-420F-B339-C93C613CA11B.jpg" style="border-width: 0px;"></center><br>
+	<span id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberType" class="SmallText">Mvp</span>
+		
+</td>
+		
+<td> Former Cambridge University post-doc
+(http://www-ucc.ch.cam.ac.uk/research/yc274-research.html) currently
+lives in Krasnodar, Russia and doing some contract research for third
+parties. Research intrests in digital signal processing in medicine,
+image and video processing, pattern recognition, AI methods, computer
+vision. Also in English, Español, Italiano languages. You may approach
+me for the code/research development in the above areas
+chesnokov.yuriy@gmail.com. <br><br>Publications:<br><br>Complexity
+and spectral analysis of the heart rate variability dynamics for
+distant prediction of paroxysmal atrial fibrillation with artificial
+intelligence methods. Artificial Intelligence in Medicine. 2008. V43/2.
+PP. 151-165 (http://dx.doi.org/10.1016/j.artmed.2008.03.009)<br><br>Face
+Detection C++ Library with Skin and Motion Analysis. Biometrics AIA
+2007 TTS. 22 November 2007, Moscow, Russia.
+(http://www.dancom.ru/rus/AIA/2007TTS/ProgramAIA2007TTS.html)<br><br>Screening
+Patients with Paroxysmal Atrial Fibrillation (PAF) from Non-PAF Heart
+Rhythm Using HRV Data Analysis. Computers in Cardiology 2007. V. 34.
+PP. 459–463 (http://www.cinc.org/Proceedings/2007/pdf/0459.pdf)<br><br>Distant
+Prediction of Paroxysmal Atrial Fibrillation Using HRV Data Analysis.
+Computers in Cardiology 2007. V. 34. PP. 455-459
+(http://www.cinc.org/Proceedings/2007/pdf/0455.pdf)<br><br>Individually
+Adaptable Automatic QT Detector. Computers in Cardiology 2006. V. 33.
+PP. 337-341 http://www.cinc.org/Proceedings/2006/pdf/0337.pdf)<br><br><br>Past/recent outsourcing code/research:<br><br>www.bitcycle.com - AI consulting<br>www.cit.ie - augmented reality C++<br>www.apniecare.com - ECG processing C++/C#<br>confidential Japanese company - face recognition C/MATLAB<br>confidential company in Australia - video capture C#/DirectShow<br>www.system7.co.uk - CBIR C#/ASP.NET (cbir.system7.com)<br>confidential enterprise in UK - pedestrian detection C++/CLI<br>www.trulyintelligent.com - AI consulting<br>www.devline.ru - video codecs C++<br>	
+
+	<table>
+	<tbody><tr id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_jobTitleRow">
+			<td class="SmallText" nowrap="nowrap">Occupation: </td>
+			<td width="100%"><span id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberJobTitle" class="SmallText">Software Developer</span></td>
+		</tr>
+		
+
+	<tr id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_companyRow">
+			<td class="SmallText">Company: </td>
+			<td width="100%"><span id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberCompany" class="SmallText">Confidential Japanese firm (face recognition)</span></td>
+		</tr>
+		
+
+	<tr id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_locationRow">
+			<td class="SmallText">Location: </td>
+			<td width="100%"><span id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberLocation" class="SmallText"><img src="innerprod1_experiment.aspx_files/RU.gif" alt="Russian Federation" height="11" width="16"> Russian Federation</span></td>
+		</tr>
+		
+	</tbody></table>
+	
+</td>
+</tr>
+</tbody></table>
+
+			<br>
+		
+	
+	<table border="0" cellpadding="0" cellspacing="0" width="100%">	
+	<tbody><tr valign="top">			
+		<td style="width: 100%;">
+			<h2>Other popular Algorithms &amp; Recipes articles:</h2><ul><li><a href="http://www.codeproject.com/KB/recipes/Differentiation.aspx">Symbolic Differentiation</a><div class="SmallText">This article demonstrates differentiating expressions using a stack and displaying the input expression and its derivative.</div></li><li><a href="http://www.codeproject.com/KB/recipes/colorspace1.aspx">Manipulating colors in .NET - Part 1</a><div class="SmallText">Understand and use color models in .NET</div></li><li><a href="http://www.codeproject.com/KB/recipes/graphs_astar.aspx">C#: A-Star is born</a><div class="SmallText">Understand graphs and A* path-finding algorithm with C#</div></li><li><a href="http://www.codeproject.com/KB/recipes/sota_expression_evaluator.aspx">State of the Art Expression Evaluation</a><div class="SmallText">A tutorial on how to realize an expression evaluator in CSharp with ANTLR</div></li><li><a href="http://www.codeproject.com/KB/recipes/FastMathParser.aspx">Fast mathematical expressions parser</a><div class="SmallText">Code for a fast math parser library.</div></li></ul>
+		</td>
+		<td>
+			<script type="text/javascript">document.write(unescape("%3ca%20href%3d%22http%3a%2f%2fwww.codeproject.com%2fRedir.aspx%3fadid%3d7833%26way%3dban%22%20target%3d%22_blank%22%20rel%3d%22nofollow%22%3e%3cimg%20src%3d%22http%3a%2f%2fwww.codeproject.com%2fscript%2fAdm%2fServeImg.aspx%3fFile%3d%252fscript%252fAdm%252fimages%252f20082-300x250.png%26C%3dFalse%26adid%3d7833%22%20alt%3d%22%22%20border%3d%220%22%20width%3d%22300%22%20height%3d%22250%22%3e%3c%2fa%3e"));</script><a href="http://www.codeproject.com/Redir.aspx?adid=7833&amp;way=ban" target="_blank" rel="nofollow"><img src="innerprod1_experiment.aspx_files/ServeImg_003.htm" alt="" border="0" height="250" width="300"></a>
+		</td>
+	</tr>
+	</tbody></table>
+
+	<div id="ctl00_AddTo_AddTo" style="margin: 10px;">
+<script language="JavaScript" type="text/javascript">
+var socialLinks = new social();
+socialLinks.addtoMethod=1;
+socialLinks.DrawLinks("socialLinks", document.location.href, escape(document.title), 100, 0, "SmallText Bold", "AddTo");
+</script><span class="SmallText Bold">Add this article to: </span> <a class="AddTo" title="Add this page to Digg" onclick="return socialLinks.addto(0);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_Digg.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Del.icio.us" onclick="return socialLinks.addto(1);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_Delicious.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Google" onclick="return socialLinks.addto(2);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_Google.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Windows Live" onclick="return socialLinks.addto(3);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_Live.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Yahoo! MyWeb" onclick="return socialLinks.addto(4);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_Yahoo.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Technorati" onclick="return socialLinks.addto(5);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_Technorati.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Blink" onclick="return socialLinks.addto(6);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_Blink.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Facebook" onclick="return socialLinks.addto(7);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_Facebook.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Furl" onclick="return socialLinks.addto(8);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_Furl.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Simpy" onclick="return socialLinks.addto(9);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_Simpy.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Reddit" onclick="return socialLinks.addto(10);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_Reddit.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Newsvine" onclick="return socialLinks.addto(11);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_Newsvine.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Stumbleupon" onclick="return socialLinks.addto(12);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_stumbleupon.png" align="absmiddle" border="0" height="16" width="16"></a>  <a class="AddTo" title="Add this page to Mr. Wong" onclick="return socialLinks.addto(13);" href="#"><img src="innerprod1_experiment.aspx_files/AddTo_MrWong.png" align="absmiddle" border="0" height="16" width="16"></a>  
+</div>
+	
+	<table id="ctl00_RateArticleRow" class="ArticleUneditedHeader" border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tbody><tr>
+				<td><a href="#_top">Article Top</a></td>
+				<td align="right">            
+<table cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+
+	<td id="ctl00_RateArticle_VoteResultDiv" align="right" nowrap="nowrap" width="100%">
+		<span id="voteRes"></span>
+		<img id="loaderImg" alt="loading..." src="innerprod1_experiment.aspx_files/ajax-loader.gif" style="display: none;" height="16" width="16"> 
+	</td>
+				
+	
+	<td id="voteTbl" style="white-space: nowrap;" class="SmallText" align="right">
+	
+		<table><tbody><tr>
+		
+		<td id="ctl00_RateArticle_RateText" style="padding-right: 5px; white-space: nowrap;"><i><b>Rate this Article for us!</b></i></td>
+				
+		<td id="ctl00_RateArticle_StartForm" align="right"><i>&nbsp;&nbsp;Poor</i></td>
+				
+		<td id="ctl00_RateArticle_VoteFormDiv" style="white-space: nowrap;" align="left">
+		<table id="ctl00_RateArticle_VoteRBL" border="0">
+					<tbody><tr>
+						<td><input id="ctl00_RateArticle_VoteRBL_0" name="ctl00$RateArticle$VoteRBL" value="1" type="radio"></td><td><input id="ctl00_RateArticle_VoteRBL_1" name="ctl00$RateArticle$VoteRBL" value="2" type="radio"></td><td><input id="ctl00_RateArticle_VoteRBL_2" name="ctl00$RateArticle$VoteRBL" value="3" type="radio"></td><td><input id="ctl00_RateArticle_VoteRBL_3" name="ctl00$RateArticle$VoteRBL" value="4" type="radio"></td><td><input id="ctl00_RateArticle_VoteRBL_4" name="ctl00$RateArticle$VoteRBL" value="5" type="radio"></td>
+					</tr>
+				</tbody></table> 
+		</td>
+				
+		<td id="ctl00_RateArticle_EndForm" align="left" nowrap="nowrap"><i>Excellent</i>
+			<input name="ctl00$RateArticle$SubmitRateBtn" value="Vote" onclick="return rateItem(21024,2);" id="ctl00_RateArticle_SubmitRateBtn" class="FormButton" type="submit"> 
+		</td>
+				
+		<td><span id="ctl00_RateArticle_ErrorMessage"></span></td>
+		</tr></tbody></table>
+	</td>
+</tr></tbody></table>
+
+
+
+</td>
+			</tr>
+		</tbody></table>
+		
+	
+		<div>
+
+			<input name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWCAK/y5+0DQLAlMXDBwLBlMXDBwLClMXDBwLDlMXDBwLElMXDBwLP+++tCwK5upDkC26tKbOvYwXUGTKzIEFQJ+LZuqTX" type="hidden">
+		</div></form>
+	
+	<div style="padding: 10px; overflow: hidden; text-align: center; white-space: nowrap;">
+		<script type="text/javascript">document.write(unescape("%3ca%20href%3d%22http%3a%2f%2fwww.codeproject.com%2fRedir.aspx%3fadid%3d6137%26way%3dban%22%20target%3d%22_blank%22%20rel%3d%22nofollow%22%3e%3cimg%20src%3d%22http%3a%2f%2fwww.codeproject.com%2fscript%2fAdm%2fServeImg.aspx%3fFile%3d%252fscript%252fadmentor%252fimages%252fCodeJock468x60-toolkitpro.gif%26C%3dFalse%26adid%3d6137%22%20alt%3d%22%22%20border%3d%220%22%20width%3d%22468%22%20height%3d%2260%22%3e%3c%2fa%3e"));</script><a href="http://www.codeproject.com/Redir.aspx?adid=6137&amp;way=ban" target="_blank" rel="nofollow"><img src="innerprod1_experiment.aspx_files/ServeImg_004.htm" alt="" border="0" height="60" width="468"></a>
+		<iframe src="innerprod1_experiment.aspx_files/ServeLinks.htm" frameborder="0" height="60" scrolling="no" width="300"></iframe>					  
+	</div>
+
+	<a name="_comments"></a><!-- Forum Start -->
+<div id="_MessageBoard" onclick="return SwitchMessage(event, null)">
+	<table id="ForumTable" class="Frm_MainTable" cellpadding="0" cellspacing="0">
+		<tbody><tr>
+			<td><form action="/script/Forums/SetOptions.aspx?floc=%2fKB%2frecipes%2finnerprod1_experiment.aspx&amp;fid=475123" method="get" style="margin: 0pt; padding: 0pt;">
+				<input name="fid" value="475123" type="hidden"><input name="currentQS" value="?floc=%2fKB%2frecipes%2finnerprod1_experiment.aspx&amp;fid=475123" type="hidden"><input name="floc" value="/KB/recipes/innerprod1_experiment.aspx" type="hidden"><table border="0" cellpadding="3" cellspacing="0" width="100%">
+					<tbody><tr class="Frm_HeaderRow1">
+						<td style="white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/forum_faq.gif" alt="FAQ" align="middle" border="0" height="16" width="16">&nbsp;<a href="http://www.codeproject.com/script/Forums/FAQ.aspx"><b>FAQ</b></a>&nbsp;</td><td style="white-space: nowrap; text-align: right;">Noise Tolerance<select size="1" class="Frm_DropDown" name="noise">
+							<option value="1">Very High</option><option value="2">High</option><option selected="selected" value="3">Medium</option><option value="4">Low</option><option value="5">Very Low</option>
+						</select></td><td colspan="2" style="white-space: nowrap; text-align: right;"><img src="innerprod1_experiment.aspx_files/forum_search.gif" alt="Search" align="top" border="0" height="15" width="16">&nbsp;<a href="http://www.codeproject.com/script/Forums/Search.aspx?fid=475123">Search Messages</a>&nbsp;</td><td style="text-align: right;"><input value="Set Options" name="SetOpt" class="Frm_Button" type="submit"></td>
+					</tr><tr class="Frm_HeaderRow2">
+						<td style="width: 100%;">&nbsp;</td><td style="white-space: nowrap; text-align: right;">Layout<select size="1" class="Frm_DropDown" name="view">
+							<option selected="selected" value="Quick">Normal</option><option value="Topic">Expand Root Messages</option><option value="Expanded">Expand All Messages</option><option value="Thread">Thread View</option><option value="Normal">No Javascript (slow)</option><option value="Preview">No Javascript Preview</option>
+						</select>&nbsp;&nbsp;</td><td style="white-space: nowrap;">Per page<select size="1" class="Frm_DropDown" name="mpp">
+							<option value="10">10</option><option selected="selected" value="25">25</option><option value="50">50</option>
+						</select>&nbsp;&nbsp;</td><td colspan="2">&nbsp;</td>
+					</tr>
+				</tbody></table>
+			</form></td>
+		</tr><tr>
+			<td><a name="xx0xx"></a><table border="0" cellpadding="2" cellspacing="0" width="100%">
+				<tbody><tr class="Frm_NavigationBar">
+					<td><img src="innerprod1_experiment.aspx_files/forum_newmsg.gif" alt="new" align="top" border="0" height="16" width="16"><a href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;floc=/KB/recipes/innerprod1_experiment.aspx" class="Frm_HL" name="Frm_HoverNL" title="Create a new message thread" target="_top"><b>New Message</b></a></td><td>Msgs 1 to 12 of 12 (Total in Forum: 12) (<a href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123">Refresh</a>)</td><td style="text-align: right; white-space: nowrap;"><span class="Frm_HL">First</span><span class="Frm_HL">Prev</span><span class="Frm_HL">Next</span></td>
+				</tr>
+			</tbody></table></td>
+		</tr><tr>
+			<td><table class="Frm_MsgTable" border="0" cellpadding="0" cellspacing="0" width="100%">
+				
+
+<!-- Column Headers -->
+
+				<tbody><tr class="Frm_ColumnHeaders">
+					<td style="width: 100%;"><table border="0" cellpadding="2" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td>Subject&nbsp;</td><td class="Frm_MsgAuthor">&nbsp;Author&nbsp;</td><td class="Frm_MsgDate">Date&nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr>
+					<td><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="5" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd Rt HdUnSel" id="F2571343_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="16"><a name="xx2571343xx"></a><img src="innerprod1_experiment.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2571343" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;select=2571343#xx2571343xx">vector usage</a></td><td style="width: 20px; white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=108830">Hatem Mostafa</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">8:57 27 May '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2571343_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 16px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">I
+think it is not correct to use std::vector in ur performance measure,
+however u used a simple allocated array in ur C# sample in the other
+article, and u was wandering from results. !!!<br><br>In ur for loop to
+get the inner product u use vector::operator[] which is a function
+call, however u use direct [] in the the C# article. operator [] in its
+simple case may be like:<br><pre>reference operator[](int pos)<br>{	return *((iterator)m_data.m_pBuffer+pos);	}</pre><br>But,
+i think in the STL library it is not simple like that. Any way it is a
+function call, replace it with a normal array allocated with new and
+use [] to access items then check the performance.<br><br>Thanks<br>Hatem <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2571343&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=r" title="Reply">Reply</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2571343&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=e" title="Email">Email</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;tid=2571343" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=475123&amp;msg=2571343" title="Get permanent link">PermaLink</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=2571343&amp;obtid=3&amp;bma=AddBookmark" title="Bookmark this post">Bookmark</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2571343" style="white-space: nowrap;"><script type="text/javascript">
+												MsgVFrm(108830,2571343,false,"","","");
+											</script>Rate this message: <a href="#xx2571343xx" onclick="RateMsg(108830, 2571343,1,0);"><img src="innerprod1_experiment.aspx_files/thumbs_down.gif" alt="vote 1" align="middle" border="0" height="14" width="14"></a> <a class="Frm_MHL" href="#xx2571343xx" title="vote this message a 1" onclick="RateMsg(108830, 2571343, 1,0)"><b>1</b></a> <a class="Frm_MHL" href="#xx2571343xx" title="vote this message a 2" onclick="RateMsg(108830, 2571343, 2,0)"><b>2</b></a> <a class="Frm_MHL" href="#xx2571343xx" title="vote this message a 3" onclick="RateMsg(108830, 2571343, 3,0)"><b>3</b></a> <a class="Frm_MHL" href="#xx2571343xx" title="vote this message a 4" onclick="RateMsg(108830, 2571343, 4,0)"><b>4</b></a> <a class="Frm_MHL" href="#xx2571343xx" title="vote this message a 5" onclick="RateMsg(108830, 2571343, 5,0)"><b>5</b></a> <a href="#xx2571343xx" onclick="RateMsg(108830, 2571343,5,0);"><img src="innerprod1_experiment.aspx_files/thumbs_up.gif" alt="vote 5" align="middle" border="0" height="14" width="14"></a> </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgRtDivide"><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd Rt HdUnSel" id="F2488615_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="16"><a name="xx2488615xx"></a><img src="innerprod1_experiment.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2488615" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;select=2488615#xx2488615xx">Experiment GPU vs. ...</a></td><td style="width: 20px; white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=116040">soho</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">8:27 1 Apr '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2488615_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 16px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">Probably, it would be interesting. Isn't it? <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2488615&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=r" title="Reply">Reply</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2488615&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=e" title="Email">Email</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;tid=2488615" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=475123&amp;msg=2488615" title="Get permanent link">PermaLink</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=2488615&amp;obtid=3&amp;bma=AddBookmark" title="Bookmark this post">Bookmark</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2488615" style="white-space: nowrap;"><script type="text/javascript">
+												MsgVFrm(116040,2488615,false,"","","");
+											</script>Rate this message: <a href="#xx2488615xx" onclick="RateMsg(116040, 2488615,1,0);"><img src="innerprod1_experiment.aspx_files/thumbs_down.gif" alt="vote 1" align="middle" border="0" height="14" width="14"></a> <a class="Frm_MHL" href="#xx2488615xx" title="vote this message a 1" onclick="RateMsg(116040, 2488615, 1,0)"><b>1</b></a> <a class="Frm_MHL" href="#xx2488615xx" title="vote this message a 2" onclick="RateMsg(116040, 2488615, 2,0)"><b>2</b></a> <a class="Frm_MHL" href="#xx2488615xx" title="vote this message a 3" onclick="RateMsg(116040, 2488615, 3,0)"><b>3</b></a> <a class="Frm_MHL" href="#xx2488615xx" title="vote this message a 4" onclick="RateMsg(116040, 2488615, 4,0)"><b>4</b></a> <a class="Frm_MHL" href="#xx2488615xx" title="vote this message a 5" onclick="RateMsg(116040, 2488615, 5,0)"><b>5</b></a> <a href="#xx2488615xx" onclick="RateMsg(116040, 2488615,5,0);"><img src="innerprod1_experiment.aspx_files/thumbs_up.gif" alt="vote 5" align="middle" border="0" height="14" width="14"></a> </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HdUnSel" id="F2494894_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="34"><a name="xx2494894xx"></a><img src="innerprod1_experiment.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2494894" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;select=2494894#xx2494894xx">Re: Experiment GPU vs. ...</a></td><td style="width: 20px; white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=556502">reinux</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">17:11 5 Apr '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2494894_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 34px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">Could use <a href="http://research.microsoft.com/research/downloads/Details/25e1bea3-142e-4694-bde5-f0d44f9d8709/Details.aspx">Accelerator</a>[<a href="http://research.microsoft.com/research/downloads/Details/25e1bea3-142e-4694-bde5-f0d44f9d8709/Details.aspx" target="_blank" title="New Window">^</a>]. <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2494894&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=r" title="Reply">Reply</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2494894&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=e" title="Email">Email</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;tid=2488615" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=475123&amp;msg=2494894" title="Get permanent link">PermaLink</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=2494894&amp;obtid=3&amp;bma=AddBookmark" title="Bookmark this post">Bookmark</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2494894" style="white-space: nowrap;"><script type="text/javascript">
+												MsgVFrm(556502,2494894,false,"","","");
+											</script>Rate this message: <a href="#xx2494894xx" onclick="RateMsg(556502, 2494894,1,0);"><img src="innerprod1_experiment.aspx_files/thumbs_down.gif" alt="vote 1" align="middle" border="0" height="14" width="14"></a> <a class="Frm_MHL" href="#xx2494894xx" title="vote this message a 1" onclick="RateMsg(556502, 2494894, 1,0)"><b>1</b></a> <a class="Frm_MHL" href="#xx2494894xx" title="vote this message a 2" onclick="RateMsg(556502, 2494894, 2,0)"><b>2</b></a> <a class="Frm_MHL" href="#xx2494894xx" title="vote this message a 3" onclick="RateMsg(556502, 2494894, 3,0)"><b>3</b></a> <a class="Frm_MHL" href="#xx2494894xx" title="vote this message a 4" onclick="RateMsg(556502, 2494894, 4,0)"><b>4</b></a> <a class="Frm_MHL" href="#xx2494894xx" title="vote this message a 5" onclick="RateMsg(556502, 2494894, 5,0)"><b>5</b></a> <a href="#xx2494894xx" onclick="RateMsg(556502, 2494894,5,0);"><img src="innerprod1_experiment.aspx_files/thumbs_up.gif" alt="vote 5" align="middle" border="0" height="14" width="14"></a> </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HdUnSel" id="F2739845_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="52"><a name="xx2739845xx"></a><img src="innerprod1_experiment.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2739845" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;select=2739845#xx2739845xx">Re: Experiment GPU vs. ...</a></td><td style="width: 20px; white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=5510231">asdfasd23423f</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">12:27 25 Sep '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2739845_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 52px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">you can take a look also at CUDA from nvidia<br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2739845&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=r" title="Reply">Reply</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2739845&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=e" title="Email">Email</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;tid=2488615" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=475123&amp;msg=2739845" title="Get permanent link">PermaLink</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=2739845&amp;obtid=3&amp;bma=AddBookmark" title="Bookmark this post">Bookmark</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2739845" style="white-space: nowrap;"><script type="text/javascript">
+												MsgVFrm(5510231,2739845,false,"","","");
+											</script>Rate this message: <a href="#xx2739845xx" onclick="RateMsg(5510231, 2739845,1,0);"><img src="innerprod1_experiment.aspx_files/thumbs_down.gif" alt="vote 1" align="middle" border="0" height="14" width="14"></a> <a class="Frm_MHL" href="#xx2739845xx" title="vote this message a 1" onclick="RateMsg(5510231, 2739845, 1,0)"><b>1</b></a> <a class="Frm_MHL" href="#xx2739845xx" title="vote this message a 2" onclick="RateMsg(5510231, 2739845, 2,0)"><b>2</b></a> <a class="Frm_MHL" href="#xx2739845xx" title="vote this message a 3" onclick="RateMsg(5510231, 2739845, 3,0)"><b>3</b></a> <a class="Frm_MHL" href="#xx2739845xx" title="vote this message a 4" onclick="RateMsg(5510231, 2739845, 4,0)"><b>4</b></a> <a class="Frm_MHL" href="#xx2739845xx" title="vote this message a 5" onclick="RateMsg(5510231, 2739845, 5,0)"><b>5</b></a> <a href="#xx2739845xx" onclick="RateMsg(5510231, 2739845,5,0);"><img src="innerprod1_experiment.aspx_files/thumbs_up.gif" alt="vote 5" align="middle" border="0" height="14" width="14"></a> </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgRtDivide"><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd Rt HdUnSel" id="F2392391_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="16"><a name="xx2392391xx"></a><img src="innerprod1_experiment.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2392391" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;select=2392391#xx2392391xx">results on my computer : Intel Pentium 4 3000 MHz</a></td><td style="width: 20px; white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=3249668">epitalon</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">14:44 16 Jan '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2392391_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 16px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">Hello,<br><br>My PC is running an Intel Pentium 4 630, 3000 MHz (15 x 200), alias Prescot 2M.<br>It's a double-core.<br><br>Results :<br><br> chars           processing time: 4 ms<br> -16<br> shorts          processing time: 3 ms<br> -17646<br> shorts sse2     processing time: 1 ms<br> -17646<br> ints            processing time: 2 ms<br> 121543<br> floats          processing time: 9 ms<br> 371667<br> sse2 intrin     processing time: 2 ms<br> 371667<br> sse3 assembly   processing time: 2 ms<br> 371667<br> doubles         processing time: 4 ms<br> 29747<br> doubles sse2    processing time: 4 ms<br> 29747<br><br>The
+most surprising : float computation is slower than double. In all my
+previous developments, I stick with float with the hope of gaining
+speed !!!<br><br>Thanks for all your contributions in The Code Project !!!<br><br>Jean-marie Epitalon<br>France <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2392391&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=r" title="Reply">Reply</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2392391&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=e" title="Email">Email</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;tid=2392391" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=475123&amp;msg=2392391" title="Get permanent link">PermaLink</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=2392391&amp;obtid=3&amp;bma=AddBookmark" title="Bookmark this post">Bookmark</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2392391" style="white-space: nowrap;"><script type="text/javascript">
+												MsgVFrm(3249668,2392391,false,"","","");
+											</script>Rate this message: <a href="#xx2392391xx" onclick="RateMsg(3249668, 2392391,1,0);"><img src="innerprod1_experiment.aspx_files/thumbs_down.gif" alt="vote 1" align="middle" border="0" height="14" width="14"></a> <a class="Frm_MHL" href="#xx2392391xx" title="vote this message a 1" onclick="RateMsg(3249668, 2392391, 1,0)"><b>1</b></a> <a class="Frm_MHL" href="#xx2392391xx" title="vote this message a 2" onclick="RateMsg(3249668, 2392391, 2,0)"><b>2</b></a> <a class="Frm_MHL" href="#xx2392391xx" title="vote this message a 3" onclick="RateMsg(3249668, 2392391, 3,0)"><b>3</b></a> <a class="Frm_MHL" href="#xx2392391xx" title="vote this message a 4" onclick="RateMsg(3249668, 2392391, 4,0)"><b>4</b></a> <a class="Frm_MHL" href="#xx2392391xx" title="vote this message a 5" onclick="RateMsg(3249668, 2392391, 5,0)"><b>5</b></a> <a href="#xx2392391xx" onclick="RateMsg(3249668, 2392391,5,0);"><img src="innerprod1_experiment.aspx_files/thumbs_up.gif" alt="vote 5" align="middle" border="0" height="14" width="14"></a> </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HdUnSel" id="F2392786_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="34"><a name="xx2392786xx"></a><img src="innerprod1_experiment.aspx_files/msg_answer.gif" alt="Answer" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2392786" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;select=2392786#xx2392786xx">Re: results on my computer : Intel Pentium 4 3000 MHz</a></td><td style="width: 20px; white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/mvp_sm.gif" title="mvp" alt="mvp" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=4613314">Chesnokov Yuriy</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">0:58 17 Jan '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2392786_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 34px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">Yeah,
+I was also surprised by the fact, I also kept with floats. It is no use
+unless you optimize for SSE, use doubles instead. Matlab do use them as
+default.<br><br>BTW. What was the length of array you used? <br><br><div class="ForumSig">chesnokov</div><br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2392786&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=r" title="Reply">Reply</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2392786&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=e" title="Email">Email</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;tid=2392391" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=475123&amp;msg=2392786" title="Get permanent link">PermaLink</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=2392786&amp;obtid=3&amp;bma=AddBookmark" title="Bookmark this post">Bookmark</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2392786" style="white-space: nowrap;"><script type="text/javascript">
+												MsgVFrm(4613314,2392786,false,"","","");
+											</script>Rate this message: <a href="#xx2392786xx" onclick="RateMsg(4613314, 2392786,1,0);"><img src="innerprod1_experiment.aspx_files/thumbs_down.gif" alt="vote 1" align="middle" border="0" height="14" width="14"></a> <a class="Frm_MHL" href="#xx2392786xx" title="vote this message a 1" onclick="RateMsg(4613314, 2392786, 1,0)"><b>1</b></a> <a class="Frm_MHL" href="#xx2392786xx" title="vote this message a 2" onclick="RateMsg(4613314, 2392786, 2,0)"><b>2</b></a> <a class="Frm_MHL" href="#xx2392786xx" title="vote this message a 3" onclick="RateMsg(4613314, 2392786, 3,0)"><b>3</b></a> <a class="Frm_MHL" href="#xx2392786xx" title="vote this message a 4" onclick="RateMsg(4613314, 2392786, 4,0)"><b>4</b></a> <a class="Frm_MHL" href="#xx2392786xx" title="vote this message a 5" onclick="RateMsg(4613314, 2392786, 5,0)"><b>5</b></a> <a href="#xx2392786xx" onclick="RateMsg(4613314, 2392786,5,0);"><img src="innerprod1_experiment.aspx_files/thumbs_up.gif" alt="vote 5" align="middle" border="0" height="14" width="14"></a> </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HdUnSel" id="F2392911_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="52"><a name="xx2392911xx"></a><img src="innerprod1_experiment.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2392911" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;select=2392911#xx2392911xx">Re: results on my computer : Intel Pentium 4 3000 MHz</a></td><td style="width: 20px; white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=4021651">epitalon</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">4:57 17 Jan '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2392911_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 52px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">I used the already compiled demo project you provided. I believe it is 500 000, right ?<br><br>Jean-Marie <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2392911&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=r" title="Reply">Reply</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2392911&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=e" title="Email">Email</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;tid=2392391" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=475123&amp;msg=2392911" title="Get permanent link">PermaLink</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=2392911&amp;obtid=3&amp;bma=AddBookmark" title="Bookmark this post">Bookmark</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2392911" style="white-space: nowrap;"><script type="text/javascript">
+												MsgVFrm(4021651,2392911,false,"","","");
+											</script>Rate this message: <a href="#xx2392911xx" onclick="RateMsg(4021651, 2392911,1,0);"><img src="innerprod1_experiment.aspx_files/thumbs_down.gif" alt="vote 1" align="middle" border="0" height="14" width="14"></a> <a class="Frm_MHL" href="#xx2392911xx" title="vote this message a 1" onclick="RateMsg(4021651, 2392911, 1,0)"><b>1</b></a> <a class="Frm_MHL" href="#xx2392911xx" title="vote this message a 2" onclick="RateMsg(4021651, 2392911, 2,0)"><b>2</b></a> <a class="Frm_MHL" href="#xx2392911xx" title="vote this message a 3" onclick="RateMsg(4021651, 2392911, 3,0)"><b>3</b></a> <a class="Frm_MHL" href="#xx2392911xx" title="vote this message a 4" onclick="RateMsg(4021651, 2392911, 4,0)"><b>4</b></a> <a class="Frm_MHL" href="#xx2392911xx" title="vote this message a 5" onclick="RateMsg(4021651, 2392911, 5,0)"><b>5</b></a> <a href="#xx2392911xx" onclick="RateMsg(4021651, 2392911,5,0);"><img src="innerprod1_experiment.aspx_files/thumbs_up.gif" alt="vote 5" align="middle" border="0" height="14" width="14"></a> </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HdUnSel" id="F2392953_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="70"><a name="xx2392953xx"></a><img src="innerprod1_experiment.aspx_files/msg_answer.gif" alt="Answer" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2392953" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;select=2392953#xx2392953xx">Re: results on my computer : Intel Pentium 4 3000 MHz</a></td><td style="width: 20px; white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/mvp_sm.gif" title="mvp" alt="mvp" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=4613314">Chesnokov Yuriy</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">6:20 17 Jan '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2392953_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 70px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">if you used it<br>&gt;conv.exe 500000 <br><br><div class="ForumSig">chesnokov</div><br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2392953&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=r" title="Reply">Reply</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2392953&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=e" title="Email">Email</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;tid=2392391" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=475123&amp;msg=2392953" title="Get permanent link">PermaLink</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=2392953&amp;obtid=3&amp;bma=AddBookmark" title="Bookmark this post">Bookmark</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2392953" style="white-space: nowrap;"><script type="text/javascript">
+												MsgVFrm(4613314,2392953,false,"","","");
+											</script>Rate this message: <a href="#xx2392953xx" onclick="RateMsg(4613314, 2392953,1,0);"><img src="innerprod1_experiment.aspx_files/thumbs_down.gif" alt="vote 1" align="middle" border="0" height="14" width="14"></a> <a class="Frm_MHL" href="#xx2392953xx" title="vote this message a 1" onclick="RateMsg(4613314, 2392953, 1,0)"><b>1</b></a> <a class="Frm_MHL" href="#xx2392953xx" title="vote this message a 2" onclick="RateMsg(4613314, 2392953, 2,0)"><b>2</b></a> <a class="Frm_MHL" href="#xx2392953xx" title="vote this message a 3" onclick="RateMsg(4613314, 2392953, 3,0)"><b>3</b></a> <a class="Frm_MHL" href="#xx2392953xx" title="vote this message a 4" onclick="RateMsg(4613314, 2392953, 4,0)"><b>4</b></a> <a class="Frm_MHL" href="#xx2392953xx" title="vote this message a 5" onclick="RateMsg(4613314, 2392953, 5,0)"><b>5</b></a> <a href="#xx2392953xx" onclick="RateMsg(4613314, 2392953,5,0);"><img src="innerprod1_experiment.aspx_files/thumbs_up.gif" alt="vote 5" align="middle" border="0" height="14" width="14"></a> </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HdUnSel" id="F2489268_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="34"><a name="xx2489268xx"></a><img src="innerprod1_experiment.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2489268" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;select=2489268#xx2489268xx">Re: results on my computer : Intel Pentium 4 3000 MHz</a></td><td style="width: 20px; white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=36887">Stuart Dootson</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">16:11 1 Apr '08 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2489268_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 34px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2"><blockquote class="FQ"><div class="FQA">epitalon wrote:</div>The
+most surprising : float computation is slower than double. In all my
+previous developments, I stick with float with the hope of gaining
+speed !!!</blockquote><br><br>It's actually quite well known that
+doubles perform better than floats - the processor has double F-P
+registers, so float operations require conversions to and from double
+internally, which take a non-trivial amount of time for the convert to
+single precision case due to the semantics required by IEEE 754.<br><br>Of course, (IIRC) SSE operations use single-precision floats internally, so they're OK if you're doing SSE <img src="innerprod1_experiment.aspx_files/smiley_smile.gif" alt="Smile" align="top"> <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2489268&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=r" title="Reply">Reply</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2489268&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=e" title="Email">Email</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;tid=2392391" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=475123&amp;msg=2489268" title="Get permanent link">PermaLink</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=2489268&amp;obtid=3&amp;bma=AddBookmark" title="Bookmark this post">Bookmark</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2489268" style="white-space: nowrap;"><script type="text/javascript">
+												MsgVFrm(36887,2489268,false,"","","");
+											</script>Rate this message: <a href="#xx2489268xx" onclick="RateMsg(36887, 2489268,1,0);"><img src="innerprod1_experiment.aspx_files/thumbs_down.gif" alt="vote 1" align="middle" border="0" height="14" width="14"></a> <a class="Frm_MHL" href="#xx2489268xx" title="vote this message a 1" onclick="RateMsg(36887, 2489268, 1,0)"><b>1</b></a> <a class="Frm_MHL" href="#xx2489268xx" title="vote this message a 2" onclick="RateMsg(36887, 2489268, 2,0)"><b>2</b></a> <a class="Frm_MHL" href="#xx2489268xx" title="vote this message a 3" onclick="RateMsg(36887, 2489268, 3,0)"><b>3</b></a> <a class="Frm_MHL" href="#xx2489268xx" title="vote this message a 4" onclick="RateMsg(36887, 2489268, 4,0)"><b>4</b></a> <a class="Frm_MHL" href="#xx2489268xx" title="vote this message a 5" onclick="RateMsg(36887, 2489268, 5,0)"><b>5</b></a> <a href="#xx2489268xx" onclick="RateMsg(36887, 2489268,5,0);"><img src="innerprod1_experiment.aspx_files/thumbs_up.gif" alt="vote 5" align="middle" border="0" height="14" width="14"></a> </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgRtDivide"><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd Rt HdUnSel" id="F2318941_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="16"><a name="xx2318941xx"></a><img src="innerprod1_experiment.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2318941" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;select=2318941#xx2318941xx">Change MS VS compiler setting, I can get performance improved</a></td><td style="width: 20px; white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=127177">isomer</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">14:07 14 Nov '07 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2318941_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 16px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">Hi,<br><br>I
+just did a little research and double checked your code. I found out
+when I change the compiler settings of Visual Studio 2005, I can also
+get my C code performance improved a lot. For data type FLOAT, there is
+not significant difference.<img src="innerprod1_experiment.aspx_files/smiley_WTF.gif" alt="WTF" align="top"><br><br>What I did is:<br>project properties -&gt; configuration properties-&gt; C/C++ -&gt; Code generation<br><br>set "Enable Enhanced Instruction Set" to "Streaming SIMD Extension 2 (/arch:SSE2)"<br>set "Floating Point Model" to "Fast (/fp:fast)<br><br>Thanks <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2318941&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=r" title="Reply">Reply</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2318941&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=e" title="Email">Email</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;tid=2318941" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=475123&amp;msg=2318941" title="Get permanent link">PermaLink</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=2318941&amp;obtid=3&amp;bma=AddBookmark" title="Bookmark this post">Bookmark</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2318941" style="white-space: nowrap;"><script type="text/javascript">
+												MsgVFrm(127177,2318941,false,"","","");
+											</script>Rate this message: <a href="#xx2318941xx" onclick="RateMsg(127177, 2318941,1,0);"><img src="innerprod1_experiment.aspx_files/thumbs_down.gif" alt="vote 1" align="middle" border="0" height="14" width="14"></a> <a class="Frm_MHL" href="#xx2318941xx" title="vote this message a 1" onclick="RateMsg(127177, 2318941, 1,0)"><b>1</b></a> <a class="Frm_MHL" href="#xx2318941xx" title="vote this message a 2" onclick="RateMsg(127177, 2318941, 2,0)"><b>2</b></a> <a class="Frm_MHL" href="#xx2318941xx" title="vote this message a 3" onclick="RateMsg(127177, 2318941, 3,0)"><b>3</b></a> <a class="Frm_MHL" href="#xx2318941xx" title="vote this message a 4" onclick="RateMsg(127177, 2318941, 4,0)"><b>4</b></a> <a class="Frm_MHL" href="#xx2318941xx" title="vote this message a 5" onclick="RateMsg(127177, 2318941, 5,0)"><b>5</b></a> <a href="#xx2318941xx" onclick="RateMsg(127177, 2318941,5,0);"><img src="innerprod1_experiment.aspx_files/thumbs_up.gif" alt="vote 5" align="middle" border="0" height="14" width="14"></a> </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgDivide"><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd HdUnSel" id="F2319785_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="34"><a name="xx2319785xx"></a><img src="innerprod1_experiment.aspx_files/msg_answer.gif" alt="Answer" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2319785" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;select=2319785#xx2319785xx">Re: Change MS VS compiler setting, I can get performance improved</a></td><td style="width: 20px; white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=4613314">Chesnokov Yuriy</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">1:59 15 Nov '07 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2319785_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 34px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">Hi<br><br>/arch:SSE2 should produce SSE2 code for doubles but in my case it does not.<br><br>/fp:fast
+might produce you wierd results with your floating point data, you
+should check the convolution results for similar data vectors with
+precide and fast models. SSE gives you precise model at the speed of
+fast model I believe that is the best choice<br><br>See my output with your settings:<br><br> chars		 processing time: 13 ms<br> -72<br> shorts		 processing time: 17 ms<br> -18717<br> shorts sse2	 processing time: 6 ms<br> -18717<br> ints		 processing time: 15 ms<br> 1017240<br> floats		 processing time: 13 ms<br> 1243525<br> sse2 intrin	 processing time: 12 ms<br> 1243525<br> sse3 assembly	 processing time: 12 ms<br> 1243525<br> doubles	 processing time: 26 ms<br> 1451181<br> doubles sse2	 processing time: 29 ms<br> 1451181 <br><br><div class="ForumSig">chesnokov</div><br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2319785&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=r" title="Reply">Reply</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2319785&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=e" title="Email">Email</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;tid=2318941" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=475123&amp;msg=2319785" title="Get permanent link">PermaLink</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=2319785&amp;obtid=3&amp;bma=AddBookmark" title="Bookmark this post">Bookmark</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2319785" style="white-space: nowrap;"><script type="text/javascript">
+												MsgVFrm(4613314,2319785,false,"","","");
+											</script>Rate this message: <a href="#xx2319785xx" onclick="RateMsg(4613314, 2319785,1,0);"><img src="innerprod1_experiment.aspx_files/thumbs_down.gif" alt="vote 1" align="middle" border="0" height="14" width="14"></a> <a class="Frm_MHL" href="#xx2319785xx" title="vote this message a 1" onclick="RateMsg(4613314, 2319785, 1,0)"><b>1</b></a> <a class="Frm_MHL" href="#xx2319785xx" title="vote this message a 2" onclick="RateMsg(4613314, 2319785, 2,0)"><b>2</b></a> <a class="Frm_MHL" href="#xx2319785xx" title="vote this message a 3" onclick="RateMsg(4613314, 2319785, 3,0)"><b>3</b></a> <a class="Frm_MHL" href="#xx2319785xx" title="vote this message a 4" onclick="RateMsg(4613314, 2319785, 4,0)"><b>4</b></a> <a class="Frm_MHL" href="#xx2319785xx" title="vote this message a 5" onclick="RateMsg(4613314, 2319785, 5,0)"><b>5</b></a> <a href="#xx2319785xx" onclick="RateMsg(4613314, 2319785,5,0);"><img src="innerprod1_experiment.aspx_files/thumbs_up.gif" alt="vote 5" align="middle" border="0" height="14" width="14"></a> </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr class="Quick">
+					<td class="Frm_MsgRtDivide"><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="1" width="1"></td>
+				</tr>
+<!-- Start Message head -->
+
+				<tr class="MsgHd Rt HdUnSel" id="F2288033_h0">
+					<td width="100%"><table class="QuickHd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" width="16"><a name="xx2288033xx"></a><img src="innerprod1_experiment.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"></td><td class="Frm_MsgSubject"><a id="DynMessLink" name="2288033" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;select=2288033#xx2288033xx">Convolution Operation</a></td><td style="width: 20px; white-space: nowrap;"><img src="innerprod1_experiment.aspx_files/member_sm.gif" title="member" alt="member" border="0" height="16"></td><td class="Frm_MsgAuthor"><a href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=349853">Jeffrey Walton</a></td><td class="Frm_MsgDate" style="vertical-align: top; white-space: nowrap;">7:07 25 Oct '07 &nbsp;</td>
+						</tr>
+					</tbody></table></td>
+				</tr><!-- End Message head -->
+
+				<tr id="F2288033_h1" style="display: none;">
+					<td style="width: 100%;"><table class="QuickBd" border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody><tr>
+							<td class="Frm_MsgIndent" style="width: 16px;"></td><td class="MsgBd BdSel"><table border="0" cellpadding="0" cellspacing="5" width="100%">
+								<tbody><tr>
+									<td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody><tr>
+											<td colspan="2">Hi,<br><br>&gt; You need understanding of convolution operation<br>&gt; (have a look at my code) and SSE technology understanding.<br>It probably would be a better idea to add the comments with an explaination to the article.<br><br>Jeff<br> <br></td>
+										</tr><tr style="vertical-align: middle;">
+											<td class="Frm_MsgFt"><a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2288033&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=r" title="Reply">Reply</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/Edit.aspx?fid=475123&amp;select=2288033&amp;floc=/KB/recipes/innerprod1_experiment.aspx&amp;fa=e" title="Email">Email</a>·<a class="Frm_MHL" href="http://www.codeproject.com/KB/recipes/innerprod1_experiment.aspx?fid=475123&amp;tid=2288033" title="View Thread">View Thread</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Forums/View.aspx?fid=475123&amp;msg=2288033" title="Get permanent link">PermaLink</a>·<a class="Frm_MHL" href="http://www.codeproject.com/script/Bookmarks/Add.aspx?obid=2288033&amp;obtid=3&amp;bma=AddBookmark" title="Bookmark this post">Bookmark</a></td><td class="Frm_MsgFt" style="text-align: right;"><span id="MVF2288033" style="white-space: nowrap;">4.43/5 (3 votes) <script type="text/javascript">
+												MsgVFrm(349853,2288033,false,"","","");
+											</script>Rate this message: <a href="#xx2288033xx" onclick="RateMsg(349853, 2288033,1,0);"><img src="innerprod1_experiment.aspx_files/thumbs_down.gif" alt="vote 1" align="middle" border="0" height="14" width="14"></a> <a class="Frm_MHL" href="#xx2288033xx" title="vote this message a 1" onclick="RateMsg(349853, 2288033, 1,0)"><b>1</b></a> <a class="Frm_MHL" href="#xx2288033xx" title="vote this message a 2" onclick="RateMsg(349853, 2288033, 2,0)"><b>2</b></a> <a class="Frm_MHL" href="#xx2288033xx" title="vote this message a 3" onclick="RateMsg(349853, 2288033, 3,0)"><b>3</b></a> <a class="Frm_MHL" href="#xx2288033xx" title="vote this message a 4" onclick="RateMsg(349853, 2288033, 4,0)"><b>4</b></a> <a class="Frm_MHL" href="#xx2288033xx" title="vote this message a 5" onclick="RateMsg(349853, 2288033, 5,0)"><b>5</b></a> <a href="#xx2288033xx" onclick="RateMsg(349853, 2288033,5,0);"><img src="innerprod1_experiment.aspx_files/thumbs_up.gif" alt="vote 5" align="middle" border="0" height="14" width="14"></a> </span></td>
+										</tr>
+									</tbody></table></td>
+								</tr>
+							</tbody></table></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr>
+					<td><img src="innerprod1_experiment.aspx_files/t.gif" alt="" border="0" height="5" width="1"></td>
+				</tr>
+			</tbody></table></td>
+		</tr><tr>
+			<td><table cellpadding="2" cellspacing="0" width="100%">
+				<tbody><tr class="Frm_Footer">
+					<td>Last Visit: Friday, October 17, 2008 11:45 AM &nbsp; &nbsp; Last Update:Saturday, October 18, 2008 4:23 PM</td><td style="text-align: right; white-space: nowrap;"></td>
+				</tr>
+			</tbody></table></td>
+		</tr>
+	</tbody></table>
+</div><p class="SmallText"><img src="innerprod1_experiment.aspx_files/msg_general.gif" alt="General" align="top" height="16" width="16"> General &nbsp;&nbsp; <img src="innerprod1_experiment.aspx_files/msg_news.gif" alt="News" align="top" height="16" width="16"> News &nbsp;&nbsp; <img src="innerprod1_experiment.aspx_files/msg_question.gif" alt="Question" align="top" height="16" width="16"> Question &nbsp;&nbsp; <img src="innerprod1_experiment.aspx_files/msg_answer.gif" alt="Answer" align="top" height="16" width="16"> Answer &nbsp;&nbsp; <img src="innerprod1_experiment.aspx_files/msg_joke.gif" alt="Joke" align="top" height="16" width="16"> Joke &nbsp;&nbsp; <img src="innerprod1_experiment.aspx_files/msg_rant.gif" alt="Rant" align="top" height="16" width="16"> Rant &nbsp;&nbsp; <img src="innerprod1_experiment.aspx_files/msg_admin.gif" alt="Admin" align="top" height="16" width="16"> Admin &nbsp;&nbsp; </p>
+<!-- Forum End -->
+
+
+
+
+	
+	</div>
+	<table width="100%">
+	<tbody><tr valign="top">
+		<td class="TinyText" align="left">
+		    <a id="ctl00_PermaLink" href="http://www.codeproject.com/script/Articles/Article.aspx?aid=21024">PermaLink</a> | 
+			<a id="ctl00_PrivacyLink" href="http://www.codeproject.com/info/privacy.aspx">Privacy</a> |
+			<a id="ctl00_TermsOfUseLink" href="http://www.codeproject.com/info/TermsOfUse.aspx">Terms of Use</a>
+			<br>Last Updated: 20 May 2008<br>
+			Editor: <a id="ctl00_ArticleEditor" href="http://www.codeproject.com/script/Membership/Profiles.aspx?mid=3873871">Sean Ewington</a><br>
+		</td>
+		<td class="TinyText" align="right" valign="top">
+			Copyright 2007 by Chesnokov Yuriy<br>Everything else
+			Copyright © <a href="mailto:webmaster@codeproject.com">CodeProject</a>, 1999-2008 <br>
+			Web19 |
+			<a id="ctl00_AdvertiseLink" href="http://www.codeproject.com/info/MediaKit.aspx">Advertise on the Code Project </a>
+		</td>
+	</tr>
+	
+	</tbody></table>
+	
+	<center>
+		
+	</center>
+</td>
+</tr>
+<tr>
+	<td colspan="2" align="center">
+	
+
+
+
+	</td>
+</tr>
+</tbody></table>
+
+<br>
+<script type="text/javascript" language="Javascript">//<![CDATA[
+if (document.all) try {window.attachEvent("oncopy",copyCode);}catch(e){};
+//]]></script>
+
+<script type="text/javascript" language="Javascript" src="innerprod1_experiment.aspx_files/TogglePre.js"></script>
+<script type="text/javascript" language="Javascript" src="innerprod1_experiment.aspx_files/menu132_com.js"></script>
+<script type="text/javascript" language="Javascript" src="innerprod1_experiment.aspx_files/TopNavBar.js"></script>
+<script type="text/javascript" language="Javascript">//<![CDATA[
+new HVMenu(new menu_NavbarConfig());
+//]]></script>
+
+
+<div style="position: absolute; visibility: visible; z-index: 101; width: 386px; height: 22px; top: 119px; left: 620px;"><div class="NavBarMain" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 40px; height: 16px; padding-left: 5px; padding-top: 2px; left: 7px; top: 2px;">Help!</div><div class="NavBarMain" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 55px; height: 16px; padding-left: 5px; padding-top: 2px; left: 55px; top: 2px;">Articles</div><div class="NavBarMain" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 115px; height: 16px; padding-left: 5px; padding-top: 2px; left: 118px; top: 2px;">Message Boards</div><div class="NavBarMain" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 75px; height: 16px; padding-left: 5px; padding-top: 2px; left: 241px; top: 2px;">Job Board</div><div class="NavBarMain" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 55px; height: 16px; padding-left: 5px; padding-top: 2px; left: 324px; top: 2px;">Lounge</div></div><div class="NavBarCont" style="position: absolute; visibility: hidden; z-index: 102; width: 198px; height: 104px; top: 0pt; left: 0pt;"><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 183px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 5px;">What is 'The Code Project'?</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 183px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 24px;">General FAQ</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 183px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 43px;">Post a Question</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 183px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 62px;">Site Directory</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 183px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 81px;">About Us</div></div><div class="NavBarCont" style="position: absolute; visibility: hidden; z-index: 102; width: 158px; height: 161px; top: 0pt; left: 0pt;"><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 5px;">Latest</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 24px;">Search</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 43px;">Most Popular</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 62px;">Beginner Articles</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 81px;">Topic List</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 100px;">Submit an Article</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 119px;">Update an Article</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 143px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 138px;">Article Competition</div></div><div class="NavBarCont" style="position: absolute; visibility: hidden; z-index: 102; width: 183px; height: 389px; top: 0pt; left: 0pt;"><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 5px;">ASP.NET</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 24px;">ATL / WTL / STL</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 43px;">C++ / MFC</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 62px;">(Managed) C++/CLI</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 81px;">C#</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 100px;">COM</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 119px;">Hardware</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 138px;">LINQ and .NET 3.5</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 157px;">.NET Framework</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 176px;">OS / SysAdmin</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 195px;">Silverlight</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 214px;">SQL and Database</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 233px;">VB.NET</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 252px;">Web Development</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 271px;">WPF / WCF / WF</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 290px;">XML / XSL</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 309px;">General Discussions</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 328px;">Suggestions / Site Bugs</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 347px;">The Soapbox</div><div class="NavBarSub" style="overflow: hidden; position: absolute; visibility: inherit; cursor: pointer; width: 168px; height: 16px; padding-left: 5px; padding-top: 2px; left: 5px; top: 366px;">All Message Boards...</div></div></body></html>

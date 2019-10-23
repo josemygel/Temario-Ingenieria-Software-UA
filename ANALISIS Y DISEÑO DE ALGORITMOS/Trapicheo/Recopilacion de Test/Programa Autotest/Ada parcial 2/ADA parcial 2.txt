@@ -1,0 +1,310 @@
+Se pretende implementar mediante programacion dinamica iterativa la funcion int f(int x, int y) if(x<=y) return 1; return x + f(x-1,y); Cual es la mejor complejidad espacial que se puede conseguir
+{
+~O(x^2)
+~O(x)
+=O(1)
+}
+
+¿Como se veria afectada la solucion voraz al problema de la asignacion de tareas en el caso de que se incorporaran restricciones que contemplen que ciertas tareas no pueden ser adjudicadas a ciertos trabajadores
+{
+= la solucion factible ya no estaria garantizada, es decir, pudiera ser que el algoritmo no llegue a solucion alguna
+~Habría que replantearse el criterio de seleccion para comenzar por aquellos trabajadores con mas restricciones en cuanto a tareas que no pueden realizar
+~Ya no se garantizaria la solucion optima pero si una factible
+}
+
+En la solucion al problema de la mochila continua ¿por que es conveniente la ordenacion previa de los objetos?
+{
+= Para reducir la complejidad temporal en la toma de cada decision: de O(n) a O(1)
+~ Para reducir la complejidad temporal en la toma de cada decision: de O(n^2) a O(nlogn)
+~ Porque si no se hace no es posible garantizar la toma de decisiones siga un criterio voraz.
+}
+
+Supongamos una solucion recursiva que muestra dos caracteristicas: se basa en obtener soluciones optimas a problemas parciales mas pequeños y por otro, estos subproblemas  se resuelve mas de una vez durante el proceso recursivo
+{
+~ un algoritmo voraz
+= un algoritmo de programacion dinamica
+~ un algoritmo del estilo de divide y venceras
+}
+
+La mejora que en general aporta la programacion dinamica frente a la solucion ingenua se consigue gracias al hecho de que...
+{
+= ..en la solucion ingenua se resuelve muchas veces un numero relativamente pequeño de subproblemas distintos.
+~ ..en la solucion ingenua se resuelve pocas veces un numero relativamente grande de subproblemas distintos.
+~ El numero de veces que se resuelven los subproblemas no tiene nada que ver con la eficiencia de los problemas resueltos mediante programacion dinamica
+}
+
+De los problemas siguientes... indicad cual no se puede tratar eficientemente como los otros dos
+{
+~ el problema de cortar un tubo
+= el problema de la mochila discreta
+~ el problema del cambio
+}
+
+Un informatico quiere subir una montaña....
+{
+~ un algoritmo divide y venceras.
+= un algoritmo voraz.
+~ un algoritmo de programacion dinamica
+}
+
+mediante programacion dinamica recursiva unsigned f(unsigned x, unsigned v[] ).... ¿Cual es la mejor estructura para el almacen?
+{
+~ int a[][]
+~ int a
+= int a[]
+}
+
+Dado un problema de optimizacion, el metodo voraz...
+{
+~ ..siempre obtiene la solucion optima
+= Ninguna de las otras dos opciones es cierta
+~ ..siempre obtiene una solucion factible
+}
+
+Dada la suma de recurrencia.... T(n) sumatorio
+{
+~ pro(n^2)
+= pro(2^n)
+~ pro(n!)
+}
+
+Coeficientes binomiales (n r)....
+{
+~ la recursion puede ser infinita y por tanto necesario organizarla segun el esquema iterativo de programacion dinamica
+~ se repiten muchos calculos y ello se puede evitar haciendo uso de una estrategia voraz
+= se repiten muchos calculos y ello se puede evitar usando programacion dinamica
+}
+
+En el metodo voraz
+{
+~ ..el dominio de las decisiones solo pueden ser conjuntos discretos o discretizables
+= ..es habitual preparar los datos para disminuir el coste temporal de la funcion que determina cual es la siguiente decision a tomar
+~ ..siempre se encuentra la solucion pero puede que no sea la optima
+}
+
+El valor que se obtiene con el metodo voraz para el problema de la mochila discreta es..
+{
+~ ..una cota inferior para el valor optimo, pero que nunca coincide con este
+= ..una conta inferior para el valor optimo que a veces puede ser igual a este
+~ ..una cota superior para el valor optimo.
+}
+
+Dado un problema de optimizacion, el metodo voraz..
+{
+~ ..siempre obtiene la solucion optima
+= ..garantiza la solucion optima solo para determinados problemas
+~ ..siempre obtiene una solucion factible
+}
+
+Se pretende implementar mediante programación dinámica iterativa la función recursiva:
+float f(unsigned x, int y)
+if( y < 0 ) return 0;
+float A = 0.0;
+if ( v1[y] <= x )
+A = v2[y] + f( x-v1[y], y-1 );
+float B = f( x, y-1 );
+return min(A,2+B);
+
+¿Mejor estructura para el almacen?
+{
+~ unsigned a[]
+~ unsigned a
+= unsigned a[][]
+}
+
+
+Cuando la descomposicion recursiva de un problema da lugar a subproblemas de tamaño similar ¿que esquema promete ser mas adecuado?
+{
+= programacion dinamica
+~ divide y venceras
+~ el metodo voraz
+}
+
+Cual de estos tres problemas de optimizacion no tiene, o no se le conoce, solucion voraz optima
+{
+~ el arbol de cobertura de coste minimo de un grafo conexo
+~ mochila continua
+= mochila discreta
+}
+
+Mediante PD recursiva unsigned f(unsigned x, unsigned v[]) if (x==0) return 0.... ¿Mejor complejidad espacial para el almacen?
+{
+~ O(1)
+~ O(x^2)
+= O(x)
+}
+
+Un tubo de n centimetros....Di cual de estas tres afirmaciones es falsa
+{
+~ evalucion exhaustiva de pro(2^n)...
+= evaluacion exhaustiva de pro(!n)...
+~ evalucion exhaustiva de j<n...
+}
+
+Fibonacci
+{
+~ Las dos estrategias serian similares en cuanto a eficiencia
+= Programacion Dinamica
+~ La estrategia Voraz
+}
+
+¿Cual de estas tres estrategias obtiene un mejor valor para la mochila discreta?
+{
+~ Meter primero los elementos de menor peso
+~ Meter primero los elementos de mayor peso
+= Meter primero los elementos de mayor valor especifico o valor por unidad de peso
+}
+
+El problema de encontrar el arbol de recubrimiento de coste minimo para un grafo no dirigido y ponderado...
+{
+~ ..no se puede resolver en general con una estrategia voraz.
+~ solo se puede resolver con una estrategia voraz si existe una arista para cualquier par de vertices del grafo.
+= ..se puede resolver siempre con una estrategia voraz.
+}
+
+La eficiencia de los algoritmos voraces se basa en el hecho de que ...
+Seleccione una{
+
+= ... las decisiones tomadas nunca se reconsideran.
+~ ... con antelación, las posibles decisiones se ordenan de mejor a peor.
+~ ... antes de tomar una decisión se comprueba si satisface las retricciones del problema.
+}
+
+Si ante un problema de decisión existe un criterio de selección voraz entonces ...
+Seleccione una:
+{
+= Ninguna de las otras dos opciones es cierta.
+~ ... la solución óptima está garantizada.
+~ ... al menos una solución factible está garantizada.
+}
+
+En la solución al problema de la mochila continua ¿por qué es conveniente la ordenación previa
+de los objetos?
+Seleccione una:
+{
+~Porque si no se hace no es posible garantizar que la toma de decisiones siga un criterio voraz.
+~ O(n^2) a O(nlogn)
+= O(n) a O(1)
+}
+
+Se pretende implementar mediante programación dinámica iterativa la función recursiva:
+unsigned f( unsigned y, unsigned x) // suponemos y >= x
+if (x==0 || y==x) return 1;
+return f(y-1, x-1) + f(y-1, x);
+
+¿Cuál es la mejor complejidad espacial que se puede conseguir?
+{
+~O(y^2)
+=O(y)
+~O(1)
+}
+
+¿Cuál de los siguientes pares de problemas son equivalentes en cuanto al tipo de solución
+(óptima, factible, etc.) aportada por el método voraz?
+Seleccione una:
+{
+= El fontanero diligente y la mochila continua.
+~ El fontanero diligente y el problema del cambio.
+~ El fontanero diligente y la asignación de tareas.
+}
+ 
+Se pretende implementar mediante programación dinámica iterativa la función recursiva:
+unsigned f( unsigned x, unsigned v[] ) 
+if (x==0)
+return 0;
+unsigned m = 0;
+for ( unsigned k = 0; k < x; k++ )
+m = max( m, v[k] + f( x-k, v ) );
+return m;
+¿
+Cuál es la mejor estructura para el almacén?
+{
+~ int A
+= int A[]
+~ int A[][]
+}
+
+La solución de programación dinámica iterativa del problema de la mochila discreta ...
+Seleccione una:
+{
+~ ... tiene un coste temporal asintótico exponencial con respecto al número de objetos.
+~  ... calcula menos veces el valor de la mochila que la correspondiente solución de programación dinámica recursiva.
+=  ... tiene la restricción de que los valores tienen que ser enteros positivos.
+}
+
+
+Se pretende implementar mediante programación dinámica iterativa la función recursiva:
+int f( int x, int y ) 
+if( x <= y ) return 1;
+return x + f(x-1,y);
+
+¿Cuál es la mejor complejidad espacial que se puede conseguir?
+{
+~ O(x^2)
+= O(1)
+~ O(x)
+}
+
+Se pretende implementar mediante programación dinámica iterativa la función recursiva: 
+unsigned f( unsigned y, unsigned x) // suponemos y >= x if (x==0 || y==x) return 1; 
+return f(y-1, x-1) + f(y-1, x);  
+¿Cuál es la mejor complejidad espacial que se puede conseguir? 
+Seleccione una: 
+{
+~ O(1)
+~ O(y^2)
+= O(y)
+}
+
+Se pretende implementar mediante programación dinámica iterativa la función recursiva: 
+unsigned f( unsigned y, unsigned x) // suponemos y >= x if (x==0 || y==x) return 1; 
+return f(y-1, x-1) + f(y-1, x);  
+¿Cuál es la mejor estructura para el almacen? 
+Seleccione una: 
+{
+= int a[][]
+~ int a
+~ int a[]
+}
+
+La programacion dinamica...
+{
+~ ..normalmente se usa para resolver problemas de optimizacion con dominios discretizables puesto que las tablas se han de indexar con este tipo de valores
+~ ..en algunos casos se puede utilizar para resolver problemas de optimizacion con dominios continuos pero probablemente pierda su eficacia ya que puede disminuir drasticamente el numero de subproblemas repetidos.
+= Las otras dos opciones son correctas.
+}
+
+Se pretende implementar mediante programación dinámica iterativa la función recursiva:
+float f(unsigned x, int y)
+if( y < 0 ) return 0;
+float A = 0.0;
+if ( v1[y] <= x )
+A = v2[y] + f( x-v1[y], y-1 );
+float B = f( x, y-1 );
+return min(A,2+B);
+
+¿Cuál es la mejor complejidad espacial que se puede conseguir?{
+~ O(1)
+= O(y)
+~ O(y^2)
+}
+
+¿Cuál de los siguientes pares de problemas son equivalentes en cuanto al tipo de solución
+(óptima, factible, etc.) aportada por el método voraz?
+Seleccione una:
+{
+= La mochila discreta y la asignación de tareas.
+~ La mochila continua y la asignación de tareas.
+~ El fontanero diligente y el problema del cambio.
+}
+
+Los algortimos de programacion dinamica hacen uso..
+{
+~ ..de que la solucion optima se puede construir añadiendo a la solucion el elemento optimo de los elementos restantes, uno a uno.
+= ..de que se puede ahorrar calculos guardando resultados anteriores en un almacen.
+~ ..de una estrategia trivial consistente en examinar todas las soluciones posibles.
+
+}
+
+
+

@@ -1,0 +1,287 @@
+Las siguientes opciones controlan las optimizaciones:
+  -O<número>                 Establece el nivel de optimización a <número>.
+  -Ofast                      Optimiza para velocidad descartando el cumplimento exacto de estándares.
+  -Og                         Optimiza para experiencia de depuración en lugar de velocidad o tamaño.
+  -Os                         Optimiza para espacio en lugar de velocidad.
+  -faggressive-loop-optimizations Optimiza los bucles de forma agresiva empleando restricciones del lenguaje.
+  -falign-functions           Alinea el inicio de las funciones.
+  -falign-functions=          Esta opción carece de documentación.
+  -falign-jumps               Alinea las etiquetas que solamente se alcanzan saltando.
+  -falign-jumps=              Esta opción carece de documentación.
+  -falign-labels              Alinea todas las etiquetas.
+  -falign-labels=             Esta opción carece de documentación.
+  -falign-loops               Alinea el inicio de los bucles.
+  -falign-loops=              Esta opción carece de documentación.
+  -fassociative-math          Permite la optimización para la aritmética de coma flotante la cual puede cambiar
+                              el resultado de la operación debido a redondeo.
+  -fasynchronous-unwind-tables Genera tablas de desenredo que sean exactas en cada límite de instrucción.
+  -fauto-inc-dec              Genera instrucciones auto-inc/dec.
+  -fbranch-count-reg          Reemplaza add, compare, branch con branch en la cuenta de registros.
+  -fbranch-probabilities      Usa la información de análisis de perfil para las probabilidades de ramificación.
+  -fbranch-target-load-optimize Realiza optimización de carga de ramificación objetivo antes del hilo prólogo /
+                              epílogo.
+  -fbranch-target-load-optimize2 Realiza optimización de carga de ramificación objetivo después del hilo
+                              prólogo / epílogo.
+  -fbtr-bb-exclusive          Restringe que la migración de carga de objetivos no reuse registros en ningún
+                              bloque básico.
+  -fcaller-saves              Guarda registros alrededor de llamadas de función.
+  -fcode-hoisting             Activa la elevación de código.
+  -fcombine-stack-adjustments Busca oportunidades para reducir los ajustes de pila y las referencias de pila.
+  -fcompare-elim              Realiza la eliminación de comparaciones después de terminar el alojamiento de
+                              registros.
+  -fconserve-stack            No realizar optimizaciones que incrementan notablemente el uso de la pila.
+  -fcprop-registers           Realiza el paso de optimización de copia-propagación de registros.
+  -fcrossjumping              Realiza optimizaciones de saltos cruzados.
+  -fcse-follow-jumps          Cuando se esté ejecutando CSE, sigue los saltos a sus objetivos.
+  -fcx-fortran-rules          La multiplicación y la división complejas siguen las reglas Fortran.
+  -fcx-limited-range          Omite el paso de reducción de rango al realizar divisiones complejas.
+  -fdce                       Usa el paso de eliminación de código muerto de RTL.
+  -fdefer-pop                 Posterga la extracción de argumentos de funciones de la pila hasta más tarde.
+  -fdelayed-branch            Intenta rellenar las ranuras de retraso de las instrucciones de ramificación.
+  -fdelete-dead-exceptions    Borra instrucciones muertas que pueden lanzar excepciones.
+  -fdelete-null-pointer-checks Borra las revisiones de punteros nulos sin uso.
+  -fdevirtualize              Trata de convertir las llamadas virtuales a llamadas directas.
+  -fdevirtualize-speculatively Realiza desvirtualización especulativa.
+  -fdse                       Usa la eliminación de almacenamiento muerto de RTL.
+  -fearly-inlining            Realiza la inclusión en línea temprana.
+  -fexceptions                Activa el manejo de excepciones.
+  -fexpensive-optimizations   Realiza un número de optimizaciones menores y costosas.
+  -ffast-math                 Esta opción carece de documentación.
+  -ffinite-math-only          Asume que no se generan NaNs o infinitos.
+  -ffloat-store               No aloja floats y doubles en registros de precisión extendida.
+  -fforward-propagate         Realiza el paso de la propagación hacia adelante en RTL.
+  -ffp-contract=[off|on|fast] Realiza contracción de expresión de coma flotante.
+  -ffp-int-builtin-inexact    Permite a las funciones internas ceil, floor, round, trunc generar excepciones
+                              "inexactas".
+  -ffunction-cse              Permite que las direcciones de las funciones se conservern en registros.
+  -fgcse                      Realiza la eliminación de subexpresiones comunes globales.
+  -fgcse-after-reload         Realiza la eliminación de subexpresiones comunes globales tras la finalización de
+                              la asignación de registros.
+  -fgcse-las                  Realiza la carga redundante después de la eliminación de almacenamiento en la
+                              eliminación de subexpresiones comunes globales
+  -fgcse-lm                   Realiza el movimiento de la carga mejorada durante la eliminación de subexpresiones
+                              comunes globales.
+  -fgcse-sm                   Realiza el movimiento de guardado después de la eliminación de subexpresiones
+                              comunes globales.
+  -fgraphite                  Activa in y out de la representación Graphite.
+  -fgraphite-identity         Activa la transformación Graphite Identity.
+  -fguess-branch-probability  Activa la predicción de probabilidades de ramificación.
+  -fhandle-exceptions         Igual que -fexceptions.  Utilice, en cambio, la última opción.  Los usos de esta
+                              opción están diagnosticados.
+  -fhoist-adjacent-loads      Activa las cargas de elevación adyacentes para fomentar la generación de
+                              instrucciones move condicionales.
+  -fif-conversion             Realiza la conversión de saltos condicionales a equivalentes sin ramificación.
+  -fif-conversion2            Realiza la conversión de saltos condicionales a ejecución condicional.
+  -findirect-inlining         Realiza la inclusión en línea indirecta.
+  -finline                    Activa la inclusión en línea de la la función declarada "inline", y desactiva
+                              todas las demás inclusiones en línea.
+  -finline-atomics            Coloca en línea las operaciones __atomic cuando una secuencia de instrucciones lock
+                              free está disponible
+  -finline-functions          Integra las funciones que no se declaran "inline" en sus invocadores cuando es
+                              rentable.
+  -finline-functions-called-once Integra las funciones sólo requeridas por su invocador único.
+  -finline-small-functions    Integra las funciones en sus invocadores cuando se sabe que el tamaño del código no
+                              crece.
+  -fipa-bit-cp                Realiza la propagación interprocedural de las constantes por bits.
+  -fipa-cp                    Realiza la propagación interprocedural de las constantes.
+  -fipa-cp-clone              Realiza la clonación para hacer la propagación constante Interprocedural más
+                              fuerte.
+  -fipa-icf                   Realiza plegamiento de código idéntico en funciones y variables de solo lectura.
+  -fipa-icf-functions         Realiza plegamiento de código idéntico en funciones.
+  -fipa-icf-variables         Realiza plegamiento de código idéntico en variables.
+  -fipa-profile               Realiza la propagación de perfil interprocedural.
+  -fipa-pta                   Realiza el análisis interprocedural de puntero-a.
+  -fipa-pure-const            Descubre funciones pure y const.
+  -fipa-ra                    Usa registro de guarda de invocador entre llamadas si es posible.
+  -fipa-reference             Descubre variables estáticas de sólo lectura y no direccionables.
+  -fipa-sra                   Realiza la reducción interprocedural de los agregados.
+  -fipa-vrp                   Realiza la Propagación de Rango Valor IPA.
+  -fira-algorithm=[CB|priority] Establece el algoritmo IRA a usar.
+  -fira-hoist-pressure        Usa el cálculo de presión de registros basado en IRA en optimizaciones de izado RTL.
+  -fira-loop-pressure         Usa el cálculo de presión de registros basado en IRA en optimizaciones de bucle RTL.
+  -fira-region=[one|all|mixed] Establece las regiones para IRA.
+  -fira-share-save-slots      Comparte ranuras para ahorrar registros hard diferentes.
+  -fira-share-spill-slots     Comparte ranuras de pila para pseudo-registros derramados.
+  -fisolate-erroneous-paths-attribute Detecta rutas que disparan comportamiento erróneo o indefinido debido a un
+                              uso indebido de un valor nuloen un atributo returns_nonnull o nonnull.  Aisla esas
+                              rutas del flujo de control principal y convierte la sentencia con comportamiento
+                              erróneo o indefinido en una trampa.
+  -fisolate-erroneous-paths-dereference Detecta rutas que disparan comportamiento erróneo o indefinido debido a
+                              desreferencia de puntero nulo.  Aisla esas rutas del flujo de control principal y
+                              convierte la sentencia con comportamiento erróneo o indefinido en una trampa.
+  -fivopts                    Optimiza la inducción de variables en los árboles.
+  -fjump-tables               Usa tablas de salto para las declaraciones switch suficientemente grandes.
+  -fkeep-gc-roots-live        Esta opción carece de documentación.
+  -flifetime-dse              Le dice al DSE que el almacenamiento para un objeto C++ está muerto cuando el
+                              constructor comienza y cuando el destructor termina.
+  -flifetime-dse=<0,2>        Esta opción carece de documentación.
+  -flimit-function-alignment  Esta opción carece de documentación.
+  -flive-range-shrinkage      Alivio de la presión de registro a través del encogimiento de rango en vivo.
+  -floop-interchange          Activa el intercambio de bucles en árboles.
+  -floop-nest-optimize        Activa el optimizador de anidamiento de bucles.
+  -floop-parallelize-all      Marca todos los bucles como paralelos.
+  -floop-unroll-and-jam       Realiza unroll-and-jam en los bucles.
+  -flra-remat                 Hacer rematerialización sensible a CFG en LRA.
+  -fmath-errno                Establece errno después de las funciones matemáticas internas.
+  -fmodulo-sched              Realiza la planificación SMS basada en módulo antes del primer paso de
+                              calendarización.
+  -fmodulo-sched-allow-regmoves Realiza la planificación módulo basada en SMS con movimientos permitidos de
+                              registros.
+  -fmove-loop-invariants      Mueve las computaciones invariantes de bucles fuera de los bucles.
+  -fnon-call-exceptions       Permite las excepciones síncronas que no son llamadas.
+  -fnothrow-opt               Trata una especificación de excepción throw() como noexcept para mejorar el tamaño
+                              del código.
+  -fomit-frame-pointer        Cuando sea posible no genera marcos de pila.
+  -fopt-info                  Activa todos los volcados de información de optimización en stderr.
+  -foptimize-sibling-calls    Optimiza las llamadas recursivas hermanadas y de extremo.
+  -foptimize-strlen           Activa la optimizaciones de longitud de cadenas en árboles.
+  -fpack-struct               Empaqueta juntos a los miembros de la estructura sin agujeros.
+  -fpack-struct=<número>     Establece la alineación inicial máxima de estructuras miembro.
+  -fpartial-inlining          Realiza la inclusión en línea parcial.
+  -fpatchable-function-entry= Inserta instrucciones NOP en cada entrada de función.
+  -fpeel-loops                Realiza el pelado de bucles.
+  -fpeephole                  Activa las optimizaciones de mirilla específicas de la máquina.
+  -fpeephole2                 Activa un paso de mirilla RTL antes de sched2.
+  -fplt                       Usa PLT para llamadas PIC (-fno-plt: carga la dirección desde GOT en el sitio de la
+                              llamada).
+  -fpredictive-commoning      Ejecuta la optimización comunizadora predictiva.
+  -fprefetch-loop-arrays      Genera instrucciones de precargado, si están disponibles, para matrices en bucles.
+  -fprintf-return-value       Trata los valores de retorno conocidos de sprintf como constantes.
+  -freciprocal-math           Igual que -fassociative-math para las expresiones que incluyen división.
+  -freg-struct-return         Devuelve agregados small en registros.
+  -frename-registers          Realiza el paso de optimización de renombrado de registros.
+  -freorder-blocks            Reordena los bloques básicos para mejorar la ubicación del código.
+  -freorder-blocks-algorithm=[simple|stc] Establece el algoritmo de ordenación de bloque básico usado.
+  -freorder-blocks-and-partition Reordena los bloques básicos y particionar en secciones caliente y fría.
+  -freorder-functions         Reordena las funciones para mejorar la ubicación del código.
+  -frerun-cse-after-loop      Ejecuta un paso de eliminación de subexpresión común después de las
+                              optimizaciones de bucles.
+  -freschedule-modulo-scheduled-loops Activa/Desactiva la planificación tradicional en bucles que ya pasaron la
+                              calendarización módulo.
+  -frounding-math             Desactiva las optimizaciones que asumen la conducta de un FP que redondea por defecto.
+  -frtti                      Genera información de descriptor de tipo en tiempo de ejecución.
+  -fsched-critical-path-heuristic Activa la heurística de ruta crítica en el planificador.
+  -fsched-dep-count-heuristic Activa la heurística de cuenta dependiente en el planificador.
+  -fsched-group-heuristic     Activa la heurística de grupo en el planificador.
+  -fsched-interblock          Activa la planificación entre bloques básicos.
+  -fsched-last-insn-heuristic Activa la heurística de última instrucción en el planificador.
+  -fsched-pressure            Activa la planificación de insn sensible a la presión de registros.
+  -fsched-rank-heuristic      Activa la heurística de rango en el planificador.
+  -fsched-spec                Permite el movimiento especulativo de insn que no son load.
+  -fsched-spec-insn-heuristic Activa la heurística de instrucción especulativa en el planificador.
+  -fsched-spec-load           Permite el movimiento especulativo de algunas loads.
+  -fsched-spec-load-dangerous Permite el movimiento especulativo de más loads.
+  -fsched-stalled-insns       Permite la planificación prematura de insns encoladas.
+  -fsched-stalled-insns-dep   Establece la revisión de distancia de dependencias en la planificación prematura de
+                              insns encoladas.
+  -fsched-stalled-insns-dep=<número> Establece la revisión de distancia de dependencias en la planificación
+                              prematura de insns encoladas.
+  -fsched-stalled-insns=<número> Establece el número de insns encoladas que se pueden calendarizar prematuramente.
+  -fsched2-use-superblocks    Si se calendariza después de la recarga, hace la planificación de superbloque.
+  -fschedule-fusion           Realiza paso de optimización por fusión de instrucciones dependiente de objetivo.
+  -fschedule-insns            Recalendariza las instrucciones antes del alojamiento de registros.
+  -fschedule-insns2           Recalendariza las instrucciones después del alojamiento de registros.
+  -fsection-anchors           Accede datos en la misma sección que los puntos de anclaje compartidos.
+  -fsel-sched-pipelining      Realiza el `pipelining' de software de los bucles internos durante la planificación
+                              selectiva.
+  -fsel-sched-pipelining-outer-loops Realiza el `pipelining' de software de los bucles externos durante la
+                              planificación selectiva.
+  -fsel-sched-reschedule-pipelined Recalendariza las regiones `pipelined' sin `pipelining'.
+  -fselective-scheduling      Calendariza instrucciones usando el algoritmo de planificación selectivo.
+  -fselective-scheduling2     Ejecuta la planificación selectiva después de recargar.
+  -fshort-enums               Usa el tipo entero más estrecho posible para tipos de enumeración.
+  -fshort-wchar               Fuerza que el tipo subyacente de "wchar_t" sea "unsigned short".
+  -fshrink-wrap               Emite prólogos de función sólo después de que las partes de la función que los
+                              necesitan, en vez de al principio de la función.
+  -fshrink-wrap-separate      Estrecha-envuelve partes del prólogo y epílogo por separado.
+  -fsignaling-nans            Desactiva las optimizaciones observables con IEEE señalando NaNs.
+  -fsigned-zeros              Desactiva las optimizaciones de coma flotante que ignoran el signo de IEEE para cero.
+  -fsimd-cost-model=[unlimited|dynamic|cheap] Especifica el modelo de coste de la vectorización para código
+                              marcado con directiva simd.
+  -fsingle-precision-constant Convierte las constantes de coma flotante a constantes de precisión simple.
+  -fsplit-ivs-in-unroller     Divide los tiempos de vida de las variables de inducción cuando se desenrollen los
+                              bucles.
+  -fsplit-loops               Realiza la división de bucles.
+  -fsplit-paths               Divide las rutas que llevan a bordes traseros de bucle.
+  -fsplit-wide-types          Divide los tipos anchos en registros independientes.
+  -fssa-backprop              Activa la propagación hacia atrás de propiedades en uso a nivel SSA.
+  -fssa-phiopt                Optimiza patrones condicionales usando nodos SSA PHI.
+  -fstack-check=[no|generic|specific] Inserta código de revisión de la pila en el programa.
+  -fstack-clash-protection    Insert code to probe each page of stack space as it is allocated to protect from
+                              stack-clash style attacks.
+  -fstack-protector           Usa propolice como un método de protección de pila.
+  -fstack-protector-all       Usa un método de protección de pila para cada función.
+  -fstack-protector-explicit  Usa método de protección de pila solo para funciones con el atributo stack_protect.
+  -fstack-protector-strong    Usa un método de protección de pila inteligente para ciertas funciones.
+  -fstack-reuse=[all|named_vars|none] Establece el nivel de reúso de la pila para variables locales.
+  -fstdarg-opt                Optimiza la cantidad de registros stdarg guardados en pila al principio de la
+                              función.
+  -fstore-merging             Mezcla los almacenamientos adyacentes.
+  -fstrict-aliasing           Asume que se aplican las reglas estrictas de alias.
+  -fstrict-enums              Asume que los valores de tipo de enumeración están siempre dentro del rango mínimo
+                              de ese tipo.
+  -fstrict-volatile-bitfields Fuerza que los accesos de campos de bit coincidan con su anchura de tipo.
+  -fthread-jumps              Realiza optimizaciones de hilado de saltos.
+  -fno-threadsafe-statics     No genera código seguro en hilos para inicializar statics locales.
+  -ftracer                    Realiza la formación de superbloques a través de la duplicación de colas.
+  -ftrapping-math             Asume que las operaciones de coma flotante pueden atrapar.
+  -ftrapv                     Atrapar desbordamientos signed en adición, sustracción y multiplicación.
+  -ftree-bit-ccp              Activa la optimización SSA-BIT-CCP en árboles.
+  -ftree-builtin-call-dce     Activa la eliminación de código muerto condicional para llamadas internas.
+  -ftree-ccp                  Activa la optimización SSA-CCP en árboles.
+  -ftree-ch                   Activa la copia de encabezado de bucles en árboles.
+  -ftree-coalesce-vars        Activa coalescencia SSA de variables de usuario.
+  -ftree-copy-prop            Activa la propagación de copia en árboles.
+  -ftree-cselim               Transforma los almacenamientos condicionales a incondicionales.
+  -ftree-dce                  Activa la optimización de eliminación de código muerto SSA en árboles.
+  -ftree-dominator-opts       Activa las optimizaciones dominadoras.
+  -ftree-dse                  Activa la eliminación de almacenamiento muerto.
+  -ftree-forwprop             Activa la propagación hacia adelante en árboles.
+  -ftree-fre                  Activa la Eliminación de Redundancia Completa en árboles.
+  -ftree-loop-distribute-patterns Activa la distribución de bucles por patrones transformados en una llamada a
+                              biblioteca.
+  -ftree-loop-distribution    Activa la distribución de bucles en árboles.
+  -ftree-loop-if-convert      Convierte saltos condicionales en los bucles más internos a equivalentes sin
+                              ramificación.
+  -ftree-loop-im              Permite el movimiento invariante de bucles en árboles.
+  -ftree-loop-ivcanon         Crea variables de inducción canónica en los bucles.
+  -ftree-loop-optimize        Activa las optimizaciones de bucles a nivel de árbol.
+  -ftree-loop-vectorize       Activa la vectorización de bucles en árboles.
+  -ftree-lrs                  Realizar la división de rango vivo durante el paso SSA->normal.
+  -ftree-parallelize-loops=<número> Activa la paralelización automática de bucles.
+  -ftree-partial-pre          En optimización SSA-PRE en árboles, activa eliminación de redundancia parcial-
+                              parcial.
+  -ftree-phiprop              Activa las cargas de elevación de punteros condicionales.
+  -ftree-pre                  Activa las optimizaciones SSA-PRE en árboles.
+  -ftree-pta                  Realiza el análisis puntero-a función-local en árboles.
+  -ftree-reassoc              Activa la reasociación a nivel de árbol.
+  -ftree-scev-cprop           Activa la propagación de copia de la información escalar-evolución.
+  -ftree-sink                 Activa el hundimiento de código SSA en árboles.
+  -ftree-slp-vectorize        Activa la vectorización de bloque básico (SLP) en árboles.
+  -ftree-slsr                 Realiza reducción de fuerza de línea directa.
+  -ftree-sra                  Realiza el reemplazo escalar de agregados.
+  -ftree-switch-conversion    Realiza la conversión de las inicializaciones de switch.
+  -ftree-tail-merge           Activa la mezcla de colas en árboles.
+  -ftree-ter                  Reemplaza expresiones temporales en el paso SSA->normal.
+  -ftree-vectorize            Activa la vectorización en árboles.
+  -ftree-vrp                  Realiza la Propagación de Rango Valor en árboles.
+  -funconstrained-commons     Asume que las declaraciones comunes pueden sustituirse por las que tienen un array
+                              postrero mayor.
+  -funroll-all-loops          Realiza el desenrollamiento del bucle para todos los bucles.
+  -funroll-loops              Realiza el desenrollamiento del bucle cuando se conoce la cuenta de iteración.
+  -funsafe-math-optimizations Permite optimizaciones matemáticas que pueden violar los estándares IEEE ó ISO.
+  -funswitch-loops            Realiza la eliminación de opciones de bucle.
+  -funwind-tables             Sólo genera tablas de desenredo para manejo de excepciones.
+  -fvar-tracking              Realiza seguimiento de variables.
+  -fvar-tracking-assignments  Realiza seguimiento de variables con asignación de anotaciones.
+  -fvar-tracking-assignments-toggle Cambia -fvar-tracking-assignments.
+  -fvar-tracking-uninit       Realiza el seguimiento de variables y también marca las variables que no se
+                              inicializaron.
+  -fvariable-expansion-in-unroller Aplica la expansión de variables cuando se desenrollan los bucles.
+  Especifica el modelo de coste para vectorización. -fvect-cost-model=[unlimited|dynamic|cheap] Especifica el
+                              modelo de coste para vectorización.
+  -fvpt                       Usa perfiles de valor de expresión en las optimizaciones.
+  -fweb                       Construye redes y divide usos no relacionados de una sola variable.
+  -fwrapv                     Asume que el desbordamiento aritmético con signo se envuelve.
+  -fwrapv-pointer             Asume que el desbordamiento de punteros se envuelve.
+

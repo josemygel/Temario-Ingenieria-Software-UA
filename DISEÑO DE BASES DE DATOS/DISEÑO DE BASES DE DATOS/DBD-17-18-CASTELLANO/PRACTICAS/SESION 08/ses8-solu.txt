@@ -1,0 +1,131 @@
+-- ejercicio 1
+
+create view individuales
+as select numero 
+   from habitacion
+  where categoria='I';
+
+--ejercicio 2
+
+create view individuales_check
+as select numero 
+   from habitacion
+  where categoria='I'
+with check option;
+
+-- ejercicio 3
+
+create view individuales_cat
+as select numero, categoria
+   from habitacion
+  where categoria='I';
+
+
+-- ejercicio 4
+
+create view individuales_cat_check
+as select numero, categoria
+   from habitacion
+  where categoria='I'
+with check option;
+
+-- ejercicio 5
+
+insert into individuales values(100);
+
+--insert into individuales_check values(110)
+--violación de la cláusula WHERE, vista creada con WITH CHECK OPTION
+
+insert into individuales_cat values(120, 'S');
+
+-- insert into individuales_cat_check values(130, 'S')
+--violación de la cláusula WHERE, vista creada con WITH CHECK OPTION
+
+insert into individuales_cat_check values(140, 'I');
+
+-- ejercicio 6
+
+create view dobles_check
+as select numero 
+   from habitacion
+  where categoria='D'
+with check option;
+
+insert into dobles_check values(150);
+-- la diferencia está en que la categoría de la habitación tiene definida 
+--como valor por defecto D, por lo que al no introducir valor en la categoría 
+--le pone D y cumple la condición de la vista.
+-- En el ejercicio 5.b como le ponía D como valor (no había valor para categoria y
+-- se usaba el valor por defecto) no coincidía con la condición de 
+-- la vista (categoria='I').
+
+
+-- ejercicio 7
+create view clientes_alicante
+as select nombre, telefono, localidad
+   from cliente
+   where provincia='Alicante';
+
+-- Si el empleo de mayúsculas o minúsculas en los datos no tiene un significado distinto
+-- por ejemplo, si como valor de un código, poner CPAA 
+-- es lo mismo que CPaa o CPaA (no son 3 códigos distintos),
+-- para despreocuparnos si los datos se han introducido con mayúsculas o minusculas
+-- podemos apoyarnos en la función UPPER.
+ 
+create clientes_alicante2
+as select nombre, telefono, localidad
+   from cliente
+   where UPPER(provincia)='ALICANTE';
+
+-- Puedes comprobar que estas dos sentencias devuelven lo mismo:
+
+SELECT * FROM clientes_alicante;
+SELECT * FROM clientes_alicante2;
+
+
+-- insert into clientes_alicante values('Rodrigo López','Alcoy','646565444');
+
+-- la inserción se realizaría sobre la tabla clientes,
+-- al no haber introducido el nif al definir la vista,
+--  no se puede dar valor al NIF, y no se puede quedar a NULL
+-- por se la clave primaria.
+
+-- ejercicio 8
+
+create view clientes_alicante_nif
+as select nif, nombre, localidad, telefono
+   from cliente
+   where UPPER(provincia)='ALICANTE';
+
+insert into clientes_alicante_nif values('99999999Z','Rodrigo López','Alcoy','646565444');
+
+--insert into clientes_alicante_nif values('21668899P','Miguel Bermejo','Villena','646555555');
+-- ya existe un cliente con ese NIF y no se puede repetir la clave primria.
+
+
+-- ejercicio 9
+
+-- si queréis que el nombre de columna código pase a ser codigo
+-- sin tilde.
+alter table actividad rename column código to codigo;
+
+
+create view contadorsustituciones
+as select codigo, descripcion,'ADULTO' tipo, count(*) total
+   from actividad, sustadultos
+   where codigo=activ1
+   group by codigo, descripcion
+   union
+   select codigo, descripcion, 'NIÑOS' tipo, count(*) total
+   from actividad, sustninos
+   where codigo=activ1
+   group by codigo, descripcion
+   union
+      select codigo, descripcion, 'TODOS' tipo, count(*) total
+   from actividad, susttodos
+   where codigo=activ1
+   group by codigo, descripcion;
+
+-- La vista anterior no contempla las actividades sin sustitutas, 
+-- debéis realizar los cambios adecuados para que se contemplen.
+

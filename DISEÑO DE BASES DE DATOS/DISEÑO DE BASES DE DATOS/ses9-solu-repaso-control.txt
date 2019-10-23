@@ -1,0 +1,175 @@
+--ejercicio 1
+
+create table grupo(
+num number(2) constraint pk_grupo primary key,
+nombre varchar2(50),
+grupomin number(2) check (grupomin between 1 and 5));
+
+
+--ejercicio 2
+
+alter table actividad add grupo number(2) constraint fk_actividad_grupo references grupo;
+
+--ejercicio 3
+
+alter table categoria modify descripcion varchar2(90);
+
+
+--ejercicio 4
+
+create view ejercicio4 as
+select num, nombre, count(grupo) total_actividades
+from grupo left join actividad on num=grupo
+group by num, nombre;
+
+
+--ejercicio 5
+
+create view ejercicio5 as
+select nombre, count(temporada) total_dias
+from temporada left join calendario on nombre=temporada
+group by nombre;
+
+
+--ejercicio 6
+
+--Asumimos que ya se han dado de alta días del calendario en las temporadas.
+--Si no fuese así habría que controlar si todas las temporadas tienen 0 dias asignados.
+
+create function temporada_mas_grande return temporada.nombre%type
+is
+auxnombre temporada.nombre%type;
+begin
+select temporada into auxnombre
+from calendario
+group by temporada
+having count(*) >= all (select count(*) from calendario group by temporada);
+return(auxnombre);
+end;
+
+-- Si queremos tener en cuenta que 2 temporadas pueden coincidir en días y mostrar
+-- sólo una de ellas, podíamos hacer
+
+create function temporada_mas_grande return temporada.nombre%type
+is
+auxnombre temporada.nombre%type;
+cont number(1);
+cursor temp is
+select temporada
+from calendario
+group by temporada
+having count(*) >= all (select count(*) from calendario group by temporada)
+order by temporada;
+begin
+cont:=0;
+for t in temp loop
+auxnombre:=t.temporada;
+cont:=cont+1;
+exit when cont=1;
+end loop;
+return(auxnombre);
+end;
+
+-- ejercicio 7
+-- OJO: en la creación de la tabla ACTIVIDAD, la columna código está con la tilde
+create or replace
+function hora_frecuente return number
+is
+auxhora number(2);
+begin
+select hora into auxhora
+from horario, actividad
+where actividad=código and descripcion like '%Campeonato%'
+group by hora
+having count(*) >= all (select count(*)
+			from horario, actividad
+			where actividad=código and descripcion like '%Campeonato%'
+			group by hora);
+return(auxhora);
+end;
+-- Como en el ejercicio anterior se puede modificar por
+-- si coinciden varias horas para que se obtenga sólo una de ellas.
+
+
+-- ejercicio 8
+
+create procedure ver_precios(lafecha date)
+is
+cursor cathabi is
+select categoria, pMP 
+from pvptemporada p, calendario c 
+where fecha=lafecha and p.temporada=c.temporada;
+begin
+escribir('PRECIO DE ALOJAIENTO PARA '||lafecha);
+for c in cathabi loop
+escribir('En habitación '||c.categoria||' precio '||c.pMP);
+end loop;
+end;
+
+-- ejercicio 9
+
+alter table actividad add precio number(2) default 0;
+
+-- ejercicio 10
+-- OJO: en la creación de la tabla ACTIVIDAD, la columna código está con la tilde
+create or replace
+procedure modifica_precio(X number, Y number)
+is
+cursor activ is
+select actividad
+from horario
+group by actividad
+having count(*) >= X;
+auxdesc actividad.descripcion%type;
+auxprecio actividad.precio%type;
+
+begin
+for ac in activ loop
+
+update actividad
+set precio=precio+Y
+where código=ac.actividad;
+
+select descripcion, precio into auxdesc, auxprecio
+from actividad
+where código=ac.actividad;
+
+escribir('El nuevo precio para la actividad '||ac.actividad||': '||auxdesc||' es '||auxprecio);
+
+end loop;
+end;
+
+--Si en lugar de referirnos a "al menos X días" se hubiese hecho referencia a "horas"
+-- el count(*) se tendria que haber sustituido por count(distinct hora) si queremos
+-- referirnos a horas distintas. En el caso de "dia"(fecha) no es necesario, ya que
+-- el mismo dia con la misma actividad no puede aparecer en más de una fila.
+
+
+11.- create or replace FUNCTION tipoempleado(p_nif empanimacion.nif%type) return char
+IS
+
+v_estudios empleado.estudios%type;
+v_tp number(4); v_ninos number(4); v_adultos number(4);
+
+begin
+select estudios into v_estudios 
+from empleado
+where nif=p_nif;
+if v_estudios is not null then return('NN');
+else
+select count(*) into v_tp from actividad, acttodos where actividad=código and empanimacion=p_nif;
+select count(*) into v_ninos from actividad, actninos where actividad=código and empanimacion=p_nif;
+select count(*) into v_adultos from actividad, actadultos where actividad=código and empanimacion=p_nif;
+if v_ninos > v_tp and v_ninos > v_adultos then return('NI');
+elsif v_adultos > v_ninos and v_adultos > v_tp then return('AD');
+else return('TP');
+end if;
+end if;
+end;
+
+
+
+
+
+
+

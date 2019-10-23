@@ -1,0 +1,353 @@
+Selecciona la respuesta correcta sobre la segmentación basada en regiones:{
+ 
+= El objetivo es encontrar regiones de la imagen homogéneas según algún criterio.
+ 
+~ En el crecimiento de regiones, se asume que una región es un conjunto de píxeles sin ningún tipo de conexión.
+ 
+~ El objetivo es encontrar regiones de la imagen heterogéneas según algún criterio.
+ 
+}
+
+Respecto a la eliminación de puntos inestables, es FALSO que:
+{
+~ Se eliminan aquellos puntos con un contraste bajo.
+~ Se eliminan aquellos puntos situados sobre una arista.
+= Se eliminan aquellos puntos con vecindad en la escala determinada.
+}
+
+En cuanto a los puntos críticos de la transformada de Hough {
+
+~ La complejidad temporal del proceso de votación aumenta de forma factorial O(N!)
+~ El ajuste del tamaño de celda y del número mínimos de votos es clave para evitar un elevado número de falsos negativos
+= El método exhaustivo solamente es aplicable a primitivas sencillas, haciéndose necesaria una discretización ligera para satisfacer los requerimientos de memoria.
+}
+
+Determinar la definición correcta sobre la segmentación de imágenes:{
+~ Es el proceso de extraer zonas de la imagen con el mismo tamaño para clasificarlas automáticamente.
+= Es el proceso de extraer zonas de la imagen con el mismo color/nivel de gris/textura para identificarlas automáticamente.
+~ Ninguna de las anteriores es correcta.
+}
+
+¿Cómo se consigue la localización en la multiescala?: {
+~ Con una suma de gaussianas (SoG).
+= Con una diferencia de gaussianas (DoG).
+~ Con una división de gaussianas (DoG).
+}
+
+En la segmentación basada en regiones la manera en la que empezamos con regiones pequeñas y las hacemos crecer o bien las mezclamos, usando un criterio de similaridad se llama: {
+
+= Crecimiento de regiones.
+
+~ Partición de regiones.
+
+~ Ninguna de las anteriores.
+
+}
+
+¿Cuantos pasos tiene el algoritmo SIFT?:{
+~ 3.
+= 2.
+~ 4
+}
+
+¿Qué devuelve el algoritmo SIFT?:{
+~ Un booleano.
+= Las características encontradas en la imagen.
+~ Ninguna de las anteriores es correcta.
+}
+
+El algorítmo de las K-Media se inicializa: {
+= Asignando las medias de manera aleatoria.
+~ Redistribuyendo las medias de forma desigual.
+~ Ninguna de las anteriores es correcta.
+}
+
+Indica qué secuencia sigue el algoritmo SIFT para encontrar las características de una imágen: {
+= Encontrar la posición de los puntos, calcular el descriptor.
+~ Calcular el descriptor, encontrar la posición de los puntos.
+~ Encontrar las zonas más saturadas de la imágen, determinar los puntos en esas zonas, calcular el descriptor.
+}
+
+En la segmentación basada en regiones existen dos maneras de hacerlo, ¿cuáles son? {
+~ Partición de regiones y filtración de regiones.
+= Crecimiento de regiones y partición de regiones.
+~ Ninguna de las anteriores.
+}
+
+La distancia euclidea más utilizada en el algorítmo de las K-Medias tiene en cuenta : {
+
+= El k más cercano.
+
+~ El k mas lejano.
+
+~ El k comprendido entre el k más lejano y el k más cercano (k medio).
+
+}
+
+En segmentación basada en regiones, en partición de regiones (region splitting): {
+
+= Empezamos con regiones grandes y las vamos dividiendo usando un criterio de homogeneidad.
+
+~ Empezamos con regiones pequeñas y las vamos dividiendo usando un criterio de homogeneidad.
+
+~ Empezamos con regiones grandes y las vamos dividiendo usando un criterio de heterogeneidad.
+}
+
+En la transformada de Hough, la motivación es: {
+~ Desarrollar técnicas que permitan identificar formas geométricas complejas en una imagen.
+= Desarrollar técnicas que permitan identificar primitivas geométricas sencillas en una imagen.
+~ Ninguna de las anteriores.
+}
+
+Para hacer uso del algoritmo de las K-medias :{
+~ Es necesario conocer varias de las distribuciones distintas existentes.
+= Es necesario conocer el número de distribuciones distintas existentes.
+~ No es necesario conocer el número de distribuciones distintas existentes.
+}
+
+Si se encuentran muchos puntos, pero muchos de ellos son “inestables” se eliminan aquellos: {
+= Con un contraste bajo o que se encuentran sobre una arista
+~ Con un contraste alto
+~ Ninguna de las anteriores
+}
+
+En lo referente a la localización, ¿Cuáles son los puntos relevantes? {
+~ Aquellos que son inestables.
+= Los máximos o mínimos.
+~ No hay puntos relevantes.
+}
+
+Nos encontramos la siguiente ecuación paramétrica, de la recta transformada de Hough:
+x·cos(?) + y·sin(?) = 0
+¿Qué podemos determinar? {
+~ Es una ecuación incorrecta.
+= La recta está contenida en uno de los ejes de coordenadas.
+~ Las dos opciones anteriores son incorrectas.
+}
+
+¿Cúal de las siguientes opciones es correcta?:{
+~ El objetivo del crecimiento de regiones es la de escoger un pixel de la imagen y examinar los píxeles vecinos y determinar si estos se pueden añadir o no a la región si son heterogéneos.
+= El objetivo principal del particionado de regiones es la de segmentar una imagen para simplificarla y luego analizarla para localizar objetos o límites de la imagen más fácilmente.
+~ Ninguna es correcta.
+}
+
+En cuanto al algoritmo de K-Medias para segmentación de imágenes: {
+~ Para imágenes en escala de gris se usa la posicion de los píxeles, no los valores de gris.
+= En imágenes a color usa directamente los valores R,G,B.
+~ En imágenes a color no se puede usar de ninguna forma el modelo HSB.
+}
+
+Referente a la transformada de Hough unos puntos claves para evitar un elevado número de falsos positivos son: {
+= El ajuste de celda y del número mínimo de votos.
+~ La discretización para satisfacer los requerimientos de memoria y la indexación de los elementos.
+~ El cálculo de varios descriptores mediante el algoritmo de SIFT y la cuantización.
+}
+
+En cuanto a la partición de regiones: {
+= Conlleva una complejidad mayor, al tener que manejar alguna estructura de datos adicional.
+~ Conlleva una complejidad menor, al tener que manejar alguna estructura de datos adicional.
+~ Conlleva una complejidad mayor, al tener que manejar un criterio de homogeneidad.
+}
+
+En cuanto al crecimiento de regiones mediante semillas: {
+= Se aplica un detector de aristas. Los puntos cuyo valor de magnitud de gradiente estén próximos a cero, serán “valles”, es decir, puntos dentro de regiones. Usaremos estos puntos como “semillas”.
+~ Lo mejor es coger un único punto de partida o semilla, como puede ser una esquina, y apartir de este punto ir creando todo.
+~ Ninguna de las anteriores es correcta.
+}
+
+La segmentación de imagenes es el proceso de extraer zonas de la imagen para poder identificarlas automáticamente ¿En base a que criterios?
+{
+= Mismo color/nivel de gris/textura.
+~ Mismo color/nivel de gris/orientación.
+~ Mismo color/nivel de gris/contraste.
+}
+
+¿Que pega puede tener la partición de regiones respecto a otros?{
+~ Su inexactitud respecto a otros
+= Complejidad mayor al tener que manejar alguna estructura de datos adicional
+~ Ninguna de las anteriores es correcta
+}
+
+Una diferencia entre la transformada de Hough y SIFT: {
+= SIFT trabaja de forma correcta sobre imágenes con diferente iluminación, ángulo de captura, etc.
+~ Hough es el más adecuado para tratar imágenes con distinta iluminación, ángulo de captura, etc.
+~ Hough hace uso de descriptores, pero SIFT no.
+}
+
+¿Qué afirmación acerca del algoritmo de k-medias es falsa? {
+~ Se buscan k puntos (medias) y es necesario indicar explícitamente el valor de k
+~ Se puede inicializar el algoritmo de diferentes maneras como por ejemplo de forma aleatoria o heurística.
+= Siempre encuentra la solución más óptima
+}
+
+El objetivo de la segmentación basada en regiones es encontrar regiones de la imagen homogéneas según algún criterio. Hay dos maneras de alcanzar este objetivo y una de ellas es mediante el "Crecimiento de regiones" (region growing). ¿Cuál de las siguientes afirmaciones NO hace referencia a la manera mencionada? {
+~ Empezamos con regiones pequen?as (semillas).
+= Partimos una u?nica regio?n (toda la imagen) y usamos
+algu?n criterio de homogeneidad para partir la regio?n. En el caso de que no se cumpla, se divide, de ahí que reciba el nombre de "Crecimiento de regiones" (cuantas más divisiones, más regiones).
+~ Hacemos crecer o bien mezclamos las regiones con las que empezamos usando un criterio de similaridad.
+}
+
+Respecto a la inicialización del algoritma de las K-medias, elige la opción incorrecta: {
+~ Buscar k puntos (medias).
+= Es mejor lanzar un conjunto de semillas, es decir, lanzar varios puntos de partida.
+~ Usar alguna heurística para elegir la inicialización.
+}
+
+Las siglas de SIFT corresponden a ... {
+~ Simple Image For Treatment
+= Scala Invariant Feature Transform 
+~ Scala Image Feature Treatment
+}
+
+Selecciona la opción que no se adapte (incorrecta) a la hora de la resolución de problemas de cambios de iluminación: {
+~ Uso de descriptores que contengan información necesaria para indentificar los distintos puntos en una imagen.
+= Emplear la transformada de Hough para determinar el reconocimiento de patrones geométricos inherentes a la imagen es suficiente para resolver problemas de iluminación.
+~ El algoritmo de SIFT
+}
+
+Respecto al algoritmo K-medias es cierto que: {
+= Es un método de agrupamiento heurístico con número de clases conocido (K).
+~ Siempre encuentra la solución óptima.
+~ Realiza un histograma de orientaciones alrededor de un punto.
+}
+
+En el algoritmo para describir las características locales de las imagenes SIFT (escala invariante en función de transformación) publicado por David G. Lowe, indica cual sería el orden correcto:{
+~Escala; Orientación; Localización del punto; Cálculo del descriptor.
+~Escala; Localización del punto; Orientación; Cálculo del descriptor.
+=Localización del punto; Escala; Orientación; Cálculo del descriptor.
+}
+
+Cuando se inicializan los K centroides de los clusters en el algoritmo de K-Means y K es el número correcto de los clusters en los datos...
+{
+~ el algoritmo no puede encontrar la solución más óptima.
+= al algoritmo le puede llevar más tiempo (encontrar una solución óptima) debido a una mala inicialización.
+~ el algoritmo necesita K iteraciones para obtener una solución óptima.
+}
+
+En relación con la percepción automática y en concreto con los puntos críticos de la transformada de Hough, señala la respuesta correcta:{
+~ Ineficiencia: las complejidades espaciales y temporales son O(N!) y O(N^2 -1) respectivamente.
+~ Ineficiencia: las complejidades temporales y espaciales son O(N!) y O(N-1)! respectivamente.
+= Ineficiencia: las complejidades espaciales y temporales son O(N!) y O(N-1)! respectivamente.
+}
+
+Según las características de K-medias, cual afirmación es falsa: {
+= En su modo probabilístico, se puede aplicar a un número reducido de distribuciones.
+~ En su modo probabilístico, se pueden usar distintas medidas de distancia a distribución.
+~ En su modo probabilístico, se puede utilizar con distancias como Mahalanobis y Kullback-Leiber.
+}
+
+En cuanto a la segmentación basada en regiones de una imagen, indica la respuesta correcta = {
+= En el método de Crecimiento de regiones podemos empezar por cualquier píxel de la imagen pero es mejor lanzar varios puntos de partida "semillas"
+~ Según el criterio de Partición de regiones aplicamos un detector de aristas para buscar los píxeles iniciales.
+~ En el crecimiento de regiones utilizamos un test de similaridad en el que si un píxel no lo cumple se descarta y no forma parte de ninguna región.
+}
+
+Acerca del mecanismo de la transformada de Hough puede afirmar que:{
+~ Cada punto de la imagen votará por aquella ecuación (combinación de parámetros, o celda) que cumpla. Daremos como salida las celdas sin suficiente soporte o evidencia, esto es, aquellas con un “número insuficiente de votos”.
+= Los valores de los parámetros de la ecuación paramétrica definen unívocamente a cada primitiva. Por cada parámetro tenemos una dimensión en el espacio paramétrico y cada dimensión se “discretiza” en celdas.
+~ Ninguna de las anteriores.
+}
+
+Cual de las siguientes afirmaciones es incorrecta: {
+~ El algoritmo SIFT tiene dos pasos, encontrar la posición de los puntos y calcular el descriptor.
+~ La segmentación de imágenes es el proceso de extraer zonas de la imagen con el mismo color/nivel de gris/textura para identificarlas automáticamente..
+= Las dos respuestas anteriores son incorrectas.
+}
+
+De las siguientes afirmaciones, cúal es la correcta:{
+~ Una de las maneras que existen de encontrar regiones de la imagen homogéneas es el decrecimiento de regiones, que consiste en empezar con regiones grandes y las hacemos disminuir o las mezclamos usando un criterio de similaridad.
+~ Una de las maneras que existen de encontrar regiones de la imagen homogéneas es la unión de regiones, cogiendo regiones pequeñas y las vamos uniendo con un criterio de homogeneidad.
+= Ninguna es correcta
+}
+
+Cuál de los pasos siguientes NO pertenecen al algoritmo SIFT:{
+~ Encontrar la posición de los puntos;
+~ Calcular el descriptor;
+= Encontrar para cada punto el centroide más cercano.
+}
+
+Qué hace la diferencia de gaussianas?:{
+~ Resalta las zonas de la imagen donde hay una gran variación del tono de la imagen (bordes muy definidos)
+~ Resalta las zonas de la imagen donde no hay ninguna variación de tono.
+= Resalta bordes que a una escala muy pequeña pueden parecer degradados y a una escala muy grande ser imperceptibles.
+}
+
+¿Sobre el algoritmo de las K-medias, cuál es la respuesta incorrecta?
+~ Encuentra la media de las distribuciones
+~ Es necesario conocer el número de distribuciones distintas existentes
+= Para una correcta solución el número de distribuciones distintas tienen que estar dentro de un rango
+}
+
+En la inicialización del algorítmo de las k-medias: {
+=Se asignar las medias de manera aleatoria, se redistribuyen de manera uniforme y se usa alguna heurística.
+~ Se seleciona la media mas baja, se redistribuye de manera unifome y se usa alguna heurística.
+~Se asignar las mediamas alta, se redistribuyen de manera uniforme y se usa alguna heurística.
+}
+
+Selecciona la respuesta correcta acerca de la técnica de segmentación basada en regiones:
+{
+~ no construye las regiones directamente.
+= en general, trabaja mejor en imágenes con ruido.
+~ busca cotas a partir de la distribución de propiedades de la imagen.
+}
+
+Cuando aplicamos el algoritmo k-medias:{
+~ Termina en k iteraciones.
+= Termina cuando ya no hay cambios en las pertenencias o se han realizado el máximo de iteraciones fijadas como parámetro.
+~ No podemos conocer cuando finaliza dicho algoritmo. 
+}
+
+¿Cuál de estas afirmaciones es incorrecta?
+{
+~ El algortirmo de K-medias encuentra las medias de las distribuciones
+= Cuando inicializamos no podemos redistribuir las medias de manera uniforme
+~ El algortimo de K-medias puede no encontrar la solución más óptima
+}
+
+Indica cuál de los siguientes NO es un paso del k-medias{
+~ Calcular para cada punto, el cluster al que pertenece.
+= Asignaremos a cada cluster el centroide más cercano.
+~ Ninguna de las anteriores.
+}
+
+Cúal de las siguientes afirmaciónes NO es un punto critico en cuanto a la Transformada de Hough {
+~  La complejidad espacial de la construcción del espacio de parámetros aumenta de forma factorial con el número de los mismos O(N!).
+= Una mala inicialización puede llevar más tiempo.
+~ Puede ser dificil de encontrar un buen ajuste de sensibilidad para evitar un elevado número de falsos positivos.
+}
+
+Cuál de las característica siguientes NO pertenecen al algoritmo de las K-medias:{
+= No es necesario indicar K;
+~ Puede no encontrar la solución más óptima;
+~ Una mala inicialización puede llevar a más tiempo.
+}
+
+Respecto a la Transformada de Hough:{
+~ Ineficencia: la complejidad espacial de la construcción del espacio de parámetros disminuye de forma factorial con el número de los mismos: O(N!) Lo mismo sucede con la complejidad temporal del proceso de votación: O(N-1)!;
+~ Ineficencia: la complejidad espacial de la construcción del espacio de parámetros aumenta de forma factorial con el número de los mismos: O(N!) Al contrario que con la complejidad temporal del proceso de votación: O(N-1)!;
+= Ajuste de sensibilidad: aunque es un factor de menor importancia, el ajuste del tamaño de celda y del número mínimo de votos es clave para evitar un elevado número de falsos positivos.
+}
+
+Cuáles son los puntos críticos de la transformada de hough? {
+= Ineficiencia, ajuste de sensibilidad y solamente es aplicable a primitivas sencillas;
+~ eficiencia, ajuste de sensibilidad y solamente es aplicable a primitivas sencillas;
+~Ineficiencia, ajuste de probabilidad y solamente es aplicable a primitivas sencillas;
+ }
+
+Pregunta: Dentro del algoritmo Hough Circulo para cada (a,b,r) ... :{
+~ Para cada pixel (x,y): r es la distancia manhattan entre a,b y x,y.
+~ r es la diferencia entre a,b y la media de todos los x,y.
+= Para cada pixel (x,y): r es la distancia euclídea entre a,b y x,y.
+}
+
+Elige la opción correcta: {
+~ El objetivo de la segmentación basada en regiones es encontrar regiones de la imagen heterogéneas según algún criterio.
+~ SIFT calcula el receptor.
+= Las medias de las distribuciones (clusters) se pueden encontrar con el algoritmo de las K-Medias.
+}
+
+Para el cálculo de la pertenencia, dependiendo del problema, se podrá utilizar :{
+~ Distancia manhattan o productorio de pertenencia a un cluster.
+~ Distancia euclídea o productorio de pertenencia a un cluster.
+= Distancia euclídea o probabilidad de pertenencia a un cluster.
+}

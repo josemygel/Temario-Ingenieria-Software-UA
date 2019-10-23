@@ -1,0 +1,134 @@
+-- ejercicio 1
+Habrá un trigger similar a éste para cada tipo de actividad.
+
+create or replace trigger sustituir_ninos
+before insert or update
+on sustninos
+for each row
+begin
+if (:new.activ1=:new.activ2) then
+   raise_application_error(-20601,'Una actividad no puede ser sustituida por
+ella misma');
+end if;
+end;
+
+-- ejercicio 2
+
+create or replace trigger superficie_categoria
+before insert or update
+on categoria for each row
+when (new.supmax is not null)
+begin
+if (:new.supmin >= :new.supmax) then
+   raise_application_error(-20601,'La superficie minima de la habitacion debe
+ser menor que la superficie maxima');
+end if;
+end;
+
+-- ejercicio 3
+
+create or replace
+trigger muchas_actividades
+before insert
+on horario
+for each row
+declare total number(2):=0; auxdescri actividad.descripcion%type;
+begin
+select count(distinct actividad) into total from horario where fecha=:new.fecha;
+if total >= 4 then
+  select descripcion into auxdescri from actividad where codigo=:new.actividad;
+   raise_application_error(-20601,'La actividad '||auxdescri||' se debe realizar otro dia');
+end if;
+end;
+
+-- ejercicio 4
+
+create or replace trigger alta_reserva
+before insert on calendreservas
+for each row
+declare 
+auxcategoria habitacion.categoria%type;
+vnif cliente.nif%type;
+cursor otras_res is
+select * 
+from reserva, calendreservas
+where codigo=reserva and cliente=vnif and fecha=:new.fecha;
+begin
+select cliente into vnif from reserva where codigo=:new.reserva;
+for res in otras_res loop
+select categoria into auxcategoria from habitacion where numero=res.habitacion;
+escribir('habitación '||res.habitacion||' categoria '||auxcategoria||' alimentacion '||res.alimentacion||' cama '||res.camasup);
+end loop;
+End;
+
+
+--ejercicio 5
+
+create table citas_diarias(
+nif char(9), fecha date, total number(1), 
+constraint pk_citas_diarias primary key(nif, fecha));
+
+
+create or replace
+trigger control_citas
+after insert or delete or update on cita
+for each row
+declare aux number(1):=0;
+begin
+select count(*) into aux from citas_diarias 
+where nif=:new.empleado and fecha=:new.fecha;
+if inserting or updating then
+if (aux=0) then insert into citas_diarias values(:new.empleado, :new.fecha, 1);
+else update citas_diarias set total=total+1 where nif=:new.empleado and fecha=:new.fecha;
+end if;
+end if;
+if deleting or updating then
+update citas_diarias set total=total-1 where nif=:old.empleado and fecha=:old.fecha;
+end if;
+end;
+-- Se recuerda que el disparador se pondría en marchar con la tabla recién construida y 
+-- sin filas, por lo que con las condiciones de construcción del disparador
+-- no se va a dar el caso de que el total quede a valores negativos.
+
+-- ejercicio 6
+
+alter table cliente add  fecha_alta date;
+
+
+create or replace trigger fecha_alta_cliente
+
+before insert on cliente
+
+for each row
+
+begin
+
+if (:new.fecha_alta is null) then :new.fecha_alta := sysdate;
+
+end if;
+
+end;
+
+
+
+
+
+-- ejercicio 7
+
+
+
+create or replace trigger supmax_120
+
+before insert or update of supmax
+
+on categoria
+
+for each row
+
+begin
+
+if (:new.supmax>90) then :new.supmax := 90;
+
+end if;
+
+end;

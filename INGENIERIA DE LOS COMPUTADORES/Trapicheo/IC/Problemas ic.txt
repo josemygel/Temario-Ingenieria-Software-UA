@@ -1,0 +1,92 @@
+1-) Un programa tarda 40 segundos en ejecutarse en un multiprocesador, 
+durante un 20% (de 40 segundos) de ese tiempo se ha ejecutado en 4 procesadores,
+el 60% en 3 procesadores y el restante (20%) en 1 procesador.
+
+Considerando que se ha distribuido por igual la carga de trabajo entre los procesadores 
+y despreciando la sobrecarga.
+
+-¿Cuanto tiempo tarda el programa en ejecutarse en un procesador?
+-¿Ganancia en velocidad? = Sp(p)=Tsec / Tp
+-¿Eficiencia?
+
+Tp(p=4)=40
+
+
+
+2-) Un programa tarde 20 segundos en ejecutarse en un procesador P1 y 30 en otro 
+procesador P2. Despreciando la sobrecarga 
+
+-¿Cuanto tiempo tarda en ejecutarse el programa si la carga de trabajo se distribuye
+por igual entre los dos procesadores?
+
+ts(x=1/2)=1/2 ts(1) = 10s
+tx(x=1/2)=1/2 ts(1) = 15s
+
+
+-¿que distribucion de carga entre los dos procesadores minimiza el tiempo de ejecucion
+paralelo, y cuanto es ese tiempo?
+
+
+
+3-) ¿Cual es la fraccion de codigo paralelo de un programa secuencial que..
+-ejecutado en paralelo en 8 procesadores tarda un tiempo de 10 ns
+-durante 50 ns utiliza un unico procesador y durante los 50 ns restantes los 8
+-se distribuye por igual la carga de trabajo entre todos los procesadores?
+
+
+4-) El 25% de un programa no se puede paralizar, y el resto si. ¿Cual es el maximo
+valor de ganancias de velocidad que se podria conseguir al paralizar el problema en P
+procesadores? 
+
+¿A partir de que P se obtienen ganancias mayores o iguales a 2?
+
+
+
+5-)
+El grafo representa la dependencia entre tareas de una aplicacion, en el que se muestran
+las tracciones(%) del tiempo de ejecucion secuencial que tarda la aplicacion en ejecutar
+cada tarea.
+
+Suponiendo un tiempo de ejecucion secuencial de 60s que las tareas no se pueden dividir
+en tareas de menor granularidad y el tiempo de comunicacion es despreciable, obtenga
+el tiempo en ejecucion en paralelo y la ganancia en velocidad en un computador con
+4 y otro con 2 nodos.
+
+
+6) 
+un programa se ha conseguido dividir en tareas (dibujo), la ejecucion de esas tareas
+en un solo nodo ts=2s.
+
+
+7) en la ejecucion paralela la inicializacion de p procesos supone un tiempo de k1 * p
+y k2 * p es el tiempo de sync + comm ..
+
+a) obtener una expresion para tp(P)
+b) cual es la ganancia? (en velocidad)
+
+
+8-)
+a) Cuanto vale la distancia de los nodos 13 y 44 de un hipercubo de dimension 6.
+b) Cuantos nodos tiene el nodo 13 a esa misma distancia o el 44.
+
+
+9-)
+La red de comunicacion de un sistema masivamente paralelo es una malla de 16x16 
+procesadores en la que los nodos estan conectados con 8 vecinos.
+Sobre dicha red se ejecuta una aplicacion que envia mensajes a los nodos a
+distancia p con la siguiente probabilidad.
+
+distancia 	1	3	7
+probabilidad 	0,6	0,3	0,1
+
+a) diametro de la red
+b) distancia media de la aplicacion
+c) si el ancho de banda de biseccion es de 184 Gbits/s ¿cual es el
+	ancho de banda por canal?
+
+
+10-)
+un multicomutador utiliza una red de comunicacion en la que los enlaces son de 1gb/s
+y la comunicacion es store & forward. Mandar un paquete de 32 bytes a un nodo distancia
+6 cuesta 1,56 ys. ¿Cuantas veces seria mas rapido esta transmision si fuera virtual
+cut-throught. Se supone trafico 0, las flits son 8 bits y 1 flit de cabecera?.

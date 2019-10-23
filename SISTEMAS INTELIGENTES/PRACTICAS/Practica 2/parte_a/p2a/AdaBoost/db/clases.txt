@@ -1,0 +1,8 @@
+0	Abrigos
+1	Bolsos
+2	Camisetas
+3	Pantalones
+4	Suéters
+5	Vestidos
+6	Zapatillas
+7	Zapatos

@@ -1,0 +1,99 @@
+Puntos: 1
+Sobre el proceso de diseño de arquitecturas de computadores. Tendencias software
+Seleccione una respuesta.
+a. Reorientación de las arquitecturas hacia el soporte de los compiladores 
+b. Sustitución de los lenguajes de alto nivel por el lenguaje ensamblador 
+c. Decreciente cantidad de memoria utilizada por los programas y sus datos 
+Question 2
+Puntos: 1
+Sobre el proceso de diseño de arquitecturas de computadores. Decisiones de implementación
+Seleccione una respuesta.
+a. La principal ventaja de decidir implementar una funcionalidad en software es el rendimiento 
+b. El diseñador debe elegir como implementar mejor una funcionalidad entre las opciones de implementación hardware e implementación software 
+c. Las principales ventajas de decidir implementar una funcionalidad en hardware son la facilidad del diseño, el bajo coste de errores, y la actualización simple 
+Question 3
+Puntos: 1
+Sobre el proceso de diseño de arquitecturas de computadores. Establecer requerimientos funcionales y especificar
+Seleccione una respuesta.
+a. Los dispositivos móviles personales requieren CPUs con capacidad de procesamiento de transacciones y soporte para bases de datos 
+b. Para establecer los requerimientos funcionales de un computador hay que tener en cuenta, entre otras cuestiones, los requerimientos del sistema operativo (tamaño del espacio de direcciones, gestión de memoria, cambio de contexto, interrupciones, protección…) 
+c. Cuando el diseñador de CPUs decide fijar el nivel de compatibilidad software en el código binario compatible, busca una mayor flexibilidad en el diseño del repertorio de instrucciones 
+Question 4
+Puntos: 1
+Sobre los niveles de descripción de un computador
+Seleccione una respuesta.
+a. Los niveles de interpretación de Levy son cuatro (Aplicaciones, Lenguajes de alto nivel, Sistema Operativo, Microinstrucciones) 
+b. El nivel de abstracción “Sistema Computador” utiliza el de “Lógica Digital” para proporcionar funcionalidad (Ensamblador, Sistemas de Computo) al nivel superior “Sistema Operativo” 
+c. Dentro de los niveles de abstracción de un computador, el de lógica digital utiliza la lógica combinacional y secuencial para proporcionar ALUs, registros, memorias,… al nivel superior (Transferencias entre Registros RT) 
+Question 5
+Puntos: 1
+Sobre los principios de diseño de computadores
+Seleccione una respuesta.
+a. Los programas suelen emplear el 10% de su tiempo de ejecución en el 90% del código 
+b. La ley de Amdahl es una cuantificación del principio de localidad 
+c. El principio de localidad de referencia establece la tendencia de los programas a reutilizar los datos e instrucciones usados recientemente 
+Question 6
+Puntos: 1
+
+La ejecución del bechmark Drystone en un Core i7 es de 2.5 segundos, suponiendo una aceleración de 8.8 con respecto a laejecución que tenía en el Pentium 4. ¿Cuánto tardaba el benchmark cuando se ejecutaba en el Pentium 4.
+Respuesta:
+Question 7
+Puntos: 1
+El Core i7 ejecuta un programa en 5 segundos, mientras que el Pentium II lo hace en 20 segundos. ¿Cuál de la siguientes afirmaciones es cierta?
+Seleccione una respuesta.
+a. El Core i7 es un 400% más rápido que el Pentium II 
+b. El Core i7 es un 300% más rápido que el Pentium II 
+c. El Core i7 es un 40% más rápido que el Pentium II 
+Question 8
+Puntos: 1
+El coste es un parámetro a tener muy en cuenta al diseñar un nuevo procesador o al modificar uno existente. ¿En qué campo de aplicación resulta crítico?
+Seleccione una respuesta.
+a. Supercomputadores 
+b. Procesadores de escritorio 
+c. Procesadores embebidos 
+Question 9
+Puntos: 1
+¿Qué niveles de la arquitectura de un computador determinan el número medio de ciclos por instrucción (CPI)?
+Seleccione una respuesta.
+a. Organización y Hardware 
+b. Ninguno de ellos 
+c. Repertorio de instrucciones y Organización 
+Question 10
+Puntos: 1
+¿Cuál de las siguientes listas de programas para evaluar el rendimiento estaría ordenada de mayor a menor según su fiabilidad?
+Seleccione una respuesta.
+a. Benchmarks sintéticos, Benchmarks reducidos, Núcleos, Programas reales 
+b. Programas reales, Núcleos, Benchmarks reducidos, Benchmarks sintéticos 
+c. Programas reales, Benchmarks reducidos, Núcleos, Benchmarks sintéticos 
+Question 11
+Puntos: 1
+
+Google está trabajando en su nuevo Nexus y está considerando añadir una nueva GPU que permite ejecutar los cálculos gráficos 7.4 veces más rápido que en su Galaxy Nexus. Sin embargo es sólo utilizable el 75% deltiempo. ¿Cual será la aceleración global lograda al incorporar la mejora?
+Respuesta:
+Question 12
+Puntos: 1
+¿De qué orden estamos hablando actualmente en los procesos de fabricación de circuitos integrados para procesadores (tamaño del feature size)?
+Seleccione una respuesta.
+a. Micrometros 
+b. Nanometros 
+c. Picometros 
+Question 13
+Puntos: 1
+Sobre el concepto del rendimiento
+Seleccione una respuesta.
+a. Los sistemas de reserva de vuelos que utilizan múltiples procesadores para tareas separadas afectan tanto al tiempo de respuesta del programa como a la productividad 
+b. El tiempo de ejecución de un programa es directamente proporcional al rendimiento del computador que lo ejecuta 
+c. El rendimiento del computador se asocia a la velocidad de computo para un programa dado o a la capacidad de ejecutar un mayor número de transacciones por hora según el punto de vista del usuario o de un administrador de una colección de computadores respectivamente 
+Question 14
+Puntos: 1
+
+Sin considerar el rendimiento del dado, y considerando un tamaño de dado de 18.2 mm x 10.0 mm ¿Cuál es el número máximo de dados que podemos extraer de una oblea de 285 mm de diámetro?
+Respuesta:
+Question 15
+Puntos: 1
+Sobre la evolución del rendimiento
+Seleccione una respuesta.
+a. La emergencia del microprocesador permitió dos cambios significativos para el diseñó de computadores: la eliminación virtual del lenguaje ensamblador y la aparición de los compiladores 
+b. El rendimiento de los computadores ha tenido un gran progreso en los últimos 65 años gracias a los avances tecnológicos y en las innovaciones en el diseño del computador 
+c. Los avances tecnológicos han logrado una reducción del tamaño del transistor y una mejora en la frecuencia de reloj. Sin embargo, no fue consistente en los primeros 40 años desde la aparición del primer PC 
+Tiempo restante

@@ -1,0 +1,5 @@
+Las prácticas se han relizado sobre el entorno de desarrollo Intellij IDEA, aunque deberían de ser totalmente compatibles con Netbeans.
+
+Por si no se pudieran abrir los proyectos, hay un jar por cada práctica totalmente funcional para probar su funcionamiento.
+
+Puedes acceder a mi repositorio de prácticas de Sistemas Inteligentes en github.com/paveltrufi/practicas-si

@@ -1,0 +1,224 @@
+Las preguntas son bastante parecidas de unos exámenes a otros, este es el mio =)
+
+Test 2. Grupo 8
+
+Question 1
+Puntos: 1
+Un cierto procesador GPR soporta modo de ejecución Registro-Memoria. Los operandos de memoria pueden tener modo de direccionamiento directo o absoluto a memoria e indirecto a memoria. Suponer que solo permite un formato para las instrucciones y suponer que los modos de direccionamiento son ortogonales respecto al código de operación.
+Seleccione una respuesta.
+
+a. Como es un procesador GPR, el formato de la instrucción solo puede contener las direcciones de los registros.	
+b. El formato de la instrucción debe contener un campo para especificar el modo de direccionamiento.	
+c. No es necesario especificar explícitamente en la instrucción los modos de direccionamiento ya que son ortogonales.	
+
+
+Question 2
+Puntos: 1
+Sobre los modos de direccionamiento
+Seleccione una respuesta.
+
+a. El modo de direccionamiento inmediato o literal suele ser utilizado para el acceso a variables locales	
+b. Los estudios de utilización del modo de direccionamiento desplazamiento indican que los desplazamientos utilizados suelen ser muy pequeños, siendo posible codificar la mayoría de los casos mediante la utilización de 8 bits	
+c. El direccionamiento inmediato y desplazamiento dominan la utilización de los modos de direccionamiento. Los modos de direccionamiento reducen el RI pero complican la implementación pudiendo incrementar el CPI medio	
+
+
+Question 3
+Puntos: 1
+Dado las siguientes instrucciones en MIPS que se ejecutan en una máquina segmentada de cinco etapas: IF, ID, EX, MEM, WB:
+L_1:sub $s1, $s2, $s3
+L_2:and $s2, $s3, $s1
+L_3: sw $s2, 24($s1)
+Si hay forwarding, ¿Cuántos ciclos de reloj tardaría en ejecutarse la secuencia de instrucciones?
+Seleccione una respuesta.
+
+a. 9 ciclos de reloj.	
+b. 7 ciclos de reloj.	
+c. 8 ciclos de reloj.	
+
+
+Question 4
+Puntos: 1
+Sobre la arquitectura como objeto del compilador
+Seleccione una respuesta.
+
+a. La mayoría de instrucciones ejecutadas son salida de un compilador. La arquitectura a nivel lenguaje máquina es un objeto del compilador	
+b. El coloreado de grafos es un algoritmo para la ubicación de variables en registros. Este algoritmo mejora su rendimiento cuando la CPU dispone de pocos registros de propósito general disponibles	
+c. La generación de código por parte de los compiladores sigue una serie de pasos de optimización cuyo efecto inmediato es el incremento del recuento de instrucciones	
+
+
+Question 5
+Puntos: 1
+¿Qué problemas surgen al segmentar una máquina MIPS partiendo de la original multiciclo?
+Seleccione una respuesta.
+
+a. Nos encontramos con un riesgo estructural en el banco de registros con las operaciones de carga y almacenamiento
+b. Siempre, con todas las operaciones nos encontramos con un riesgo estructural si tenemos una sola memoria para datos e instrucciones	
+c. El sistema de memoria debe proporcionar proporcionar un ancho de banda cinco veces mayor al de la máquina original	
+
+
+Question 6
+Puntos: 1
+Indica las ventajas de las arquitecturas que utilizan operandos Memoria-Memoria
+Seleccione una respuesta.
+
+a. Se destruye un operando fuente	
+b. El código es más compacto	
+c. Las instrucciones emplean números de ciclos similares para ejecutarse	
+
+
+Question 7
+Puntos: 1
+Sobre el concepto de segmentación. Indica la respuesta NO correcta
+Seleccione una respuesta.
+
+a. La segmentación es una de las claves que permite aumentar el rendimiento en los computadores pero que no afecta a la productividad	
+b. En la segmentación se opera de forma serie para una tarea determinada	
+c. La ejecución de una tarea se divide en etapas, cada elemento de procesamiento se especializa en realizar una subtarea concreta	
+
+
+Question 8
+Puntos: 1
+Considerar que vamos a diseñar una máquina segmentada a partir de una máquina multiciclo con 5 pasos de ejecución cuyas duraciones son 20ns, 45ns, 30ns, 11ns y 52ns. Suponed que el tiempo dedicado en actualizar los registros intermedios es 2ns. ¿Cuál será el ciclo de reloj de la máquina segmentada(expresad el resultado en ns)?
+
+Respuesta: (escribir)
+
+
+Question 9
+Puntos: 1
+Sobre las formas de especificar la condición del salto. Elige la respuesta correcta
+Seleccione una respuesta.
+
+a. Cuando está incluida la condición en el salto, el trabajo que tiene que realizar la máquina para ejecutar la instrucción puede ser demasiado	
+b. Cuando se utiliza un registro de condición, se reduce el recuento de instrucciones	
+c. Cuando se utiliza un código de condición, las comparaciones nunca pueden eliminarse	
+
+
+Question 10
+Puntos: 1
+Sobre los tipos de operaciones del repertorio
+Seleccione una respuesta.
+
+a. Las arquitecturas RISC suelen proporcionar instrucciones para operar con cadenas, datos decimales y gráficos	
+b. Las instrucciones utilizadas más extensamente de un conjunto de instrucciones son las operaciones complejas	
+c. Las arquitecturas RISC suelen proporcionar instrucciones “aritmético-lógicas”, “transferencias de datos”, “control”, “sistema” y “punto flotante”	
+
+
+Question 11
+Puntos: 1
+Suponed que en cierta máquina segmentada con una profundidad del cauce de 8, el CPI ideal ignorando cualquier riesgo es de 1. Suponer que sólo se producen detenciones de 5 ciclos en el 30% de las instrucciones, ¿Cuál es la ganancia de velocidad de la segmentación considerando las detenciones?
+
+Respuesta: (escribir)
+
+
+Question 12
+Puntos: 1
+El retardo para cada etapa en un procesador segmentado es la siguiente:
+IF 350ps
+ID 400ps
+EXE 370ps
+MEM 450ps
+WB 200ps
+¿Cuánto tardaría en ejecutarse la instrucción lw del MIPS en el procesador segmentado?
+Seleccione una respuesta.
+
+a. La duración de lw sería 450 ps.	
+b. La duración de lw sería 2250 ps.	
+c. La duración de lw sería 1770 ps.	
+
+
+Question 13
+Puntos: 1
+Sobre el tipo y tamaño de los operandos
+Seleccione una respuesta.
+
+a. El estándar mas frecuente para la representación de datos en punto flotante es el IEEE 754, que proporciona precisión simple de 16 bits y doble de 32 bits	
+b. El método más utilizado para identificar los tipos de datos de los operandos de una instrucción es el de datos identificados o autodefinidos, donde el dato se anota con identificadores que especifican el tipo de cada operando	
+c. Algunas arquitecturas soportan un formato denominado habitualmente decimal empaquetado (BCD). Se utilizan 4 bits para codificar los valores 0-9	
+
+
+Question 14
+Puntos: 1
+¿Cuál será aproximadamente la ganancia de velocidad obtenida al segmentar un procesador de forma lineal y síncrona con 20 etapas si ejecuta un programa de 50 instrucciones comparada con la versión multiciclo donde todas las instrucciones tardan los mismos ciclos ?
+Seleccione una respuesta.
+
+a. ~ 25	
+b. ~ 14	
+c. ~ 19	
+
+
+Question 15
+Puntos: 1
+Señalar la opción correcta sobre los modos de direccionamiento de una arquitectura de registros de propósito general.
+Seleccione una respuesta.
+
+a. Las otras dos opciones son correctas	
+b. Pueden especificar posiciones de memoria.	
+c. Pueden especificar constantes y/o registro.	
+
+
+Question 16
+Puntos: 1
+En cuanto a los repertorios de instrucciones según el tipo de almacenamiento interno de la CPU. Indica la respuesta NO correcta
+Seleccione una respuesta.
+
+a. A partir de 1980, los computadores frecuentemente han utilizado arquitecturas de registro de propósito general	
+b. Los registros tienen acceso más rápido que la memoria y son más fáciles de utilizar por los compiladores y de manera más efectiva, por eso siempre se han diseñado arquitecturas GPR	
+c. Las máquinas más antiguas anteriores a 1980 normalmente era arquitecturas de pila y acumulador	
+
+
+Question 17
+Puntos: 1
+Sobre la codificación de los modos de direccionamiento
+Seleccione una respuesta.
+
+a. La codificación fija combina la operación y el modo de direccionamiento en el código de operación. Consigue un tamaño único para todas las instrucciones. Interesante con número reducido de modos de direccionamiento y operaciones. Suele ser utilizado en la línea de diseño CISC	
+b. La codificación variable es interesante con número alto de modos de direccionamiento y operaciones. Consigue menor RI pero las instrucciones individuales varían en talla y cantidad de trabajo. Suele ser utilizado en la línea de diseño RISC	
+c. La codificación híbrida es una alternativa intermedia que persigue las ventajas de la codificación fija y variable: reducir recuento de instrucciones y formato sencillo de fácil implementación. Un ejemplo clásico es el IBM 360	
+
+
+Question 18
+Puntos: 1
+Dado las siguientes instrucciones en MIPS que se ejecutan en una máquina segmentada de cinco etapas: IF, ID, EX, MEM, WB:
+L_1:sub $s1, $s2, $s3
+L_2:and $s2, $s3, $s1
+L_3: sw $s2, 24($s1)
+Si no hay forwarding y se puede leer y escribir en el mismo ciclo de reloj en el mismo registro, ¿Cuántos ciclos de reloj tardaría en ejecutarse la secuencia de instrucciones?
+Seleccione una respuesta.
+
+a. 12 ciclos de reloj.	
+b. 10 ciclos de reloj.	
+c. 11 ciclos de reloj.	
+
+
+Question 19
+Puntos: 1
+El retardo para cada etapa en un procesador segmentado es la siguiente:
+IF 350ps
+ID 400ps
+EXE 370ps
+MEM 450ps
+WB 200ps
+¿Cuál es la productividad de una serie grande de instrucciones suponiendo que no se producen paradas ni riesgos? El resultado se expresa en millones de instrucciones por segundo (MIPS)
+Seleccione una respuesta.
+
+a. La productividad sería de ~ 444 MIPS.	
+b. La productividad sería de ~ 2222 MIPS.	
+c. La productividad sería de ~ 2000 MIPS.	
+
+
+Question 20
+Puntos: 1
+Dado las siguientes secuencia de instrucciones en MIPS que se ejecutan en una máquina segmentada de cinco etapas: IF, ID, EX, MEM, WB:
+sub $s1, $s2, $s3
+and $s2, $s3, $s1
+sw $s4, 24($s1)
+Si no hay forwarding y se puede leer y escribir en el mismo ciclo de reloj en el mismo registro, ¿En cuántos ciclos de reloj se incrementa la ejecución de estas instrucciones?
+Seleccione una respuesta.
+
+a. En 3 ciclos.	
+b. En 4 ciclos.	
+c. En 2 ciclos.	
+
+
+
+PD: En el opcional preguntaban sobre árboles, arquitectura superescalar y VLIW

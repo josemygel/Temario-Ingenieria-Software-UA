@@ -1,0 +1,5 @@
+//Libreria UI GO
+https://github.com/zserge/lorca
+
+//Para generar certificados autofirmados con openssl usar:
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/C=ES/ST=Alicante/L=Alicante/O=UA/OU=Org/CN=www.ua.com"

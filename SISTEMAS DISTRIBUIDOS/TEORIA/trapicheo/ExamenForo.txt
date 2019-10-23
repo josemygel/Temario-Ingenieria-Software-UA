@@ -1,0 +1,6 @@
+1.- Modos de Sincronización y algoritmos
+2.- Explicar por que el escenario 2 ("el del servidor") no es apto para el negocio electrónico/transacciones en un negocio electrónico
+3.- Definiciones: Corte Consistente, Deriva de Reloj, ...
+4.- ¿El algoritmo TEA se podría lleva a otra arquitectura hardware?
+5.- Definir entre los algoritmos simétricos y asimétricos criptográficos cuáles son mejor o peor
+6.- Definir los pasos de Chandy- Lamport, cuando se acaba y finalidad

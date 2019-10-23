@@ -1,0 +1,330 @@
+Di cuál de estas tres soluciones a problemas de optimización no comporta, en el peor caso,
+tener que considerar posibilidades O(n!).
+Seleccione una:
+{
+~ La solución de vuelta atrás al problema del viajante de comercio (travelling salesman
+problem), o sea, el de encontrar un ciclo hamiltoniano de coste mínimo en un grafo conexo de
+vértices donde cada arista tiene un coste asignado.
+~ La solución de ramificación y poda al problema de la asignación de tareas a
+trabajadores de forma que cada trabajador hace exactamente una tarea y cada tarea es
+asignada a un trabajador exactamente, de forma que la suma de los costes de las tareas es
+mínimo.
+
+= La solución al problema de buscar un árbol que cubre todos los vértices de un grafo de
+vértices de forma que el coste es mínimo (minimum spanning tree).
+}
+
+La ventaja de la estrategia ramificación y poda frente a vuelta atrás es que la primera genera las soluciones posibles al problema mediante ... 
+Seleccione una: 
+{
+~ ... un recorrido guiado por una cola de prioridad de donde se extraen primero los nodos que representan los subárboles más prometedores del espacio de soluciones. 
+~  ... un recorrido guiado por estimaciones de las mejores ramas del árbol que representa el espacio de soluciones. 
+= Las otras dos opciones son verdaderas. 
+}
+
+
+En los algoritmos de ramificación y poda ... 
+Seleccione una: 
+{
+~ El uso de cotas pesimistas sólo resulta eficaz cuando se dispone de una posible solución de partida. 
+= Una cota optimista es necesariamente un valor insuperable, de no ser así se podría podar el nodo que conduce a la solución óptima. 
+~ Una cota optimista es necesariamente un valor alcanzable, de no ser así no está garantizado que se encuentre la solución óptima. 
+}
+
+Al resolver el problema del viajante de comercio mediante vuelta atrás, ¿cuál de estas cotas optimistas se espera que pode mejor el árbol de búsqueda? 
+Seleccione una: 
+{
+~ Se resuelve el resto del problema usando un algoritmo voraz que añade cada vez al camino el vértice más cercano al último añadido. 
+~  Se multiplica por la distancia de la arista más corta que nos queda por considerar, donde es el número de saltos que nos quedan por dar. 
+= Se ordenan las aristas restantes de menor a mayor distancia y se calcula la suma de las aristas más cortas, donde es el número de saltos que nos quedan por dar. 
+}
+
+La complejidad en el mejor de los casos de un algoritmo de ramificación y poda... 
+Seleccione una: 
+{
+= ... puede ser polinómica con el número de decisiones a tomar. 
+~ ... es siempre exponencial con el número de decisiones a tomar. 
+~ ... suele ser polinómica con el número de alternativas por cada decisión 
+}
+
+Tratándose de un problema de optimización, en la lista de nodos vivos de ramificación y poda ... 
+Seleccione una: 
+{
+~  ... sólo se introducen nodos prometedores, es decir, nodos que pueden mejorar la mejor solución que se tiene en ese momento. 
+~ ... puede haber nodos que no son prometedores. 
+= Las otras dos opciones son ciertas. 
+}
+
+Dado un problema de optimización cualquiera, ¿la estrategia de vuelta atrás garantiza la solución óptima? 
+Seleccione una: 
+{
+= Es condición necesaria que el dominio de las decisiones sea discreto o discretizable y que el número de decisiones a tomar esté acotado. 
+~ Sí, puesto que ese método analiza todas las posibilidades. 
+~ Sí, siempre que el dominio de las decisiones sea discreto o discretizable y además se empleen mecanismos de poda basados en la mejor solución hasta el momento. 
+}
+
+Cuando se resuelve usando un algoritmo de ramificación y poda un problema de decisiones, en el que siempre hay como mínimo dos opciones para cada decisión, ¿cuál de las siguientes complejidades en el caso peor es la mejor que nos podemos encontrar? 
+Seleccione una: 
+{
+~ O(n!)
+~ O(n^2)
+= O(2^n)
+}
+
+Decid cuál de estas tres no sirve como cota optimista para obtener el valor óptimo de la mochila discreta: 
+Seleccione una: 
+{
+~ El valor de la mochila continua correspondiente. 
+~ El valor de una mochila que contiene todos los objetos aunque se pase del peso máximo permitido. 
+= El valor de la mochila discreta que se obtiene usando un algoritmo voraz basado en el valor específico de los objetos. 
+}
+
+En los algoritmos de ramificación y poda, ¿el valor de una cota pesimista es menor que el valor de una cota optimista? (entendiendo que ambas cotas se aplican sobre el mismo nodo) 
+Seleccione una: 
+{
+~ Sí, siempre es así. 
+= En general sí, si se trata de un problema de maximización, aunque en ocasiones ambos valores pueden coincidir. 
+~ En general sí, si se trata de un problema de minimización, aunque en ocasiones ambos valores pueden coincidir. 
+}
+
+¿Para qué sirven las cotas pesimistas en ramificación y poda? 
+Seleccione una: 
+{
+~ Para descartar nodos basándose en la preferencia por algún otro nodo ya completado. 
+~ Para tener la certeza de que la cota optimista está bien calculada. 
+= Para descartar nodos basándose en el beneficio esperado. 
+}
+
+Cuando resolvemos un problema mediante un esquema de ramificación y poda ...
+Seleccione una:
+{
+= ... los valores entre los cuales se elige en cada una de las decisiones tienen que formar un conjunto finito.
+~ ... los valores entre los cuales se elige en cada una de las decisiones pueden formar un conjunto infinito.
+~ ... las decisiones sólo pueden ser binarias.
+}
+
+Se desea encontrar el camino mas corto entre dos ciudades.
+Para ello se dispone de una tabla con la distancia entre los pares de ciudades en los que
+hay carreteras o un valor centinela (por ejemplo, -1) si no hay, por lo que para ir de la
+ciudad inicial a la final es posible que haya que pasar por varias ciudades. Como
+también se conocen las coordenadas geográficas de cada ciudad se quiere usar la
+distancia geográfica (en línea recta) entre cada par de ciudades para como cota para
+limitar la búsqueda en un algoritmo de vuelta atrás.
+¿Qué tipo de cota sería?
+Seleccione una:
+{
+= Una cota optimista.
+~ No se trataría de ninguna poda puesto que es posible que esa heurística no encuentre una solución factible.
+~ Una cota pesimista.
+}
+
+En un problema de optimización, si el dominio de las decisiones es un conjunto infinito,
+Seleccione una (No es segura):
+{
+~ podremos aplicar el esquema vuelta atrás siempre que se trate de un conjunto infinito numerable.
+~ es probable que a través de programación dinámica se obtenga un algoritmo eficaz que lo solucione.
+= una estrategia voraz puede ser la única alternativa.
+}
+
+
+En los algoritmos de ramificación y poda ...
+Seleccione una:
+{
+= Una cota optimista es necesariamente un valor insuperable, de no ser así se podría podar el nodo que conduce a la solución óptima.
+~ Una cota pesimista es el beneficio esperado de cualquier nodo factible que no es el óptimo.
+~ Una cota optimista es necesariamente un valor alcanzable, de no ser así no está garantizado que se encuentre la solución óptima.
+}
+
+La complejidad en el mejor de los casos de un algoritmo de vuelta atrás ...
+Seleccione una:
+{
+~ ... suele ser polinómica con el número de alternativas por cada decisión
+~ ... es siempre exponencial con el número de decisiones a tomar.
+= ... puede ser polinómica con el número de decisiones a tomar.
+}
+
+¿Cuál es la diferencia principal entre una solución de vuelta atrás y una solución de
+ramificación y poda para el problema de la mochila?
+Seleccione una:
+{
+~ El coste asintótico en el caso peor.
+~ El hecho que la solución de ramificación y poda puede empezar con una solución subóptima voraz y la de vuelta atrás no.
+= El orden de exploración de las soluciones.
+}
+
+El problema de cortar un tubo de longitud n en segmentos de longitud entera, de
+manera que el precio total de sus partes sea máximo de acuerdo con una lista de precios
+por longitudes ...
+Seleccione una:
+{
+~ ... se debe resolver mediante un algoritmo de vuelta atrás, dado que otros algoritmos no consideran todas las posibles maneras de cortar el tubo.
+= ... se puede resolver mediante un algoritmo de vuelta atrás pero existe una solución asintóticamente mucho más eficiente.
+~ ... no se puede resolver usando un algoritmo de vuelta atrás.
+}
+
+Decid cuál de estas tres no sirve como cota optimista para obtener el valor óptimo de la
+mochila discreta:
+Seleccione una:
+{
+~ El valor de una mochila que contiene todos los objetos aunque se pase del peso máximo permitido.
+= El valor de la mochila discreta que se obtiene usando un algoritmo voraz basado en el valor específico de los objetos.
+~ El valor de la mochila continua correspondiente.
+}
+
+En los algoritmos de ramificación y poda, ¿el valor de una cota pesimista es mayor que
+el valor de una cota optimista? (entendiendo que ambas cotas se aplican sobre el mismo
+nodo)
+Seleccione una:
+{
+~ En general sí, si se trata de un problema de maximización, aunque en ocasiones ambos valores pueden coincidir.
+~ No, nunca es así. 
+= En general sí, si se trata de un problema de minimización, aunque en ocasiones ambos valores pueden coincidir.
+}
+
+La estrategia de ramificacion y poda necesita cotas pesimistas ...
+{
+~ .. para decidir el orden de visita de los nodos del arbol de soluciones
+= ..solo si se usa para resolver problemas de optimizacion 
+~ ..para determinar si una solucion es factible
+}
+
+La complejidad en el peor de los casos de un algoritmo de vuelta atras,,,
+{
+~ ..puede ser polinomica con el numero de decisiones a tomar.
+~ ..puede ser exponencial con el numero de alternativas por cada decision.
+= ..es exponencial con el numero de decisiones a tomar.
+}
+
+La estrategia de ramificacion y poda genera las soluciones al problema mediante..
+{
+= ..un recorrido guiado por estimaciones de las mejores ramas del arbol que representa el espacio de soluciones
+~ ..un recorrido en profundidad del arbol que representa el espacio de soluciones
+~ ..un recorrido en anchura del arbol que representa el espacio de soluciones.
+}
+
+Al resolver el problema del viajante de comercio mediante vuelta atras y asumiendo
+un grafo de n vertices totalmente conexo, ¿Cuál de estas es una buena cota pesimista al iniciar la búsquedad?
+{
+~ se ordenan las aristas restantes de menor a mayor distancia y se calcula la suma de las n aristas mas cortas
+~ se multiplica n por la distancia de la arista mas corta que nos queda por considerar.
+= Se resuelve el problema usando un algoritmo voraz que añade cada vez al camuno el vertice mas cercano al ultimo añadido
+}
+
+
+Se desea encontrar el camino mas corto entre dos ciudades.
+Para ello se dispone de una tabla con la distancia entre los pares de ciudades en los que
+hay carreteras o un valor centinela (por ejemplo, -1) si no hay, por lo que para ir de la
+ciudad inicial a la final es posible que haya que pasar por varias ciudades. Como
+también se conocen las coordenadas geográficas de cada ciudad se quiere usar la
+distancia geográfica (en línea recta) entre cada par de ciudades. Se pretende acelerar la busqueda
+de un algoritmo de ramificacion y poda priorizando los nodos vivos (ciudades) que esten a menor distancia
+geografica de la ciudad objetivo.
+Seleccione una:
+{
+~ El nuevo algoritmo siempre sea mas rapido
+= El nuevo algoritmo solo sera mas rapido para algunas instancias del problema
+~ Esta estrategia no asegura que se obtenga el camino mas corto
+}
+
+Decid cuál de estas tres es la cota optimista que poda mas eficientemente cuando se usa la estrategia 
+de vuelta atras para resolver el problema de la mochila discreta: 
+Seleccione una: 
+{
+= El valor de la mochila continua correspondiente. 
+~ El valor de una mochila que contiene todos los objetos aunque se pase del peso máximo permitido. 
+~ El valor de la mochila discreta que se obtiene usando un algoritmo voraz basado en el valor específico de los objetos. 
+}
+
+En ausencia de cotas optimistas y pesimistas, la estrategia de vuelta atras...
+{
+~ ..no se puede usar para resolver problemas de optimizacion
+~ ..debe recorrer siempre todo el arbol
+= ..no recorre todo el arbol si hay manera de descartar subarboles que representan conjuntos de soluciones no factibles
+}
+
+Se desea obtener todas las permutaciones de una lista compuesta por n elementos. ¿Que esquema es el mas adecuado?
+{
+~ ramificación y poda, puesto que con buenas funciones de cota es más eficiente para este problema que vuelta atrás
+~ divide y vencerás, puesto que la división en sublistas se podría hacer en tiempo constante
+= vuelta atrás, para este problema no hay un esquema más eficiente
+}
+
+
+Decid cuál de estas tres es la cota optimista mas ajustada al valor optimo
+de la mochila discreta: 
+Seleccione una: 
+{
+~ El valor de la mochila continua correspondiente. 
+~ El valor de una mochila que contiene todos los objetos aunque se pase del peso máximo permitido. 
+= El valor de la mochila discreta que se obtiene usando un algoritmo voraz basado en el valor específico de los objetos. 
+}
+
+
+
+Se desea encontrar el camino mas corto entre dos ciudades.
+Para ello se dispone de una tabla con la distancia entre los pares de ciudades en los que
+hay carreteras o un valor centinela (por ejemplo, -1) si no hay, por lo que para ir de la
+ciudad inicial a la final es posible que haya que pasar por varias ciudades. Como
+también se conocen las coordenadas geográficas de cada ciudad se quiere usar la
+distancia geográfica (en línea recta) entre cada par de ciudades. Se pretende limitar la busqueda
+de un algoritmo de vuelta atras se utiliza la solucion de un algoritmo voraz basado en moverse
+cada paso a la ciudad, de entre las posibles segun el mapa de carreteras, que este mas cercana al destino en linea recta.
+Seleccione una:
+{
+= Seria una cota pesimista siempre que se tenga la certeza de que esa aproximacion encuentra una solucion factible.
+~ Ninguna de las dos anteriores
+~ Seria una cota optimista siempre que se tenga la certeza de que esa aproximacion encuentra una solucion factible.
+}
+
+
+En los algoritmos de ramificación y poda ...
+Seleccione una:
+{
+~ Una cota pesimista es necesariamente un valor inalcanzable, de no ser así no está garantizado que no se eliminen nodos factibles.
+= Una cota optimista es necesariamente un valor insuperable, de no ser así se podría podar el nodo que conduce a la solución óptima.
+~ Una cota pesimista es el beneficio esperado de cualquier nodo factible.
+}
+
+
+En el esquema de vuelta atrás, los mecanismos de poda basados en la mejor solución hasta el momento ...
+Seleccione una:
+{
+~ Las dos anteriores son verdaderas.
+~ ... garantizan que no se va a explorar nunca todo el espacio de soluciones posibles.
+= ... pueden eliminar soluciones parciales que son factibles.
+}
+
+En el esquema de vuelta atrás, los mecanismos de poda basados en la mejor solución hasta el
+momento ...
+Seleccione una:
+{
+~ Las dos anteriores son verdaderas.
+~ ... garantizan que no se va a explorar nunca todo el espacio de soluciones posibles.
+= ... pueden eliminar soluciones parciales que son factibles.
+}
+
+La estrategia de vueltra atrás es aplicable a problemas de selección y optimización en los que:{
+~ El espacio de soluciones puede ser tanto finito como infinito pero en este último caso debe ser al menos numerable
+~ El espacio de soluciones es un conjunto infinito
+= El espacio de soluciones es un conjunto finito
+}
+
+Tratándose de un problema de optimización, en la lista de nodos vivos de ramificación y poda...{
+~ ... puede haber nodos que no son prometedores 
+= Las otras dos opciones son ciertas
+~ ... sólo se introducen nodos prometedores, es decir, nodos que pueden mejorar la mejor solución que se tiene en ese momento
+}
+
+El uso de funciones de cota en ramificación y poda...{
+~ ... transforma en polinómicas complejidades que antes eran exponenciales
+= ... puede reducir el número de instancias del problema que pertenecen al caso peor
+~ ... garantiza que el algoritmo va a ser más eficiente ante cualquier instancia del problema
+}
+
+Al resolver el problema del viajante de comercio mediante vuelta atrás, ¿cuál de estas cotas optimistas se espera que pode mejor
+el árbol de búsqueda?{
+~ Se multiplica k por la distancia de la arista más corta que nos queda por considerar, donde k es el númerp de saltos que nos queda
+= Se ordenan las aristas restantes de menor a mayor distancia y se calcula la suma de las k aristas más cortas, donde k es el número de saltos que nos quedan por dar
+~ Se resuelve el resto del problema usando un algoritmo voraz que añade cada vez al camino el vértice más cercano al último añadido
+}
+

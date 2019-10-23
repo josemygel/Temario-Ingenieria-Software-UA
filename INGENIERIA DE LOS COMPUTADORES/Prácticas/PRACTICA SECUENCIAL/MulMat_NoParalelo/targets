@@ -1,0 +1,250 @@
+Las siguientes opciones son específicas del objetivo:
+  -m128bit-long-double        sizeof(long double) es 16.
+  -m16                        Genera código i386 de 16bit.
+  -m32                        Genera código i386 de 32bit.
+  -m3dnow                     Admite funciones internas 3DNow!.
+  -m3dnowa                    Admite funciones internas Athlon 3DNow!.
+  -m64                        Genera código x86-64 de 64bit.
+  -m80387                     Usa fp de hardware.
+  -m8bit-idiv                 Expande la división entera de 32bit/64bit en división entera sin signo de 8bit con
+                              revisión en tiempo de ejecución.
+  -m96bit-long-double         sizeof(long double) es 12.
+  -mabi=                      Genera código que cumpla con la ABI dada.
+  -mabm                       Admite la generación de código de instrucciones Advanced Bit Manipulation (ABM).
+  -maccumulate-outgoing-args  Reserva espacio para los argumentos de salida en el prólogo de la función.
+  -maddress-mode=             Usar el modo de dirección dado.
+  -madx                       Support flag-preserving add-carry instructions.
+  -maes                       Admite funciones internas y generación de código AES.
+  -malign-data=               Usa la alineación de los datos dada.
+  -malign-double              Alinea algunos doubles en límites de dword.
+  -malign-functions=          Los inicios de las funciones se alinean a esta potencia de 2.
+  -malign-jumps=              Los objetivos de salto se alinean a esta potencia de 2.
+  -malign-loops=              El código de ciclo se alinea a esta potencia de 2.
+  -malign-stringops           Alinea el destino de las operaciones de cadenas.
+  -mandroid                   Genera código para la plataforma Android.
+  -march=                     Genera código para la CPU dada.
+  -masm=                      Usa el dialecto de ensamblador dado.
+  -mavx                       Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2 y AVX.
+  -mavx2                      Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX y AVX2.
+  -mavx256-split-unaligned-load Divide load sin alinear AVX de 32-byte.
+  -mavx256-split-unaligned-store Divide store sin alinear AVX de 32-byte.
+  -mavx5124fmaps              Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX5124FMAPS.
+  -mavx5124vnniw              Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX5124VNNIW.
+  -mavx512bitalg              Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX512BITALG.
+  -mavx512bw                  Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX512BW.
+  -mavx512cd                  Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX512CD.
+  -mavx512dq                  Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX512DQ.
+  -mavx512er                  Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX512ER.
+  -mavx512f                   Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2 y AVX512F.
+  -mavx512ifma                Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX512IFMA.
+  -mavx512pf                  Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX512PF.
+  -mavx512vbmi                Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX512VBMI.
+  -mavx512vbmi2               Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX512VBMI2.
+  -mavx512vl                  Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX512VL.
+  -mavx512vnni                Admite funciones internas y generación de código AVX512VNNI.
+  -mavx512vpopcntdq           Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX, AVX2, AVX512F y AVX5124VPOPCNTDQ.
+  -mbionic                    Utiliza la biblioteca C de Bionic.
+  -mbmi                       Admite funciones internas y generación de código BMI.
+  -mbmi2                      Admite funciones internas y generación de código BMI2.
+  -mbranch-cost=<0,5>         Las ramificaciones son así de caras (unidades arbitrarias).
+  -mcall-ms2sysv-xlogues      Use libgcc stubs to save and restore registers clobbered by 64-bit Microsoft to
+                              System V ABI calls.
+  -mcet-switch                Activa la instrumentación CET para sentencias switch que usan tabla de saltos y
+                              salto indirecto.
+  -mcld                       Genera la instrucción cld en el prólogo de función.
+  -mclflushopt                Admite las instrucciones CLFLUSHOPT.
+  -mclwb                      Admite la instrucción CLWB..
+  -mclzero                    Admite funciones internas y generación de código CLZERO.
+  -mcmodel=                   Usa el modelo de código del x86-64 dado.
+  -mcpu=                      Igual que -mtune=.  Utilice, en cambio, la última opción.  Los usos de esta opción
+                              están diagnosticados.
+  -mcrc32                     Admite la generación de código de la instrucción crc32.
+  -mcx16                      Admite la generación de código de la instrucción cmpxchg16b.
+  -mdispatch-scheduler        Despacha al planificador si el procesador es bdver1, bdver2, bdver3, bdver4 o znver1
+                              y se selecciona planificación Haifa.
+  -mdump-tune-features        Esta opción carece de documentación.
+  -mf16c                      Admite funciones internas y generación de código F16C.
+  -mfancy-math-387            Genera sin, cos, sqrt para FPU.
+  -mfentry                    Emite llamada a contador de perfil en la entrada de función antes del prólogo.
+  -mfma                       Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1, SSE4.2, AVX y FMA.
+  -mfma4                      Admite funciones internas FMA4 y generación de código.
+  -mforce-drap                Usar siempre el Puntero de Argumento Realineado Dinámicamente (DRAP) para realinear
+                              la pila.
+  -mforce-indirect-call       Hace indirectas todas las llamadas a función.
+  -mfp-ret-in-387             Devuelve los valores de funciones en registros FPU.
+  -mfpmath=                   Genera matemáticas de coma flotante usando el conjunto de instrucciones dado.
+  -mfsgsbase                  Admite funciones internas y generación de código FSGSBASE.
+  -mfunction-return=          Convert function return to call and return thunk.
+  -mfused-madd                Igual que -ffp-contract=.  Utilice, en cambio, la última opción.  Los usos de esta
+                              opción están diagnosticados.
+  -mfxsr                      Admite las instrucciones PXSAVE y FXRSTOR.
+  -mgeneral-regs-only         Genera código que usa solo los registros generales.
+  -mgfni                      Admite funciones internas y generación de código GFNI.
+  -mglibc                     Utiliza la biblioteca de C de GNU.
+  -mhard-float                Usa fp de hardware.
+  -mhle                       Admite prefijos de elisión de bloqueo de hardware.
+  -miamcu                     Genera código que cumpla con Intel MCU psABI.
+  -mieee-fp                   Usa matemática IEEE para comparaciones fp.
+  -mincoming-stack-boundary=  Asume que la pila de entrada está alineada a esta potencia de 2.
+  -mindirect-branch-register  Force indirect call and jump via register.
+  -mindirect-branch=          Convert indirect call and jump to call and return thunks.
+  -minline-all-stringops      Incluye en línea todas las operaciones de cadenas conocidas.
+  -minline-stringops-dynamically Incluye en línea las operaciones de cadena memset/memcpy, pero realiza la
+                              versión inline sólo para los bloques pequeños.
+  -mintel-syntax              Igual que -masm=.  Utilice, en cambio, la última opción.  Los usos de esta opción
+                              están diagnosticados.
+  -mlarge-data-threshold=<número> Los datos más grandes que el límite dado irán a la sección .ldata en el
+                              modeolo medium del x86-64.
+  -mlong-double-128           Usa long doubles de 128 bits.
+  -mlong-double-64            Usa long doubles de 64 bits.
+  -mlong-double-80            Usa long doubles de 80 bits.
+  -mlwp                       Admite funciones internas LWP y generación de código.
+  -mlzcnt                     Admite funciones internas y generación de código LZCNT.
+  -mmemcpy-strategy=          Especifica la estrategia de expansión de memcpy cuando se conoce el tamaño esperado.
+  -mmemset-strategy=          Especifica la estrategia de expansión de memset cuando se conoce el tamaño esperado.
+  -mmitigate-rop              Trata de evitar que se generen secuencias de instrucciones que contengan ret bytes.
+  -mmmx                       Admite funciones internas MMX.
+  -mmovbe                     Admite la generación de código de la instrucción movbe.
+  -mmovdir64b                 Admite funciones internas y generación de código MOVDIR64B.
+  -mmovdiri                   Admite funciones internas y generación de código MOVDIRI.
+  -mmpx                       Admite la generación de código MPX.
+  -mms-bitfields              Usa la disposición de campos de bits nativos (MS).
+  -mmusl                      Usa la biblioteca de C de musl.
+  -mmwaitx                    Admite funciones internas y generación de código MWAITX y MONITORX.
+  -mno-align-stringops        Esta opción carece de documentación.
+  -mno-default                Quita todas las características de ajuste.
+  -mno-fancy-math-387         Esta opción carece de documentación.
+  -mno-push-args              Esta opción carece de documentación.
+  -mno-red-zone               Esta opción carece de documentación.
+  -mno-sse4                   No admite funciones internas y generación de código SSE4.1 y SSE4.2.
+  -mnop-mcount                Genera llamadas mcount/__fentry__ como nops. Para activarlas han de ser parcheadas.
+  -momit-leaf-frame-pointer   Omite el puntero del marco de referencia para las funciones hojas.
+  -mpc32                      Establece la precisión de coma flotante 80387 a 32-bit.
+  -mpc64                      Establece la precisión de coma flotante 80387 a 64-bit.
+  -mpc80                      Establece la precisión de coma flotante 80387 a 80-bit.
+  -mpclmul                    Admite funciones internas y generación de código PCLMUL.
+  -mpcommit                   This option lacks documentation.  Los usos de esta opción están diagnosticados.
+  -mpconfig                   Admite funciones internas y generación de código PCONFIG.
+  -mpku                       Admite funciones internas y generación de código PKU.
+  -mpopcnt                    Admite la generación de código de la instrucción popcnt.
+  -mprefer-avx128             Use 128-bit AVX instructions instead of 256-bit AVX instructions in the auto-
+                              vectorizer.  Igual que -mprefer-vector-width=.
+  -mprefer-vector-width=      Use given register vector width instructions instead of maximum register width in the
+                              auto-vectorizer.
+  -mpreferred-stack-boundary= Trata de mantenter la pila alineada a esta potencia de 2.
+  -mprefetchwt1               Admite funciones internas y generación de código PREFETCHWT1.
+  -mprfchw                    Admite la instrucción PREFETCHW.
+  -mpush-args                 Usa instrucciones push para guardar los argumentos de salida.
+  -mrdpid                     Admite funciones internas y generación de código RDPID.
+  -mrdrnd                     Admite funciones internas y generación de código RDRND.
+  -mrdseed                    Admite la instrucción RDSEED.
+  -mrecip                     Genera recíprocos en lugar de divss y sqrtss.
+  -mrecip=                    Controla la generación de estimados recíprocos.
+  -mrecord-mcount             Genera sección __mcount_loc con todos los mcount o llamadas __fentry__.
+  -mred-zone                  Usa la zona roja en el código x86-64.
+  -mregparm=                  Número de registros usados para pasar argumentos enteros.
+  -mrtd                       Convenio de llamada alternativa.
+  -mrtm                       Admite funciones internas y generación de código RTM.
+  -msahf                      Admite la generación de código de la instrucción sahf en código x86-64 de 64bit.
+  -msgx                       Admite funciones internas SGX y generación de código.
+  -msha                       Admite funciones internas y generación de código SHA1 y SHA256.
+  -mshstk                     Enable shadow stack built-in functions from Control-flow Enforcement Technology (CET).
+  -mskip-rax-setup            Salta configurar registro RAX cuando se pasan argumentos variables.
+  -msoft-float                No usa fp de hardware.
+  -msse                       Admite funciones internas y generación de código MMX y SSE.
+  -msse2                      Admite funciones internas y generación de código MMX, SSE y SSE2.
+  -msse2avx                   Codifica las instrucciones SSE con el prefijo VEX.
+  -msse3                      Admite funciones internas y generación de código MMX, SSE, SSE2 y SSE3.
+  -msse4                      Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1 y SSE4.2.
+  -msse4.1                    Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3 y
+                              SSE4.1.
+  -msse4.2                    Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3, SSSE3,
+                              SSE4.1 y SSE4.2.
+  -msse4a                     Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3 y SSE4A.
+  -msse5                      Igual que -mavx.  Utilice, en cambio, la última opción.  Los usos de esta opción
+                              están diagnosticados.
+  -msseregparm                Usa los convenios de paso de registro SSE para los modos SF y DF.
+  -mssse3                     Admite funciones internas y generación de código MMX, SSE, SSE2, SSE3 y SSSE3.
+  -mstack-arg-probe           Habilita la prueba de la pila.
+  -mstack-protector-guard-offset= Usa el desplazamiento dado para direccionar la guarda de protección de la pila.
+  -mstack-protector-guard-reg= Usa el registro base dado para direccionar la guarda de protección de la pila.
+  -mstack-protector-guard-symbol= Usa el símbolo dado para direccionar la guarda de protección de la pila.
+  -mstack-protector-guard=    USa la guarda de protección de la pila dada.
+  -mstackrealign              Realinea la pila en el prólogo.
+  -mstringop-strategy=        Escoge la estrategia para generar stringop using.
+  -mstv                       Desactiva el paso de optimización de escalar a vector al transformar cálculos con
+                              enteros de 64 bits en cálculos con vectores.
+  -mtbm                       Admite funciones internas y generación de código TBM.
+  -mtls-dialect=              Usa el dialecto de almacenamiento thread-local dado.
+  -mtls-direct-seg-refs       Usa referencias directas contra %gs cuando se acceden datos tls.
+  -mtune-ctrl=                Control fino de las características de ajuste.
+  -mtune=                     Código de planificador para el CPU dado.
+  -muclibc                    Usa la biblioteca de C de uClibc.
+  -mvaes                      Admite funciones internas y generación de código VAES.
+  -mveclibabi=                ABI de biblioteca de vectores a utilizar.
+  -mvect8-ret-in-mem          Devuelve vectores de 8 bytes en memoria.
+  -mvpclmulqdq                Admite funciones internas y generación de código VPCLMULQDQ.
+  -mvzeroupper                Genera la instrucción vzeroupper antes de una transferencia de flujo de control
+                              afuera de la función.
+  -mwbnoinvd                  Admite funciones internas y generación de código WBNOINVD.
+  -mx32                       Genera código x86-64 de 32bit.
+  -mxop                       Admite funciones internas XOP y generación de código.
+  -mxsave                     Admite las instrucciones XSAV y XRSTOR.
+  -mxsavec                    Admite las instrucciones XSAVEC.
+  -mxsaveopt                  Admite las instrucciones XSAVEOPT.
+  -mxsaves                    Admite las instrucciones XSAVES y XRSTORS.
+
+  Dialectos de ensamblador conocidos (para uso con la opción -masm=):
+    att intel
+
+  ABIs conocidas (para usar con la opción -mabi=):
+    ms sysv
+
+  Modelos de código conocidos (para uso con la opción -mcmodel=):
+    32 kernel large medium small
+
+  Argumentos válidos para -mfpmath=:
+    387 387+sse 387,sse both sse sse+387 sse,387
+
+  Opciones conocidas para ramificación indirecta (para usar con las opciones -mindirect-branch=/-mfunction-return=):
+    keep thunk thunk-extern thunk-inline
+
+  Las opciones conocidas para alineamiento de datos (para usar con la opción -malign-data=):
+    abi cacheline compat
+
+  ABIs de biblioteca de vectorización conocidas (para usar con la opción -mveclibabi=):
+    acml svml
+
+  Modo de dirección conocido (para uso con la opción -maddress-mode=):
+    long short
+
+  Longitud de vector de registros preferida conocida (para usar con la opción -mprefer-vector-width=)
+    128 256 512 none
+
+  Guarda de protección de pila conocida (para usar con la opción -mstack-protector-guard=):
+    global tls
+
+  Argumentos válidos para -mstringop-strategy=:
+    byte_loop libcall loop rep_4byte rep_8byte rep_byte unrolled_loop vector_loop
+
+  Dialectos TLS conocidos (para usar con la opción -mtls-dialect=):
+    gnu gnu2
+

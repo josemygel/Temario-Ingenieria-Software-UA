@@ -1,0 +1,338 @@
+Para aplicar un cambio de brillo a una imagen tendremos que: {
+~ Repetir pixeles.
+= Aumentar o reducir el valor de cada píxel.
+~ Promediar los valores para los componentes R,G,B de cada pixel.
+}
+
+Los tipos de detectores para puntos de esquina o "corners" {
+
+~ estan basados en un filtro "lineal" o "no lineal".
+= estan basados en "edges" o en "niveles de gris".
+~ no hay detectores para los puntos de esquina.
+
+}
+
+Tras la aplicación de la convolución: {
+~ El nuevo valor del píxel es el resultado de multiplicar la suma de los valores de la máscara por los valores de los píxeles.
+= El nuevo valor del píxel es el resultado de sumar la multiplicación de los valores de la máscara por los valores de los píxeles.
+~ Ninguna de las anteriores es correcta.
+}
+
+El ruido de una imagen son errores que pueden degradar la misma. Diremos que un método de procesamiento es robusto ante el ruido cuando: {
+
+= Cuando genera los mismos resultados con o sin ruido.
+~ Cuando genera distintos resultados con o sin ruido.
+~ Cuando los resultados son procesados pixel a pixel.
+
+}
+
+Los errores que pueden degradar la imagen en su captura suelen ser:{
+= Ruido
+~ Cambio de brillo
+~ Ampliar o reducir la imagen
+}
+
+¿Qué filtro utiliza el proceso de detector de Canny para suavizar la imágen?: {
+= Filtrado Gaussiano.
+~ Filtro de media.
+~ Filtro de mediana.
+}
+
+¿Cuantos pasos contiene el detector de Canny?: {
+= 4.
+~ 5.
+~ 6.
+}
+
+Para la construcción del detector de Nitzberg-Harris algunos sus pasos son:{
+= Calcular gradientes horizontal y vertical para cada uno de los píxeles de la vecindad
+~ Aplicar promediado y registrar la matriz para algunos de los puntos.
+~ Todas son correctas.
+}
+
+¿Cuales son los criterios de la detección de Canny?: {
+= Buena detección, buena localización y respuesta única.
+~ Buena detección, buena localización y respuesta variada.
+~ No importa el número de falsos positivos o negativos.
+}
+
+En percepción automática, en cuanto a los modelos  de color: {
+~ RGB no presenta problemas y siempre es mejor que HSV.
+= RGB presenta un problema importante, a la hora de segmentar por color, dos colores similares pueden aparecer lejos en el espacio de representación del modelo.
+~ HSV (red, green, blue, del inglés),es un sistema de síntesis aditiva basado en los colores rojo, verde y azul. 
+}
+
+En cuanto al filtrado Gaussiano, indica la respuesta correcta{
+~ Asigna al píxel central la media de todos los píxeles. 
+~ El valor mínimo aparece en el píxel central y aumenta hacia los extremos.
+= El valor máximo aparece en el píxel central y disminuye hacia los extremos.
+}
+
+¿Cuál de las siguientes definiciones corresponde a un Edge (Arista)? {
+~ Puntos de bajo contraste.
+~ Puntos de baja derivada en valor absoluto.
+= Puntos de alta derivada en valor absoluto.
+}
+
+En la ampliación de una imagen es cierto que :{
+~ Ocupa menos memoria que la original.
+~ Comprimimos la imagen.
+= Se repiten pixeles.
+}
+
+En cuanto a la ecualización del histograma, selecciona la respuesta correcta: {
+ = Cuando tenemos una imagen con poco contraste podemos “expandir” el histograma.
+~ Cuando tenemos una imagen con poco contraste podemos “reducir” el histograma.
+~ Ninguna de las anteriores es correcta.
+}
+
+En el dectetor de Canny, utilizando trade-off si aumentamos "sigma" :{
+= reducimos ruido pero difuminamos los bordes y perdemos calidad en la localización.
+~ aumentamos ruido pero acentuamos los bordes y ganamos calidad en la localización.
+~ reducimos ruido pero difuminamos los bordes y ganamos calidad en la localización.
+}
+
+Si tenemos una fotografía con el siguiente histograma (mucha altura a la derecha y poca a la izquierda)
+diremos que la fotografía está:{
+= Sobreexpuesta
+~ Subexpuesta
+~ Dentro de los valores de exposición normales
+}
+
+Respecto a la Binarización..: {
+~ Hay que indicar uno o dos umbrales, y poner a 0 los píxeles que estén por debajo del umbral o entre dos umbrales, y a 1 el resto.
+~ Hay que indicar uno o dos umbrales, y poner a 0 los pídeles que estén únicamente por debajo del umbral, y a 1 el resto.
+= Ninguna de las anteriores es correcta.
+}
+ 
+Hablando del detector de Canny, indica el orden correcto de trabajo de  este sistema (ordena las afirmaciones):
+A-Se define un punto de borde, como un punto cuyo peso es localmente máximo en la dirección del gradiente.
+B-La imagen se suavizada usando un filtro Gausiano con una desviación estándar.
+C-Se realiza la unión de los pixeles, incorporando “candidatos débiles”.
+D-Los puntos de borde determinados anteriormente, originan crestas en la dirección de crecimiento del gradiente de la imagen.
+{
+~ADCB.
+~ACBD.
+=BADC.
+}
+
+Cual es la respuesta correcta sobre el detector Nitzberg-Harris (matriz de momentos): { 
+= La matriz A(x, y) captura la estructura de la intensidad de la vecindad local.
+ 
+~ Sean ?1 y ?2 los valores propios de la matriz A(x, y). Los valores propios no forman una descripción rotacionalmente invariante.
+ 
+~ Aplicar un promediado y registrar la matriz para un solo punto.
+ 
+}
+
+¿La mediana es convolución? {
+= No, la obtenemos ordenando de mayor a menor según el número de repeticiones.
+~ Sí, se obtiene mediante la suma de productos.
+~ Ninguna de las anteriores.
+}
+
+Aplicando un operador de Sobel de 3x3, obtenemos que la derivada de Gx es 0. ¿Habrá una transición en el Eje X?
+{
+~ Sí
+= No
+~ No se puede determinar
+}
+
+Indica cuál es la opción incorrecta sobre el detector Canny:{
+= Tiene una buena detección, máximiza el número de falsos positivos y minimiza los falsos negativos.
+~ Tiene buena localización, las aristas deben marcarse en un lugar real.
+~ Ambas son correctas.
+}
+
+En el detector de Canny, en supresión no-máximos, para cada píxel :{
+= se considera la dirección más similar y se comprueba si es mejor que sus vecinos en dicha dirección.
+~ únicamente se considera la dirección más similar.
+~ únicamente se comprueba si es mejor que sus vecinos en dicha dirección.
+}
+
+El filtro no lineal de mediana :{
+= calcula la mediana en una vecindad.
+~ calcula la mediana según implementacion gaussiana
+~ calcula la media en una vecindad
+}
+
+Si a una imagen le bajamos el contraste y le subimos el brillo. ¿Como sera el nuevo histograma con respecto al de la imagen original?
+{
+= Más comprimido y desplazado hacia la derecha.
+~ Más comprimido y desplazado hacia la izquierda.
+~ Más extendido y desplazado hacia la izquierda.
+}
+
+¿Qué detector es considerado el más efectivo a la hora de detectar bordes? {
+= Canny 
+~ Nitzberg-Harris
+~ Ninguno de los anteriores
+}
+
+En el proceso de captura de imagen mediante un sensor se tiene que: {
+~ En los sistemas pin-hole se obtiene una clara ganancia de perspectiva.
+= Se produce una discretización.
+~ Las imágenes capturas se representan solo mediante unos.
+}
+
+Los supuestos de ruido gaussiano y arista de tipo "escalón" pertenecen a:{
+= Detector de Canny.
+~ Convolución.
+~ Detector Nitzberg-Harris.
+}
+
+¿Qué afirmación acerca de la percepción automática es falsa? {
+~ Las imágenes de color RGB se representan con matrices de tres valores entre 0 y 255
+~ Cambiando el brillo de una imagen se aumenta o reduce el valor de cada píxel
+= Si ampliamos o reducimos una imagen, el número de pixeles sigue siendo igual.
+}
+
+El último "paso" del trabajo que realiza un detector de Canny es: {
+= El algoritmo realiza la unión de los pixeles, incorporando “candidatos de?biles” que esta?n 8-conectados a los pixeles “probables”.
+~ La imagen se suaviza usando un filtro Gausiano con una desviacio?n esta?ndar para reducir el ruido. El gradiente local, y la direccio?n del borde, son computados en cada punto. El detector Sobel, puede ser usado para computar Gx y Gy.
+~ Se define un punto de borde, como un punto cuyo peso es localmente ma?ximo en la direccio?n del gradiente.
+}
+
+Dentro de los filtros lineales, el filtrado Gaussiano:
+{
+=   Crea un filtro de convolución con una función gaussiana de media 0 y varianza ?.
+~   Crea un filtro de evolución con una función booleana de media 5 y varianza ?.
+~   Ninguna de las respuestas anteriores es correcta.
+}
+
+¿Cuál de las siguientes respuestas en un criterio(formalizacón) de detector de Canny? :{
+=   Buena localización.
+~   Filtro lineales.
+~   Selección o eliminación de no-máximos.
+}
+
+¿Como podriamos saber en una imagen el numero de pixeles que comparten un mismo valor? {
+= Con la función histograma
+~ Aplicando convolución
+~ Con el detector de Canny
+}
+
+Indica la respuesta correcta: {
+= El computador entiende el color como un vector de 3 componentes
+~ Para cambiar el brillo de una imagen, el valor de cada pixel cambia según si su valor es menor de 100 o no
+~ Cuando hablamos del Detector de Canny, se suaviza una imagen usando un filtro Hertziano
+}
+
+Con respecto al  histograma de una imagen, se puede afirmar que el proceso de binarización:{
+= Consiste en poner a 1 los pixeles que esten por encima de un umbral o entre dos umbrales y el resto a 0
+~ No funciona con imagenes a color
+~ Es necesario definir como minimo 2 umbrales para poner a 1 los pixeles que se encuentren en medio de estos y el resto a 0
+}
+
+¿Qué ocurrirá si aumentamos el valor de todas las posiciones de una matriz de imagen en escala de grises? {
+= Aumentará el brillo de la imagen.
+~ La imagen se volverá más oscura.
+~ La imagen se difuminará.
+}
+
+Hay que tener en cuenta que el tamaño de la máscara usada o de la vecindad escogida (Efecto del tamaño de la máscara) :{
+= Puede tener un efecto no deseado en el resultado,aunque hay veces que es lo que se pretende.
+~ No afecta en absoluto a la calidad de la imagen.
+~ Tiene una buena detección, máximiza el número de falsos positivos y minimiza los falsos negativos
+}
+
+El modelo de color RGB se representa con tres valores de 0 a 255 como se muestra en la imagen. ¿Por qué este modelo puede suponer un problema en el campo de los sistemas inteligentes?
+:{
+= Porque existen colores muy similares a simple vista que tienen una representación RGB muy diferente (alejada), lo cual puede suponer un alto coste computacional.
+~ Porque existen colores muy similares a simple vista que tienen una representación RGB muy diferente (alejada), lo cual puede suponer un error de percepción para el sistema.
+~ Porque existen colores muy similares a simple vista que tienen una representación RGB muy parecida (próxima), lo cual puede suponer un alto coste computacional.
+}
+
+
+Di cual de las siguientes afirmaciones es correcta{
+~ Al ampliar se pierden píxeles
+= Al ampliar una imagen se repiten píxeles
+~ Ninguna de las anteriores es correcta
+}
+
+Respecto a los "edges": {
+~ Son puntos donde la intensidad de la imagen se mantiene bajo unos niveles estables.
+= Son puntos de alta derivada en valor absoluto.
+~ Ambas son correctas.
+}
+
+En cuanto a los modelos de color, el tipo de imagen que tendremos en función de la matriz puede ser {
+
+~ Gris, valores -1, 0 y 1
+~ RGB (Red, Green, Black),los tres valores entre 0 y 255
+= Binaria, valores 0 y 1.
+}
+
+Sobre el detector de Canny: {
+~ es el más efectivo a la hora de detectar esquinas.
+~ es el más efectivo a la hora de detectar bordes, debido a su eficiencia.
+= es el más efectivo a la hora de detectar bordes, debido a su eficacia.
+}
+
+Cuando reducimos la resolución de una imagen, al perder píxeles: {
+
+~ Promedia entre los píxeles adyacentes.
+
+= Promedia entre los píxeles eliminados.
+
+~ Ninguna de las anteriores.
+
+}
+
+Hablando del filtro de mediana, seleciona la opción correcta
+{
+~Hay que tener en cuenta que el tamaño de la máscara de convolución o de la vencidad puede tener un efecto no deseado en el resultado, aunque hay veces que es lo que se pretende
+~Se obtiene a partir de producto y suma.
+=Organiza las intesidades y coge el valor central
+}
+
+
+El efecto más notable producido por la ecualización del histograma sobre una imagen es:
+{
+~ Aumentar el contraste y aumentar la saturación.
+~ Disminuir el contraste y aumentar la saturación.
+= Aumentar el contraste disminuyendo y aumentando la saturación.
+}
+
+La Convolución es una operación matemática aplicada a:{
+~ Una función f(x), y que tiene como resultado otra función h(x).
+= Dos funciones f(x) y g(x), y que tiene como resultado otra función h(x).
+~ Dos funciones f(x) y g(x), y que tiene como resultado otra función f(g(x)).
+}
+
+Si el histograma de una imagen está normalizado:{
+=La suma de todos los valores es 1.0, y nos indica la probabilidad de que un píxel tenga un determinado valor.
+~La suma de todos los valores es superior a 1.0, y nos indica la probabilidad de que un píxel tenga un determinado valor.
+~La suma de todos los valores es 1.0, y nos indica el valor exacto de un determinado píxel.
+}
+
+Qué modificación al histograma se utiliza para aumentar el contraste de una imagen :{
+=   Ecualización.
+~   Binarización.
+~   Normalización.
+}
+
+En que caso podemos indentificar edges verticales en un determinado punto en el reconocimiento de una imagen: {
+~ Cuando "f(x,y+1) = f(x,y)"
+= Cuando "f(x,y+1) != f(x,y)"
+~ Cuando "f(x+1,y) != f(x,y)"
+}
+
+El detector Nitzberg-Harris:{
+~ Detecta un corner cuando existe alguna dirección de gradiente dominante.
+= Detecta un corner cuando no existe ninguna dirección de gradiente dominante.
+~ Ninguna de las anteriores.
+}
+
+Algunos de los pasos a seguir para construir el detector de Nitzberg-Harris son:{
+~ Aplicar promediado y registrar la matriz para algunos puntos.
+= Calcular gradientes horizontal y vertical para cada uno de los píxeles de la vecindad.
+~ Ambas son incorrectas.
+}
+
+Con las operaciones de realce como la operación gradiente:{
+
+~ Se obtienen cambios en la imagen cuando la derivada de la función que representa la imagen es 0
+= Se obtienen bordes si la derivada de los valores de intensidad de la imagen es un máximo
+~ Se obtienen diferencias sin a penas ruido. Las ventanas aplicadas al gradiente, como Sobel, aumentan este ruido considerablemente.
+}

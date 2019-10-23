@@ -1,0 +1,10 @@
+Autor:  Jose Miguel Gómez Lozano
+DNI:    48833504L
+
+Ya están puestos los parámetros para ejecución.
+
+Se han guardado 2 perfiles de ejecucion, train y run, que como su nombren indican,
+cada uno va dstinado a su objetivo.
+Los cuales son:
+    //-train misclasificadores
+    //-run misclasificadores  6/4995.png

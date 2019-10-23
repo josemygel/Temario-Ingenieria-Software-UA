@@ -1,0 +1,26 @@
+1-	Sobre el algoritmo Ricard-Agrawala: 
+(a) Escribe el algoritmo, 
+(b) Indica y explica la complejidad en número de mensajes necesarios; 
+(c) Prueba y razona si siempre se cumplen las tres exigencias de la exclusión mutua en coordinación distribuida.
+ [1,5 puntos]
+
+2-	Analogias y diferencias entre los algoritmos de sincronización de relojes Cristian y NTP. 
+Razona la respuesta, explica los aspectos clave de cada uno y contextualiza los escenarios de caso de uso. [1,5 puntos]
+
+3-	Explica las tres razones principales por las que proteger una red WIFI y las medidas que debemos aplicar para 
+evitar su ataque o reducir el peligro. [1,5 puntos]
+
+4-	Define los siguientes conceptos [0,5 puntos cada uno] 
+(a) Algoritmo criptográfico simétrico; 
+(b) Ataque de cumpleaños; 
+(c) Corte inconsistente; 
+(d) Sistema distribuido asíncrono; 
+(e) Tiempo UTC; 
+(f) Función de resumen seguro; 
+(g) Reloj de Lamport; 
+(h) Sincronización interior de relojes.
+5-	Dentro de las prácticas no guiadas realizadas este curso, de sockets, RMI y servicios WEB, 
+explica esquemáticamente (con un gráfico y breve explicación del funcionamiento) 
+la comunicación e interacción del controlador con los servicios web y componentes RMI [1 punto] 
+¿Qué ventajas e inconvenientes relacionados con los conceptos de SD has encontrado en el uso de cada 
+una de las dos propuestas? [0,5 puntos]

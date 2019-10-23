@@ -1,0 +1,260 @@
+<html><head>
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document"><title>MSVC Inline Assembly - Simple Addition</title>
+
+<style id="konaStyle" type="text/css">
+ span.kLink { border-top: 0px none !important;border-left: 0px none !important;border-right: 0px none !important;border-bottom:  1px solid  ;padding : 0px 0px 1px 0px !important;color:blue;background: transparent none;width: auto !important;float: none !important;display:inline !important; } 
+ a.kLink { color:blue !important ; border-bottom-style: none;text-decoration: underline;cursor: pointer;font-family: verdana;border: 0px none transparent !important;background: transparent none !important;margin: 0px 0px 0px 0px; padding:0px 0px 0px 0px !important;text-transform: none !important;display:inline !important;font-variant:normal;top:0px; right:0px;bottom:0px;left:0px; } 
+ a.kLink:link { color:blue !important ; border-bottom-style: none;text-decoration: underline;cursor: pointer;font-family: verdana;border: 0px none transparent !important;background: transparent none !important;margin: 0px 0px 0px 0px; padding:0px 0px 0px 0px !important;text-transform: none !important;display:inline !important;font-variant:normal;top:0px; right:0px;bottom:0px;left:0px; } 
+ a.kLink:hover { color:blue;text-decoration: underline;cursor: pointer;font-family: verdana;border: 0px none transparent !important;background: transparent none !important;margin: 0px 0px 0px 0px; padding:0px 0px 0px 0px !important;text-transform: none !important;display:inline !important;font-variant:normal;top:0px; right:0px;bottom:0px;left:0px; } 
+ a.kLink:visited { color:blue;text-decoration: underline;cursor: pointer; font-family: verdana;margin: 0px 0px 0px 0px; padding:0px 0px 0px 0px; } 
+ .sponsor { font-family: MS Sans Serif, Verdana; color: #AFAFAF;font-size: 9pt; cursor: default; } 
+ .konaLayers { azimuth:center;border-collapse:separate;border-spacing:0;caption-side:top;cursor:auto;direction:ltr;elevation:level;empty-cells:show;font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;line-height:normal;list-style-image:none;list-style-position:outside;list-style-type:disc;orphans:2;page-break-inside:auto;pitch-range:50;pitch:medium;position:static;richness:50;right:auto;speak-header:once;speak-numeral:continuous;speak:normal;speech-rate:medium;stress:50;text-align:left;text-indent:0;text-transform:none;visibility:visible;volume:medium;white-space:normal;widows:2;word-spacing:normal; } 
+ .konaLayers * { background-attachment:scroll;background-color:transparent;background-image:none;background-position:0% 0%;background-repeat:repeat;border-style: none none none none;border-width: medium medium medium medium;clear:none;color:inherit;content:normal;counter-increment:none;counter-reset:none;cue-after:none;cue-before:none;float:none;left:auto;letter-spacing:normal;margin: 0px 0px 0px 0px;max-height:none;max-width:none;min-height:0;min-width:0;outline-color:invert;outline-style:none;outline-width:medium;overflow:visible;padding:0px 0px 0px 0px;page-break-after:auto;page-break-before:auto;pause-after:0;pause-before:0;position:static;table-layout:auto;text-decoration:none;top:auto;unicode-bidi:normal;width:auto;z-index:auto; } 
+ .konaLayers .konaLayer { position: absolute; top:0px; left:0px; width: 313px; padding: 0px; visibility: hidden; text-align:left; overflow: hidden; } 
+ .konaLayers .konaLayer a { font-weight: normal;text-decoration:none;border: 0px none transparent !important;background: transparent none !important;margin: 0px 0px 0px 0px; padding:0px 0px 0px 0px !important;text-transform: none !important;display:inline !important;font-variant:normal;top:0px; right:0px;bottom:0px;left:0px; } 
+ .konaLayers .konaLayer a:link { font-weight: normal;text-decoration:none;border: 0px none transparent !important;background: transparent none !important;margin: 0px 0px 0px 0px; padding:0px 0px 0px 0px !important;text-transform: none !important;display:inline !important;font-variant:normal;top:0px; right:0px;bottom:0px;left:0px; } 
+ .konaLayers .konaLayer a:hover { font-weight: normal;text-decoration:none;border: 0px none transparent !important;background: transparent none !important;margin: 0px 0px 0px 0px; padding:0px 0px 0px 0px !important;text-transform: none !important;display:inline !important;font-variant:normal;top:0px; right:0px;bottom:0px;left:0px; } 
+ .konaLayers .konaLayer b { font-size:inherit; } 
+ a.CBL { cursor:default; } 
+ a.CBL:link { cursor:default; } 
+ a.CBL:hover { cursor:default; } 
+ a.CBL:visited { cursor:default; } 
+ .konaLayers .CBL .handleTd div { cursor:default; } 
+ .konaLayers .konaPlate { cursor : pointer; } 
+ .konaLayers .konaPlate .konaBox { background: url(http://kona.kontera.com/javascript/lib/imgs/top_box.gif) left top no-repeat;width: 313px; } 
+ .konaLayers .konaPlate .konaBottomBox { width: 313px; height:45px; font-size: 3px; background: url(http://kona.kontera.com/javascript/lib/imgs/box_bottom.png) left top no-repeat; } 
+ .konaLayers .konaPlate .konaBottomBox_Right { width: 313px; height:45px; font-size: 3px; background: url(http://kona.kontera.com/javascript/lib/imgs/box_bottom_right.png) left top no-repeat; } 
+ .konaLayers .konaPlate .konaBottomBox_drag { width: 313px; height:20px; font-size: 3px; background: url(http://kona.kontera.com/javascript/lib/imgs/box_bottom_drag.png) top no-repeat; } 
+ .konaLayers .handleTd { vertical-align: top; width: 180px; } 
+ .konaLayers .handleTd div { cursor: move; padding: 0px 0px 0px 33px; font-size: 3px; } 
+ .konaLayers .handleTd img {  } 
+ .konaLayers .frameBarCell_left { width:88px; vertical-align: top; padding: 0px 0px 0px 0px; } 
+ .konaLayers .frameBarCell_right { width: 32px; vertical-align: top; padding-top: 0px; font-size: 5px; } 
+ .konaLayers .frameBar { margin-left: 7px; margin-right: 6px; cursor:auto; width:300px; } 
+ .konaLayers .konaDescDiv {  cursor: pointer; padding-top: 2px; } 
+ .konaLayers .table02 { margin-left: 9px; font: normal 13px arial; width: 305px; } 
+ .konaLayers .table03 { margin-left: 8px; font: normal 13px arial; width: 280px; table-layout: fixed; } 
+ .konaLayers .table03_flv02 { margin: 0px 0px 0px 32px; width: 242px; font: normal 13px arial; table-layout: fixed; } 
+ .konaLayers .konaLayerTitle { text-align:center; padding-right: 10px; } 
+ .konaLayers .konaLayerRMTitle { text-align:left; padding-right: 10px; padding-left: 6px; } 
+ .konaLayers .konaLayerTitleText  { font: bold 11px tahoma; color:#FFA200;; !important; text-decoration: underline;display:block; } 
+ .konaLayers .konaLayerTitleText b { font-size : 11px; color: #FFA200; } 
+ .konaLayers .konaLayerDesc { padding: 6px 7px 0px 0px; font: normal 11px verdana !important; color: BLACK; text-align: left; } 
+ .konaLayers .konaLayerDesc b { font-size : 11px; color: BLACK; } 
+ .konaLayers .konaLayerLinks td { padding-top: 8px; } 
+ .konaLayers .konaLayerShopLinks td { padding-top: 1px; font-size: 9px; } 
+ .konaLayers .site { padding-left: 8px; overflow:hidden; } 
+ .konaLayers .site a { color: #666666 !important; font: normal 11px arial !important; text-decoration: underline !important; overflow:hidden; } 
+ .konaLayers .site a:hover { color: #FFA200 !important; } 
+ .konaLayers .buyNow { text-align: right; width:105px; } 
+ .konaLayers .konaLayer img { border: 0px;display:inline; padding:0px; } 
+ .konaLayers .imgBanner { padding: 6px 13px 0px 6px; vertical-align: top; width:51px; text-align: center;padding-bottom: 4px; } 
+ .konaLayers .imgShoppingBanner { padding: 5px 4px 0px 3px; vertical-align: top; width: 51px; text-align: center; } 
+ .konaLayers .imgBanner_down { padding: 5px 13px 0px 13px; vertical-align: top; width:51px; text-align: center; } 
+ .konaLayers .top_curve { width: 313px; height: 10px; padding:0px; margin:0px;background: url(http://kona.kontera.com/javascript/lib/imgs/top_curve.png) left top no-repeat; } 
+ .konaLayers .drop_top_curve { width: 313px; height: 35px;font-size: 3px;background: url(http://kona.kontera.com/javascript/lib/imgs/drop_top_curve.png) top no-repeat; } 
+ .konaLayers .drop_top_curve_right { width: 313px; height: 35px; font-size: 3px;background: url(http://kona.kontera.com/javascript/lib/imgs/drop_top_curve_right.png) top no-repeat; } 
+ .konaLayers .konaSearchRow td { padding-top: 2px; } 
+ .konaLayers .konaSearchTable { margin-left: 5px; font: normal 13px arial; } 
+ .KonaBody { display:inline; } 
+ .konaLayers .table02_flv { margin-left: 10px; margin-top: 3px; margin-bottom: -4px; } 
+ .konaLayers .table02_flv02 { margin-left: 34px; width: 234px; margin-top: 3px; } 
+ .konaLayers .table02_flv03 { margin-left: 6px;margin-top: 3px; } 
+ .konaLayers .konaLayer_flvTD01 { padding: 6px 6px 0px 6px; } 
+ .konaLayers .konaLayer_flvTD02 { padding: 5px 6px 0px 6px; } 
+ .konaLayers .konaLayer_flvEmbed01 {  } 
+ .konaLayers .konaLayer_flvEmbed02 { margin-bottom: -3px; } 
+ .konaLayers .konaLayerDesc_nearFLV { font: normal 11px verdana !important; color: BLACK; text-align: left;vertical-align: top; padding: 11px 10px 0px 0px; } 
+ .konaLayers .konaLayerDesc_underFLV { font: normal 11px verdana !important; color: BLACK; text-align: left;font: normal 11px/14px verdana !important; vertical-align: top; padding: 4px 0px 0px 6px; } 
+ .konaLayers .konaLayerLearnMore { text-align:left; vertical-align: bottom; padding: 0px 0px 1px 6px; } 
+ .konaLayers .konaLayerLearnMore02 { vertical-align: top; text-align:right;width: auto !important; padding: 4px 0px 0px 0px !important; } 
+ .konaLayers .konaLayerLinks_underFLV td { padding-top: 4px; padding-bottom: 4px; line-height: 14px; } 
+ .konaLayers .konaLayerLinks_underFLV02 td { padding-top: 4px; line-height: 14px; } 
+ .konaLayers .konaFlashWrap { width: 320px; height: 288px;  } 
+ .konaLayers .konaFlashDrag { position:absolute;width:198px;height:26px;background-color:#ffffff;opacity:0;filter:alpha(opacity=0);cursor:move; } 
+ .konaLayers .konaFlashContent { width: 320px; height: 288px; } 
+ .konaLayers #konaFlashBubble { width: 320px; height: 288px;  } 
+ .konaLayers .konaBigFlashWrap { position:absolute;width:470px;height:395px; } 
+ .konaLayers .konaBigFlashDrag { position:absolute;z-index:17;width:347px;height:24px;left:85px;top:5px;background-color:#ffffff;opacity:0;filter:alpha(opacity=0);cursor:move;  } 
+ .konaLayers .konaBigFlashContent { position:absolute;left:0;top:0;z-index:12;width:470px;height:395px;  } 
+ .konaLayers .konaInfocomSearchTD .konaLineInputTD { position:relative; } 
+ .konaInfocomTableContainer { margin-left:21px; } 
+ .konaInfocomSearchTD { background: url(http://kona.kontera.com/javascript/lib/imgs/konaInfocom_search_area_trans.gif); width: 270px; height:46px; } 
+ .konaInfocomSearchTable { margin-top: 10px; margin-left:13px; width:244px; } 
+ .konaInfocomSearchField { width:163px; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; background-color:#FFF;color:#000; border:1px inset #ccc; padding: 1px 0px; } 
+ .konaInfocomInputContainer { position:relative; width: 163px; text-align: left; overflow: hidden; } 
+ .konaLayers .konaFlashWrap { position:relative; } 
+ .konaLayers .konaExpandFlashWrap { position:relative; } 
+ .konaLayers .konaFlashDrag { z-index:100;position:absolute;width:198px;height:26px;background-color:#ffffff;opacity:0;filter:alpha(opacity=0.0);cursor:move;top:0px; } 
+ .konaLayers .konaExpandFlashContent {  } 
+ .konaLayers .konaExpandFlashIframe { /*background:yellow;*/z-index:9999;position:absolute; } 
+ .konaLayers .konaWebnaryGradientTD .konaLineInputTD { position:relative; width: 200px } 
+ .konaWebnaryGradientTD { background:url(http://kona.kontera.com/javascript/lib/imgs/konaWebnaryGrad.gif) repeat-x; height:39px; width:300px; } 
+ .konaWebnaryTable { width: 300px; height:112px; margin-left:7px; margin-top:3px } 
+ .konaWebnaryHeadTD { width: 300px; height:51px; } 
+ .konaWebnarySubTD { width: 300px; height:22px; } 
+ .konaWebnarySearch { width:280px; height:23px; margin: 3px 0 0 10px; } 
+ .konaWebnaryInput { width: 200px; font: 12px Verdana, Arial, Helvetica, sans-serif; background-color:#FFF;color: black; border:1px inset #ccc; padding: 1px 0px; } 
+ .konaWebnarySubmit { margin-left:5px; } 
+ .konaWebnaryInputContainer { position:relative; width: 200px; text-align: left; overflow: hidden; } 
+ .konaLayers .konaFDGradientTD .konaLineInputTD { position:relative; width: 193px } 
+ .konaFDGradientTD { background:url(http://kona.kontera.com/javascript/lib/imgs/konaFDbottom.gif); height:39px; width:300px; } 
+ .konaFDTable { width: 300px; height:112px; } 
+ .konaFDHeadTD { width: 300px; height:55px; } 
+ .konaFDSubTD { width: 300px; height:20px; } 
+ .konaFDSearch { width:280px; height:23px; margin: 3px 0 0 10px; } 
+ .konaFDInput { width: 193px; font: 12px Verdana, Arial, Helvetica, sans-serif; background-color:#FFF;color: black;border:1px inset #ccc; padding: 1px 0px; } 
+ .konaFDSubmit { margin-left:5px; } 
+ .konaFDInputContainer { position:relative; width: 193px; text-align: left; overflow: hidden; } 
+ .konaYahooShoppingTable { width: 288px; height:125px; border: none; margin-left: 12px; margin-top: 5px; background-image:url(http://kona.kontera.com/javascript/lib/imgs/konaYahooSbgWhite.gif); } 
+ .konaYahooShoppingTable2 { width: 288px; border: none; margin-left: 12px; } 
+ .konaYahooShoppingHeader { height: 31px; font-family:Verdana, Arial, Helvetica, sans-serif; padding-bottom: 0px; vertical-align:middle; text-align:center; } 
+ .konaLayers .konaLayer a.konaYahooShoppingTitle { font-size:11px; font-weight:bold; color: #000000; text-decoration:underline; cursor:default; } 
+ .konaYahooShoppingContentTable { border: none; padding:0; } 
+ .konaYahooShoppingImageTd { padding-top:6px; padding-right:0px; padding-left:12px; padding-bottom:0px; vertical-align:top; } 
+ .konaLayers .konaLayer .konaYahooShoppingImg { border:solid 1px; border-color: #808080; } 
+ .konaYahooShoppingPrice { padding-bottom:5px; padding-right: 7px; } 
+ .konrYahooShoppingFont { font-family:Verdana, Arial, Helvetica, sans-serif; font-size:11px; color: #000000; } 
+ .konaYahooShoppingText { width: 177px; padding-left: 5px } 
+ .konaYahooShoppingDescriptionTable { height: 80px; } 
+ .konaYahooShoppingDescriptionTd { vertical-align: top; } 
+ .konaYahooShoppingDescription { margin:0; padding: 3px 3px 7px 2px; text-align:left; vertical-align:top; line-height:1.5; } 
+ .konaYahooSecondTable { background-image:url(http://kona.kontera.com/javascript/lib/imgs/konaYahooSbgMiddle2.gif); width:100%; border: none; } 
+ .konaYahooSecondTableLinkTD { padding-left:15px; vertical-align:bottom; } 
+ .konaLayers .konaLayer a.konrYahooLink1 { color:#0170b3; font-size:10px; text-decoration: underline; font-family: verdana,sans-serif; } 
+ .konaYahooSecondTableButtonTD { float:right; vertical-align:bottom; } 
+ .konaYahooShoppingBuyNowImg { margin-right: 5px; float:right; border:none; } 
+ .konaYahooShoppingBottomTd { padding:0px; vertical-align:top; } 
+ .konaYahooShoppingBottomImg { padding:0; margin:0; } 
+ .konaYahooShoppingPoweredImg { margin:5px 0 0 0; padding:0; } 
+ .konaLayers .konaBox_bottom { background: url(http://kona.kontera.com/javascript/lib/imgs/box_separator.gif) left top no-repeat; width: 313px; height: 10px; font-size: 1px; } 
+ .konaLayers .konaBox02 { background: url(http://kona.kontera.com/javascript/lib/imgs/box.gif) left top no-repeat; width: 313px; padding-top: 7px; } 
+ .konaLayers .konaLayer .konatabs_Search { margin: 0px 0px 0px 16px; width: 280px; padding: 0px; text-align: left; background: url(http://kona.kontera.com/javascript/lib/imgs/tabs_bg.gif) bottom repeat-x; } 
+ .konaLayers .konaLayer .konatabs_Table td { padding-right: 4px; } 
+ .konaLayers .konaLayer .konatabs_Table div { height: 18px; padding: 0px ; text-align: center; background: url(http://kona.kontera.com/javascript/lib/imgs/tab_right.gif) bottom right no-repeat; } 
+ .konaLayers .konatabs_Table div span { display:block; height: 15px; padding: 3px 7px 0px 9px; text-align: center; background: url(http://kona.kontera.com/javascript/lib/imgs/tab_left.gif) bottom left no-repeat; color: #808080; font: normal 11px arial; cursor: pointer; } 
+ .konaLayers .konaLayer .konatabs_Table div.selected { background: url(http://kona.kontera.com/javascript/lib/imgs/tab_selected_right.gif) bottom right no-repeat; cursor: default; } 
+ .konaLayers .konatabs_Table div.selected span { background: url(http://kona.kontera.com/javascript/lib/imgs/tab_selected_left.gif) bottom left no-repeat; font: bold 11px arial; color: #96BF00; cursor: default; } 
+ .konaLayers .konaSearch_Form { margin: 6px 0px 0px 15px; } 
+ .konaLayers .konaSearch_Form input { font: normal 11px verdana; color: black; border: 1px solid #7F9DB9; margin-right: 3px;padding-left:2px; } 
+ .konaLayers .konaSearch_Form .konaSearchName { font: normal 11px verdana; color: #96BF00; padding-right: 6px; } 
+ .konaLayers .konaLayer .konaBox02 td.konaHover *  { color: #96BF00; } 
+ .searchTbContainer { width:295px; height:20px; border:0px solid red; padding:0 0 0 0; margin: 0 0 0 0; } 
+ .searchTransTb { width:10px; height:20px; border:0px solid blue; margin:0; padding: 0; vertical-align:middle; } 
+ .searchLogoTb { width:81px; height:20px ;vertical-align:middle;border:0px solid red; margin:0; padding: 0;  } 
+ .searchInputTb { width:140px;  height:20px; vertical-align:middle; margin:0; padding: 0;  } 
+ .searchButtonTb { width:63px;  height:20px; vertical-align:middle;border:0px solid red; margin:0; padding: 0;  } 
+ .searchInputFieldTbDiv { width:133px; height:16px; position:relative; background-color: #fff; border:1px solid #939aa0; padding-left: 2px; margin:0; vertical-align:middle;  } 
+ .searchInputFieldTb { font-size:12px; font-weight: normal; font-family:Tahoma, Arial, sans-serif; color:#000000;background-color: transparent; padding:0; margin:0 0 0px 0; } 
+ .konaYahooSponsored_bckgr { background:url(http://kona.kontera.com/javascript/lib/imgs/konaYSponsored_fon_w_text.gif); height:113px; width:300px; margin-left:7px; margin-top:3px } 
+ .konaYahooSponsored_table { margin-top: 72px; margin-left: 17px; } 
+ .konaYahooSponsored_input { width: 182px; font: Verdana, Arial, Helvetica, sans-serif; margin-top: 0px; background-color:#FFF;color: black;border:1px inset #ccc; padding: 1px 0px; } 
+ .konaYahooSponsored_inputContainor { position:relative; width: 182px; text-align: left; overflow: hidden; } 
+ .konaYahooSponsored_td { padding:2px; } </style></head><body>
+<table border="0" cellpadding="0" cellspacing="1" width="743">
+  <tbody><tr>
+    <td align="center" width="737"><!-- Casale Media 2004 (C) -->
+      <!-- Ad Format: Leaderboard -->
+      <!-- Domain(s): functionx.com -->
+      <script language="Javascript"><!--
+var d=new Date();var r=(d.getTime()%8673806982)+Math.random();var uu=escape(window.location.href);
+var wh='" width="728" height="90" ';var host='.casalemedia.com/';var dc=document;
+var fr='marginwidth="0" hspace="0" vspace="0" frameborder="0" scrolling="no">';
+dc.write('<ifr'+'ame src="http://as'+host+'s?s=56757&u='+uu+'&f=2&id='+r+wh+fr);
+dc.write('<a hr'+'ef="http://c'+host+'c?s=56757&f=2&id='+r+'" target="_blank">');
+dc.write('<i'+'mg src="http://as'+host+'s?s=56757&u='+uu+'&f=2&id='+r+'&if=0'+wh+'border="0"></a></ifr'+'ame>');
+//--></script><iframe src="add_files/s.htm" marginwidth="0" hspace="0" vspace="0" frameborder="0" height="90" scrolling="no" width="728">&lt;a
+href="http://c.casalemedia.com/c?s=56757&amp;f=2&amp;id=1360184663.639868"
+target="_blank"&gt;&lt;img
+src="http://as.casalemedia.com/s?s=56757&amp;u=http%3A//www.functionx.com/visualc/inlineassembly/add.htm&amp;f=2&amp;id=1360184663.639868&amp;if=0"
+width="728" height="90" border="0"&gt;&lt;/a&gt;</iframe>
+      <noscript>
+<iframe
+src="http://as.casalemedia.com/s?s=56757&u=http%3A%2F%2Ffunctionx.com&f=2&id=1"
+width="728" height="90" marginwidth="0" hspace="0" vspace="0"
+frameborder="0" scrolling="no"> <a
+href="http://c.casalemedia.com/c?s=56757&amp;f=2&amp;id=0"
+target="_blank"><img
+src="http://as.casalemedia.com/s?s=56757&u=http%3A%2F%2Ffunctionx.com&f=2&id=0&if=0"
+border="0"></a></iframe> </noscript>
+    </td>
+  </tr>
+</tbody></table>
+<p>This is a simple example that adds two integers, using 32-bit registers EAX
+and EBX:</p>
+<table border="0" width="686">
+  <tbody><tr>
+    <td width="678">
+      <pre>#include &lt;iostream&gt;
+using namespace std;
+
+int main()
+{
+	int n, m, Result;
+	// How to perform an addition on two integers
+	// Result = n + m
+
+	__asm
+	{
+		MOV n, 202	// Store 202 in n
+		MOV m, 125	// Store 125 in m
+		MOV EAX, n	// Put the value of n in 32-bit register EAX
+		MOV EBX, m	// Put the value of m in 32-bit register EBX
+		ADD EAX, EBX	// Add the contents of EBX to the contents of EAX
+				// and store the result in register EAX
+		MOV Result, EAX	// Retrieve the contents of EAX and put it in Result
+	}
+
+	cout &lt;&lt; "n = " &lt;&lt; n &lt;&lt; endl;
+	cout &lt;&lt; "m = " &lt;&lt; m &lt;&lt; endl;
+	cout &lt;&lt; "Result: " &lt;&lt; Result &lt;&lt; "\n\n";
+
+	return 0;
+}</pre>
+    </td>
+  </tr>
+</tbody></table>
+<p>This would produce:</p>
+<pre>n = 202
+m = 125
+Result: 327
+
+Press any key to continue...</pre>
+<p><a href="http://www.functionx.com/visualc/index.htm">Home</a></p>
+<table border="0" width="730">
+  <tbody><tr>
+    <td align="center" width="100%"><script type="text/javascript"><!--
+google_ad_client = "pub-3968514660870014";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_type = "text_image";
+google_ad_channel ="";
+//--></script>
+      <script type="text/javascript" src="add_files/show_ads.js">
+</script><script> window.google_render_ad(); </script><iframe name="google_ads_frame" src="add_files/ads.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" frameborder="0" height="90" scrolling="no" width="728"></iframe>
+    </td>
+  </tr>
+</tbody></table>
+
+<!-- DynamiContext AdLinks  -->
+<script language="JavaScript">
+var dc_UnitID = 14;
+var dc_PublisherID = 2409;
+var dc_AdLinkColor = 'blue';
+var  dc_adprod='ADL';
+</script>
+<script language="JavaScript" src="add_files/KonaLibInline.js"></script><script language="JavaScript" src="add_files/generatedAbTesting"></script><script language="JavaScript" src="add_files/generatedPublisherConfig.js"></script><script language="JavaScript" src="add_files/KonaBase.js"></script><a href="#" target="_top" id="AdLinkLayerClick"></a>
+<input id="KonaImpression" style="width: 0px; height: 0px; visibility: hidden; display: none;" type="image">
+<input id="KonaImpression1" style="width: 0px; height: 0px; visibility: hidden; display: none;" type="image">
+<iframe name="caterpilarID" id="caterpilarID" style="width: 1px; height: 1px; background-color: transparent;" marginwidth="0" marginheight="0" hspace="0" vspace="0" src="" allowtransparency="true" frameborder="0" scrolling="no">&gt;</iframe>
+<span id="konasapn0"><script type="text/javascript" src="add_files/KonaGet_002.txt"></script>
+
+<!-- DynamiContext AdLinks  -->
+
+<script src="add_files/KonaSend.txt" language="JavaScript"></script><script src="add_files/KonaGet.txt" type="text/javascript"></script></span></body></html>

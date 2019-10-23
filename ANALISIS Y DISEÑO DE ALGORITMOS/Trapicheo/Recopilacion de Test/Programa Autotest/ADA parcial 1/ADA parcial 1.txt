@@ -1,0 +1,339 @@
+Indicad cuál de estas tres expresiones es falsa:{
+~ pro(n/2)=pro(n)
+= pro(n) subconunto pro(n^2)
+~ pro(n) subconjunto pro(n)
+}
+
+unsigned sum (const mat&A):{
+= O(n)
+~ O(n logn)
+~ O(n^2)
+}
+
+¿Cual es la complejidad temporar de la siguiente funcion recursiva? unsigned desperdicio (unsigned n):{
+
+~ pro(n^2log n)
+= pro(n^2)
+~ pro(2^n)
+}
+
+Pertenece 3n^2 +3a O(n^3)?:{
+~ Solo para c=1 y nsub0=5
+~ No
+= Si
+}
+
+Sea f(n) la solucion de la relacion de recurrencia f(n)=2f(n/2)+1;f(1)=1. Indicad cual de estas tres expresiones es cierta:{
+= f(n) pertenece pro(n)
+~ f(n) pertenece pro(nlog(n))
+~ f(n) pertenece pro(n^2)
+}
+
+Un programa con dos bucles anidados uno dentro del otro, El primero hace n iteraciones aproximadamente y el segundo la mitad, tarda un tiempo. Seleccione una:{
+~ O(n raiz de n)
+= O(n^2)
+~ O(nlogn)
+}
+Indica cual es la complejidad, en funcion de n, del fragmento siguiente
+
+int a = 0;
+for(int i=0;i<n;i++)
+	for(int j=i;j>9;j/=2)
+	a+=A[i][j];
+
+:{
+= O(nlogn)
+~ O(n^2)
+~ O(n)
+}
+
+Un problema de tamaño n puede transformarse en tiempo O(n^3) en ocho de tamaño n/2; por otro lado, la solución al problema cuando la talla es 1 rquiere un tiempo constante.
+¿Cual de estas clases de coste temporal asintótico es la mas ajustada?:{
+~ O(n^3)
+= O(n^3logn)
+~ O(n^2logn)
+}
+
+Indicad cuál es la complejidad, en funcion de n, del siguiente fragmento de código:
+s=0; for(i=0;i<n;i++) for(j=i;j<n;j++) s+=i*j;
+{
+= pro(n^2)
+~ pro(n)
+~ pro(n^2) pero no mejor(n^2)
+}
+
+Un algoritmo recursivo basado en el esquema divide y venceras:{
+= ... será más eficiente cuanto más equitativa sea la división en subproblemas.
+~ ... nunca tendrá una complejidad exponencial.
+~ Las demás opciones son verdaderas.
+}
+
+La versión de Quicksort que utiliza como pivote la mediana del vector...:{
+~ ... se comporta peor cuando el vector ya esta ordenado
+~ ... se comporta mejor cuando el vector ya esta ordenado
+= ... El hecho de que el vector estuviera previamente ordenado o no, no influye en la complejidad temporal de este algoritmo
+}
+
+Dada la siguiente relacion de recurrencia. ¿Qué cota es verdadera? f(n)= n^2+3f(n/3) n>1:
+{
+~ f(n) pertenece pro(n^2logn)
+~ f(n) pertenece pro(n)
+= f(n) pertenece pro(n^2)
+}
+
+
+Sobre la complejidad temporal de la siguiente función: unsigned desperdicio (unsigned n)
+{
+= Ninguna de las otras dos alternativas es cierta
+~ Las complejidades en los casos mejor y peor son distintas
+~ El mejor de los casos se da cuando n<1 y en tal caso la complejidad es constante
+}
+
+¿Cuál de estas tres expresiones es falsa?:{
+~ 2n^3-10n^2+1 pertenece O(n^3)
+~ n+n raiz de n pertence mejor(n)
+= n+n raiz de n pertecene pro(n)
+}
+
+Sea f(n)=nlog(n)+n:{
+~ ... f(n) pertenece mejor(nlog(n)) 
+~ ... f(n) pertenece O(nlog(n))
+= Las otras dos opciones son ciertas
+}
+
+Si f_1(n) pertence O(g_1(n)) y f_2(n)pertence O(g_2(n)) entonces...:{
+= Las otras dos alternativas son ciertas
+~ f_1(n) + f_2(n) pertenece O(max(g_1(n),g_2(n)))
+~ f_1(n) + f_2(n) pertenece O(g_1(n)+g_2(n))
+}
+
+En cuanto a la complejidad temporal de la siguiente funcion: int ejemplo (vector < int > & v){
+= Las complejidades en el mejor y en el peor de los casos no coinciden 
+~ El mejor de los casos se da cuando n=0. su complejidad es constante
+~ Esta función no presenta casos mejor y peor puesto que sólo puede haber una instancia para cada una de las posibles talla.
+}
+
+Indica cuál es la complejidad, en función de n, del fragmento siguiente:
+for( int i = n; i > 0; i /=2 )
+for( int j = n; j > 0; j /=2 )
+a += A[i][j];
+
+{
+= O(log^2(n)) 
+~ O(nlog(n))
+~ O(n^2)
+}
+
+Indica cuál es la complejidad, en función de n, del fragmento siguiente:
+a = 0;
+for( int i = 0; i < n*n; i++ )
+a += A[(i + j) % n];
+
+{
+= O(n^2) 
+~ O(nlog(n))
+~ O(n)
+}
+
+
+
+El siguiente fragmento del algoritmo de ordenación Quicksort reorganiza los elementos del
+vector para obtener una subsecuencia de elementos menores que el pivote y otra de mayores.
+Su complejidad temporal, con respecto al tamaño del vector v, que está delimitado por los
+valores pi y pf, es...
+x = v[pi];
+i = pi+1;
+j = pf;
+
+
+
+{
+= ... lineal en cualquier caso 
+~ ... cuadrática en el peor de los casos
+~ ... cuadrática en cualquier caso
+}
+
+
+Dada la siguiente relación de recurrencia ¿Qué cota es verdadera?
+{
+= f(n) pertenece mejor(2^n)
+~ f(n) pertenece pro(n^2)
+~ f(n) pertenece pro(2^n)
+}
+
+
+¿Cual es la solución a la siguiente relación de recurrencia?
+
+f(n)=pro(1)+f(n/3) n>0
+
+{
+= f(n) pertenece pro(log(n))
+~ f(n) pertenece pro(n/3)
+~ Ninguna de las otras dos es cierta.
+}
+
+¿Cual es la solución a la siguiente relación de recurrencia?
+
+f(n)=n+4f(n/2) n>1
+
+{
+= f(n) pertenece pro(n^2)
+~ f(n) pertenece pro(n)
+~ f(n) pertenece pro(nlogn)
+}
+
+
+Considerad estos dos fragmentos:
+s=0;for(i=0;i<n;i++) s+=i;  
+
+y
+
+s=0;for(i=0;i<n;i++) if(a[i]!=0) s+=i;
+
+{
+~ El coste temporal asintótico del primer programa en el caso peor es más alto que en el segundo
+= El coste temporal asintótico, tanto en el caso mejor como en el caso peor, de los dos programas es el mismo
+~ El coste temporal asintótico del segundo programa en el caso peor es más alto que en el primero
+}
+
+Indica cuál es la complejidad en función de n, donde k es una constante (no depende de n), del fragmento:
+for( int i = k; i < n; i++) (
+A[i]=0;
+for( int j = i-k; j < i; j++ )
+ A[i] += B[j];
+
+{
+= O(n) 
+~ O(nlog(n))
+~ O(n^2)
+}
+
+La complejidad temporal en el mejor de los casos...
+{
+~ Las demas opciones son verdaderas
+~ ... es el tiempo que tarda el algoritmo en resolver la talla más pequeña que se le puede presentar
+= ... es una función de la talla que tiene que estar definida para todos los posibles valores de ésta
+}
+
+Dada la siguiente relación de recurrencia. ¿Qué cota es verdadera?
+raiz de n+3f(n/3)
+
+{
+= f(n) pertenece pro(n) 
+~ f(n) pertenece pro(n^3) 
+~ f(n) pertenece pro(raiz de n logn) 
+}
+
+Un problema de tamaño n puede transformarse en tiempo O(n^2) en nueve de tamaño n/3; por otro lado,
+la solución al problema cuando la talla es 1 requiere un tiempo constante.
+¿Cuál de estas clases de coste temporal asintótico es la más ajustada?
+{
+~ O(n^2) 
+= O(n^2 logn) 
+~ O(nlogn) 
+}
+
+Para que la complejidad de un algoritmo presente caso mejor y peor distintos...
+{
+~ ...es condicion suficiente que existan instancias distintas del problema con el mismo tamaño
+~ ... es condicion necesaria y suficiente que existan instancias distintas del problema con el mismo tamaño
+= ... es condicion necesaria que existan instancias distintas del problema con el mismo tamaño
+}
+
+La versión de Quicksort que utiliza como pivote el elemento del vector que ocupa la
+primera posición ...
+{
+= ... se comporta mejor cuando el vector ya está ordenado.
+~ ... se comporta peor cuando el vector ya está ordenado.
+~ ... El hecho de que el vector estuviera previamente ordenado o no, no influye en
+la complejidad temporal de este algoritmo.
+}
+
+
+El coste temporal asintótico del fragmento
+s=0; for(i=0;i<n;i++) for(j=i;j<n;j++) s+=i*j;
+y el del fragmento
+s=0; for(i=0;i<n;i++) for(j=0;j<n;j++) s+=i*i*j;
+son ...{
+
+= ... iguales.
+~ ... el del segundo, menor que el del primero.
+~ ... el del primero, menor que el del segundo.
+
+}
+
+Un problema de tamaño n puede transformarse en tiempo O(n) en siete de tamaño
+n/7; por otro lado, la solución al problema cuando la talla es 1 requiere un tiempo
+constante. ¿cual de estas clases de coste temporal asintótico es la más ajustada?
+{
+~ O(n)
+= O(nlogn)
+~ O(n^2)
+
+}
+
+
+¿Cuál de estas tres expresiones es falsa?:{
+~ n+nlog(n) pertence mejor(n)
+= n+nlog(n) pertence pro(n)
+~ 3n^2+1 pertenece O(n^3)
+}
+
+Un problema de tamaño n puede transformarse en tiempo O(n^3) en ocho de tamaño
+n/2; por otro lado, la solución al problema cuando la talla es 1 requiere un tiempo
+constante. ¿cual de estas clases de coste temporal asintótico es la más ajustada?
+{
+~ O(n^3)
+~ O(n^2logn)
+= O(n^3logn)
+
+}
+
+Sea f(n) la solucion de la relacion de recurrencia f(n)=2f(n-1)+1;f(1)=1. Indicad cual de estas tres expresiones es cierta:{
+= f(n) pertenece pro(2^n)
+~ f(n) pertenece pro(n^2)
+~ f(n) pertenece pro(n)
+}
+
+Los algoritmos de ordenación Quicksort y Mergesort tienen en común...{
+~ ... que se ejecutan en tiempo O(n)
+= ... que aplican la estrategia de divide y vencerás
+~ ... que ordenan el vector sin usar espacio adicional
+}
+
+Indicad cuál de estas tres expresiones es cierta:{
+= O(2^log(n)) ( O(n^2) ( O(2^n)
+~  O(n^2) ( O(2^log(n)) ( O(2^n)
+~ O(n^2) ( O(2^log(n)) (_ O(2^n)
+}
+
+Indicad cuál es la complejidad en funcion de n del fragmento siguiente:
+
+k=n/4; etc....
+
+{
+~ O(nlogn)
+~ O(n)
+= O(n^2)
+}
+
+La complejidad temporal en el mejor de los casos de un algoritmo recursivo...{
+
+= Las demás opciones son falsas.
+~ ... siempre coincidirá con la complejidad temporal de las instancias que están en el caso
+base del algoritmo recursiva.
+~... coincide con el valor del caso base de la ecuación de recurrencia que expresa la
+complejidad temporal del algoritmo.
+
+}
+
+Considerad la función siguiente:
+
+int M(int i, int f) etc.... Si la talla del problema
+viene dada por n =f-i+1 ¿Cual es el coste temporal asintotico en el supuesto de que n sea una potencia de 2?
+{
+= O(n)
+~ O(n^2)
+~ O(nlog(n))
+}
+

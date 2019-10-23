@@ -1,0 +1,12 @@
+USER + PWD => SHA512 => Token
+=============================
+Comunicación encriptada HTTPS
+
+Auditoria: LOG (Diario electrónico: Todo lo que hace el usuario, hasta las teclas que pulsa)
+
+  _________________________
+ |                         |
+Que,Quien,Donde(IP),Fecha,Tipo,Descripcion
+
+CIFRAR/DESCIFRAR (1 o 2 lados)
+GUARDAR CLAVE DE CIFRADO EN UN ARCHIVO (NO CODIGO)

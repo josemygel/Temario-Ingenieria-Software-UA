@@ -1,0 +1,150 @@
+﻿insert into ACTIVIDAD values ('FUT', 'Campeonato de Futbol');
+insert into ACTIVIDAD values ('AJE', 'Torneo de Ajedrez');
+insert into ACTIVIDAD values ('PET', 'Torneo de Petanca');
+insert into ACTIVIDAD values ('BAI', 'Baile de Salon');
+insert into ACTIVIDAD values ('PAR', 'Torneo de Parchis');
+insert into ACTIVIDAD values ('SEND', 'Senderismo');
+insert into ACTIVIDAD values ('GOLF', 'Iniciacion al Golf');
+insert into ACTIVIDAD values ('PING', 'Campeonato de Ping Pong');
+
+insert into ACTADULTOS values ('AJE');
+insert into ACTADULTOS values ('PET');
+insert into ACTADULTOS values ('BAI');
+insert into ACTADULTOS values ('PAR');
+insert into ACTADULTOS values ('SEND');
+insert into ACTADULTOS values ('GOLF');
+insert into ACTADULTOS values ('FUT');
+
+insert into SUSTADULTOS values ('AJE', 'PAR');
+insert into SUSTADULTOS values ('PET', 'PAR');
+insert into SUSTADULTOS values ('BAI', 'PAR');
+insert into SUSTADULTOS values ('SEND', 'GOLF');
+insert into SUSTADULTOS values ('SEND', 'BAI');
+insert into SUSTADULTOS values ('FUT', 'BAI');
+insert into SUSTADULTOS values ('GOLF', 'BAI');
+
+
+insert into HORA values (10);
+insert into HORA values (12);
+insert into HORA values (18);
+insert into HORA values (20);
+insert into HORA values (22);
+
+
+
+
+insert into calendario values('01/11/2012', 'BAJA');
+insert into calendario values('02/11/2012', 'BAJA');
+insert into calendario values('03/11/2012', 'BAJA');
+insert into calendario values('04/11/2012', 'BAJA');
+insert into calendario values('05/11/2012', 'BAJA');
+insert into calendario values('06/11/2012', 'BAJA');
+insert into calendario values('07/11/2012', 'BAJA');
+insert into calendario values('08/11/2012', 'BAJA');
+insert into calendario values('09/11/2012', 'BAJA');
+insert into calendario values('10/11/2012', 'BAJA');
+insert into calendario values('11/11/2012', 'BAJA');
+insert into calendario values('12/11/2012', 'BAJA');
+insert into calendario values('13/11/2012', 'BAJA');
+insert into calendario values('14/11/2012', 'BAJA');
+insert into calendario values('15/11/2012', 'BAJA');
+insert into calendario values('16/11/2012', 'BAJA');
+insert into calendario values('17/11/2012', 'BAJA');
+insert into calendario values('18/11/2012', 'BAJA');
+insert into calendario values('19/11/2012', 'BAJA');
+insert into calendario values('20/11/2012', 'BAJA');
+insert into calendario values('21/11/2012', 'BAJA');
+insert into calendario values('22/11/2012', 'BAJA');
+insert into calendario values('23/11/2012', 'BAJA');
+insert into calendario values('24/11/2012', 'BAJA');
+insert into calendario values('25/11/2012', 'BAJA');
+insert into calendario values('26/11/2012', 'BAJA');
+insert into calendario values('27/11/2012', 'BAJA');
+
+insert into calendario values('01/02/2013', 'BAJA');
+insert into calendario values('02/02/2013', 'BAJA');
+insert into calendario values('03/02/2013', 'BAJA');
+insert into calendario values('04/02/2013', 'BAJA');
+insert into calendario values('05/02/2013', 'BAJA');
+insert into calendario values('06/02/2013', 'BAJA');
+insert into calendario values('07/02/2013', 'BAJA');
+insert into calendario values('08/02/2013', 'BAJA');
+insert into calendario values('09/02/2013', 'BAJA');
+insert into calendario values('10/02/2013', 'BAJA');
+insert into calendario values('11/02/2013', 'BAJA');
+insert into calendario values('12/02/2013', 'BAJA');
+insert into calendario values('13/02/2013', 'BAJA');
+insert into calendario values('14/02/2013', 'BAJA');
+insert into calendario values('15/02/2013', 'BAJA');
+insert into calendario values('16/02/2013', 'BAJA');
+insert into calendario values('17/02/2013', 'BAJA');
+insert into calendario values('18/02/2013', 'BAJA');
+insert into calendario values('19/02/2013', 'BAJA');
+insert into calendario values('20/02/2013', 'BAJA');
+insert into calendario values('21/02/2013', 'BAJA');
+insert into calendario values('22/02/2013', 'BAJA');
+insert into calendario values('23/02/2013', 'BAJA');
+insert into calendario values('24/02/2013', 'BAJA');
+insert into calendario values('25/02/2013', 'BAJA');
+insert into calendario values('26/02/2013', 'BAJA');
+insert into calendario values('27/02/2013', 'BAJA');
+insert into calendario values('28/02/2013', 'BAJA');
+
+insert into calendario values('01/03/2013', 'MEDIA');
+insert into calendario values('02/03/2013', 'MEDIA');
+insert into calendario values('03/03/2013', 'MEDIA');
+insert into calendario values('04/03/2013', 'MEDIA');
+insert into calendario values('05/03/2013', 'MEDIA');
+insert into calendario values('06/03/2013', 'MEDIA');
+insert into calendario values('07/03/2013', 'MEDIA');
+insert into calendario values('08/03/2013', 'MEDIA');
+insert into calendario values('09/03/2013', 'MEDIA');
+insert into calendario values('10/03/2013', 'MEDIA');
+insert into calendario values('11/03/2013', 'MEDIA');
+insert into calendario values('12/03/2013', 'MEDIA');
+insert into calendario values('13/03/2013', 'MEDIA');
+insert into calendario values('14/03/2013', 'MEDIA');
+insert into calendario values('15/03/2013', 'MEDIA');
+
+
+insert into calendario values('01/08/2013', 'ALTA');
+insert into calendario values('02/08/2013', 'ALTA');
+insert into calendario values('03/08/2013', 'ALTA');
+insert into calendario values('04/08/2013', 'ALTA');
+insert into calendario values('05/08/2013', 'ALTA');
+insert into calendario values('06/08/2013', 'ALTA');
+insert into calendario values('07/08/2013', 'ALTA');
+insert into calendario values('08/08/2013', 'ALTA');
+insert into calendario values('09/08/2013', 'ALTA');
+insert into calendario values('10/08/2013', 'ALTA');
+insert into calendario values('11/08/2013', 'ALTA');
+insert into calendario values('12/08/2013', 'ALTA');
+insert into calendario values('13/08/2013', 'ALTA');
+insert into calendario values('14/08/2013', 'ALTA');
+insert into calendario values('15/08/2013', 'ALTA');
+insert into calendario values('16/08/2013', 'ALTA');
+insert into calendario values('17/08/2013', 'ALTA');
+insert into calendario values('18/08/2013', 'ALTA');
+insert into calendario values('19/08/2013', 'ALTA');
+insert into calendario values('20/08/2013', 'ALTA');
+insert into calendario values('21/08/2013', 'ALTA');
+insert into calendario values('22/08/2013', 'ALTA');
+insert into calendario values('23/08/2013', 'ALTA');
+insert into calendario values('24/08/2013', 'ALTA');
+insert into calendario values('25/08/2013', 'ALTA');
+insert into calendario values('26/08/2013', 'ALTA');
+insert into calendario values('27/08/2013', 'ALTA');
+insert into calendario values('28/08/2013', 'ALTA');
+insert into calendario values('29/08/2013', 'ALTA');
+insert into calendario values('30/08/2013', 'ALTA');
+insert into calendario values('31/08/2013', 'ALTA');
+
+-- Una actividad no puede repetirse el mismo dia.
+-- A la misma hora no puede haber 2 actividades.
+insert into HORARIO values ('15/08/2013',20,'AJE');
+insert into HORARIO values ('16/08/2013',12,'PET');
+insert into HORARIO values ('15/08/2013',22,'BAI');
+insert into HORARIO values ('15/08/2013',10,'SEND');
+insert into HORARIO values ('15/08/2013',18,'FUT');
+insert into HORARIO values ('15/08/2013',12,'GOLF');
+insert into HORARIO values ('16/08/2013',18,'FUT');

@@ -1,0 +1,91 @@
+--ejercicio 1
+
+No sirve hacer solo
+------------------
+if (:new.pSA>:new.pAD or :new.pAD>:new.pMP or :new.pMP>:new.pPC) then
+------------------
+porque al admitir pSA, pAD, pMP y pPC valores nulos puede comportarse de manera no correcta.
+-------------------------------------
+
+create or replace
+trigger precios_comida
+before insert or update
+on pvptemporada
+for each row
+begin
+if (:new.pSA>:new.pAD or :new.pSA>:new.pMP or :new.pSA>:new.pPC) then
+   raise_application_error(-20601,'El precio de SA no es inferior a alguno de los de AD, MP o PC');
+end if;
+if (:new.pAD>:new.pMP or :new.pAD>:new.pPC or :new.pSA>:new.pPC) then
+   raise_application_error(-20601,'El precio de AD no es inferior a MP o PC');
+end if;
+if (:new.pMP>:new.pPC) then
+   raise_application_error(-20601,'El precio de MP no es inferior al de PC');
+end if;
+end;
+---------------------------------------
+-- ejercicio 2
+
+
+create or replace trigger tipo_suite
+before insert or update of categoria, piso
+on habitacion
+for each row
+begin
+if (:new.categoria='S' and :new.piso<>5) then 
+raise_application_error(-20601,'Las habitaciones tipo SUITE sólo están en la quinta planta');
+end if;
+end;
+--------------------------------------
+
+-- ejercicio 3
+
+create or replace
+trigger alta_INDIV_reserva
+after Insert or update on calendreservas
+for each row
+declare vcateg varchar(2);
+begin
+
+select categoria into vcateg from habitacion where numero=:new.habitacion;
+
+If vcateg='I' and :new.camasup='S' then
+
+raise_Application_error (-20200, 'El cliente no puede solicitar cama supletoria en la habitacion ' || :new.habitacion || ' por ser de uso individual');
+
+End if;
+End;
+----------------------------------------
+
+-- ejercicio 4
+
+-- ESTE DISPARADOR NO TIENE SENTIDO HACERLO PUESTO QUE HEMOS PUESTO UNA CLAVE AJENA 
+-- DE CITA A REALIZAR  Y, POR LO TANTO, AL HACER UN INSERT O UN UPDATE EN LA TABLA CITA
+-- ANTES DE LANZAR EL DISPARADOR COMPROBARÍA QUE SE CUMPLEN TODAS LAS RESTRICCIONES QUE
+-- TENGA LA TABLA, ENTRE ELLAS LA DE LA CLAVE AJENA 
+-- foreign key (tratamiento, empleado) references realizar
+-- QUE ES LO QUE SE PIDE QUE SE CONTROLE EN ESTE EJERCICIO.
+
+-- sI SUPONEMOS QUE NO SE HA DEFINIDO ESA CLAVE AJENA EL TRIGGER QUEDARÍA COMO
+-- SE MUESTRA A CONTINUACIÓN.
+--    Para el nombre el tratamiento se han considerado sus observaciones.
+
+create or replace
+trigger realiza_servicio
+after insert or update
+on cita
+for each row
+declare
+total number(1);
+auxempleado empleado.nombre%type;
+auxtrata tratamiento.observaciones%type;
+begin
+select count(*) into total from realizar
+where tratamiento=:new.tratamiento and empleado=:new.empleado;
+if (total=0) then 
+select nombre into auxempleado from empleado where nif=:new.empleado;
+select observaciones into auxtrata from tratamiento where codigo=:new.tratamiento;
+raise_application_error(-20601,'El empleado '||auxempleado||'  no realiza el tratamiento '||auxtrata);
+end if;
+end;
+

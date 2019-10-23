@@ -1,0 +1,15 @@
+-ldl
+-lpthread
+-latomic
+-lswiftCore
+-latomic
+-lswiftImageInspectionShared
+/usr/lib/x86_64-linux-gnu/libicui18n.a
+/usr/lib/x86_64-linux-gnu/libicuuc.a
+/usr/lib/x86_64-linux-gnu/libicudata.a
+-Xlinker
+-export-dynamic
+-Xlinker
+--exclude-libs
+-Xlinker
+ALL

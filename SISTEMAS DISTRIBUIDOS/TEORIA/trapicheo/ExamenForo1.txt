@@ -1,0 +1,13 @@
+1- Define brevemente los siguientes conceptos referidos al tema Tiempo y estados globales: 
+a) Tasa de deriva
+b) Reloj correcto
+c) Sistema distribuido asíncrono
+d) Corte de la ejecución del sistema
+e) Corte consistente
+
+2- Desarrolla el ataque del cumpleaños indicando en que se basa, en que contexto se puede dar y qué aspectos 
+son determinantes para protegernos de ese ataque.
+
+3- Desarrolla el algoritmo de acceso a sección crítica llamado "Ricart-Agrawala"
+¿se cumplen en todos los casos las tres exigencias de exclusión mutua? Razona la respuesta. 
+Además indica y justifica el número de mensajes que se necesitan en su funcionamiento.

@@ -1,0 +1,6 @@
+
+10-)
+un multicomutador utiliza una red de comunicacion en la que los enlaces son de 1gb/s
+y la comunicacion es store & forward. Mandar un paquete de 32 bytes a un nodo distancia
+6 cuesta 1,56 ys. ¿Cuantas veces seria mas rapido esta transmision si fuera virtual
+cut-throught. Se supone trafico 0, las flits son 8 bits y 1 flit de cabecera?.

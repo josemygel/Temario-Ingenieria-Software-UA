@@ -1,0 +1,207 @@
+-- Ejercicio 1
+create or replace 
+function  
+preciohabitacion (p_numhab habitacion.numero%type, p_fechareserva calendario.fecha%type) return pvptemporada.psa%type is
+v_precio pvptemporada.psa%type;
+begin
+    select pSA into v_precio
+    from habitacion h , pvptemporada p , calendario c
+    where numero=p_numhab and fecha=p_fechareserva and
+          h.categoria=p.categoria and p.temporada =c.temporada;
+    return(v_precio);
+end;
+
+select preciohabitacion(1,'16/08/2013') from dual;
+
+-- Ejercicio 2
+
+create or replace
+function  
+preciocategoria (p_categoria pvptemporada.categoria%type, p_fechareserva date, p_regimen varchar) return number 
+-- Se supone que el regimen alimenticio tendra alguno de los siguientes valores
+-- SA, AD, MP, PC
+is
+v_psa pvptemporada.psa%type;
+v_pad pvptemporada.pad%type;
+v_pmp pvptemporada.pmp%type;
+v_ppc pvptemporada.ppc%type;
+begin
+    select pSA, pAD, pMP, pPC into v_psa, v_pad, v_pmp, v_ppc
+    from  pvptemporada p , calendario c
+    where p_fechareserva=fecha and
+          c.temporada=p.temporada and p_categoria =categoria;
+    if p_regimen = 'SA' then return(v_psa);
+    else if p_regimen='AD' then return(v_pad);
+    else if p_regimen='MP' then return(v_pmp);
+    else return(v_ppc);
+    end if;
+    end if;
+    end if;
+end;
+
+-- o bien
+
+create or replace
+function  
+preciocategoria (p_categoria pvptemporada.categoria%type, p_fechareserva calendario.fecha%type, p_regimen varchar) return number 
+-- Se supone que el regimen alimenticio tendra alguno de los siguientes valores
+-- PSA PAD PMP PPC
+is
+v_psa pvptemporada.psa%type;
+v_pad pvptemporada.pad%type;
+v_pmp pvptemporada.pmp%type;
+v_ppc pvptemporada.ppc%type;
+v_precio v_psa%type;
+begin
+    select pSA, pAD, pMP, pPC into v_psa, v_pad, v_pmp, v_ppc
+    from  pvptemporada p , calendario c
+    where p_fechareserva=fecha and
+          c.temporada=p.temporada and p_categoria =categoria;
+    if p_regimen = 'PSA' then v_precio:=v_psa;
+    else if p_regimen='PAD' then v_precio:=v_pad;
+    else if p_regimen='PMP' then v_precio:=v_pmp;
+    else v_precio:=v_ppc;
+    end if;
+    end if;
+    end if;
+    return(v_precio);
+end;
+
+select preciocategoria('D','16/08/2013','PSA') from dual;
+
+
+-- Ejercicio 3
+create or replace
+function  
+numCitas (p_nif in char, p_fecha cita.fecha%type) return number 
+is
+v_citas number(3);
+begin
+    select count(*) into  v_citas
+    from  cita, empservicios
+    where p_fecha=fecha and  p_nif=empleado and empleado=nif;
+    return(v_citas);
+end;
+
+select numcitas ('77777777S','18/11/2012') from dual;
+
+
+-- Ejercicio 4
+create or replace
+function  
+libre (p_nif cita.empleado%type, p_fecha cita.fecha%type, p_momento cita.momento%type) return varchar 
+is
+v_citas number(1);
+v_libre char(2);
+begin 
+    select count(*) into  v_citas
+    from  cita
+    where p_fecha=fecha and  p_nif=empleado and p_momento=momento;
+ -- Si el trabajador no existe no informa de ello 
+ -- al no devolver nada interpreta que SI que tiene libre
+if v_citas=0 then v_libre:='SI'; 
+else v_libre:='NO';end if;
+return(v_libre);
+end;
+
+
+select libre ('77777777S','18/11/2012',3) from dual;
+
+
+
+-- Ejercicio 5
+-- OJO se nos coló la tilde de habitación en la tabla consumir. 
+--Modifica por habitacion sin tilde o añade la tilde en la siguiente función.
+create or replace
+function  gastodiario(p_habitacion consumir.habitacion%type, p_fecha consumir.fecha%type)
+return number 
+is
+v_gasto number(6,2);
+begin 
+    select sum(precio*cantidad) into v_gasto
+    from  consumir, servicio
+    where p_habitacion=habitacion and  p_fecha=fecha
+    and servicio=codigo;
+ return(nvl(v_gasto,0));
+end;
+
+select gastodiario (1,'10/11/2012') from dual;
+
+
+-- Ejercicio 6
+-- OJO se nos coló la tilde de habitación en la tabla consumir. 
+--Modifica por habitacion sin tilde o añade la tilde en la siguiente función.
+create or replace function  gastototal (p_reserva calendreservas.reserva%type) return number 
+is
+v_gasto number(6,2);
+begin 
+    select sum(precio*c.cantidad) into v_gasto
+    from  consumir c, servicio, calendreservas r
+    where p_reserva=r.reserva and
+    r.habitacion=c.habitacion and
+    r.fecha=c.fecha and
+    servicio=codigo;
+ return(v_gasto);
+end;
+
+select gastototal (1) from dual;
+
+
+--Ejercicio 7
+-- Interesa saber la cantidad de clientes
+-- distintos que han recibido el tratamiento, no la cantidad
+-- de veces que se ha hecho este tratamiento
+create or replace
+function citas_tratamiento (p_tratamiento cita.tratamiento%type) return number 
+is
+v_citas number(5);
+begin
+    select count( distinct cliente) into  v_citas
+    from  cita
+    where p_tratamiento=tratamiento;
+    return(v_citas);
+end;
+
+select citas_tratamiento ('MAS01') from dual;
+
+
+--Ejercicio 8
+create or replace
+function reserva_tfno (p_reserva restelefono.reserva%type) return empleado.nombre%type
+is
+v_nombre empleado.nombre%type;
+begin
+    select nombre into v_nombre
+    from  empleado, restelefono
+    where p_reserva=reserva and
+    emprecepcion=nif;
+    return(v_nombre);
+end;
+
+select citas_tratamiento ('MAS01') from dual;
+
+
+--Ejercicio 9
+create or replace function menos_guardias return empleado.nombre%type 
+is
+cursor guardias is select nombre from empleado, calendario
+                   where nif=emplimpieza
+                   group by nif, nombre
+                   having count(*) <= all(select count(*) 
+  				       from calendario
+                                       where emplimpieza is not null
+                                        group by emplimpieza)
+                   order by nombre;
+auxnombre empleado.nombre%type;
+contador number(1):=0;
+begin
+for g in guardias loop
+contador:=contador+1;
+auxnombre:=g.nombre;
+if contador=1 then exit;
+end if;
+end loop;
+return(auxnombre);
+end;
+
+

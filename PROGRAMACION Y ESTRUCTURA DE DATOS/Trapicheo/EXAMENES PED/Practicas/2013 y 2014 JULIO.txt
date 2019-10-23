@@ -1,0 +1,25 @@
+// JULIO 2014
+Pasarle una lista a un AVL y que te devolviera una lista con los hermanos de esos nodos.
+
+// JULIO 2013
+// Devolver el recorrido desde la raiz hasta el nodo buscado de cada item de la entrada
+
+// Si el arbol está vacio devolver un TVectorPoro Vacio
+// Si la lista está vacia devolver un vector apuntando a NULL
+// Si el elemento no exite en el arbol se devuelve un TVector Vacio
+
+// El TVectorPoro devuelto debe ser del mismo tamaño que el recorrido
+
+// metodo a implementar
+TVectorPoro* examen( const TListaPoro &);
+
+
+// ----------- entrada
+v = [68, 71, 82, 92, 98]
+
+// ----------- salida
+v[0] = [68]                         // para el 68
+v[1] = TVectorPoro vacio    // para el 71 (no existe en el arbol)
+v[2] = [68, 84, 80, 82]       // para el 82
+v[3] = [68, 84, 98, 92]       // para el 92
+v[4] = [68, 84, 98]            // para el 98

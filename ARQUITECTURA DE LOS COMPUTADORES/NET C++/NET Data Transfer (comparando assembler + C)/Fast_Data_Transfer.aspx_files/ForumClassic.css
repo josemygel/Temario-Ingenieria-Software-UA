@@ -1,0 +1,423 @@
+/*
+// Classes
+*/
+
+/* Summary boxes */
+div.tabs
+{
+	font-size:90%;
+	font-weight: bold;
+	margin: 4px 0 1px 0;  
+	padding:0;
+}
+div.tabs a
+{
+	background-color: #FBEDBB;
+	border: 1px solid #FF9900;
+	padding: 2px .5em 7px .2em; 
+	text-decoration: none;
+	color:#ab2600;
+	margin:0 2px 0px 0;
+}
+div.tabs a.sel
+{
+	background-color: #ffcc99;
+}
+div.tabs img
+{
+	padding-bottom: 2px; 
+	margin: 0 0 2px 0;
+	border: 0;
+	vertical-align:top;
+}
+div.tabContent
+{
+	padding: 4px;
+	border: 1px solid #FF9900;
+	background-color: #ffcc99;
+	display: none; 
+	font-size:8pt;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	width:200px;
+}
+div.tabs a:hover
+{
+	background: #ffcc99;
+}
+.MsgBrief
+{
+	text-align: left;
+	padding-left:0px;
+	margin-left:15px;
+	margin-top:2;
+	margin-bottom:5;
+}
+.MsgBrief li
+{
+	font-size:8pt;
+}
+/* Summary boxes */
+
+.Frm_MainTable
+{
+	border: solid 1px #ff9900;
+	width: 100%;
+	background-color: Transparent;
+}
+.Frm_MsgTable
+{
+	border-top: 1px solid #ff9900;
+	border-bottom: 1px solid #ff9900;
+	background-color: Transparent;
+	table-layout:fixed;
+	border-collapse:collapse;
+}
+.Frm_MsgAlert, .Frm_MsgAlert TD
+{
+	color: #000000;
+	background-color: yellow;
+	font-size: 8pt;	
+	padding:2px;
+}
+.Frm_HeaderRow1, .Frm_HeaderRow1 TD
+{
+	color: #000000;
+	background-color: #FBEDBB;
+	font-size: 8pt;
+	vertical-align: middle;
+}
+.Frm_HeaderRow2, .Frm_HeaderRow2 TD
+{
+	color: #000000;
+	background-color: #ff9900;
+	font-size: 8pt;
+	vertical-align: middle;
+}
+.Frm_Footer, .Frm_Footer TD
+{
+	color: #000000;
+	background-color: #FBEDBB;
+	font-size: 8pt;
+}
+.Frm_NavigationBar, .Frm_NavigationBar TD
+{
+	color: #000000;
+	background-color: #FBEDBB;
+	font-size: 8pt;
+	padding-top:5px;
+}
+.Frm_ColumnHeaders, .Frm_ColumnHeaders TD
+{
+	color: #000000;
+	background-color: #FBEDBB;
+	font-size: 8pt;	
+}
+.Frm_MsgRtDivide
+{
+	border-bottom: dotted 1px #ff9900;
+	height: 7px; /*20px;*/
+	background-color: white;
+}
+.Topic .Frm_MsgRtDivide
+{
+	border-style:none;
+	height: 35px;
+}
+.Frm_MsgDivide
+{
+	background-color: white;
+	height: 6px;
+}
+.ForumSig
+{
+	border-top: solid 1px #CCCCCC;
+	padding-top:0px;
+	margin-top:10px;
+	max-height:150px;
+	overflow:auto;
+}
+.ForumMod
+{
+	margin:0;
+	padding:0;
+	color:#333;
+	font-style:italic;
+	font-size:8pt;
+}
+.ForumMod:before
+{
+	content: "-- ";   
+}
+/* message footer */
+.Frm_MsgFt, .Frm_MsgFt td
+{
+	background-color:#D5EAFF;
+	padding: 15px 0px 3px 0px;
+	font-size: 8pt !important;
+	/*border-top: solid 1px #99CCFF;*/
+}
+/* 
+	The message header itself (inside the message header row. 
+	Name: Forum_(Sel|Unsel)ViewType(Rt)Msg(Hd|Bd)
+
+	Sel|Unsel = Selected or unselected
+	ViewType  = Normal, Preview, Quick, Thread, Topic, Expanded, Mobile
+	Rt		= If the message is a top level message
+	Hd|Bd	 = Header or Body
+
+	eg. Selected message header for a top level message in Topic
+		view would be: Forum_SelTopicRtMsgHd
+*/
+
+.MsgHd,  .MsgHd td   { font-size: 8pt; }
+.MsgBd,  .MsgBd td   { font-size: 9pt; line-height:1.25em; }
+.HdSel,  .HdSel td   { background-color: #99CCFF; }
+.HdUnSel,.HdUnSel td { background-color: #FEFAED;  }
+.BdSel,  .BdSel td   { background-color: #D5EAFF; }
+.BdUnSel,.BdUnSel td { background-color: white; /*#FEF9E7;*/ border: solid 1px #FBEDBB;	}
+.Rt,	 .Rt td	  { font-weight:bold; }
+.Chld,   .Chld td	{  }
+.LoVote, .LoVote TD a { color : gray !important; }
+.HiVote, .HiVote TD a { color : Maroon !important; }
+/*tr.Rt td.MsgBd  { font-weight: normal !important;}*/
+
+.ExpandedBd td.BdUnSel td, .TopicBd td.BdUnSel td
+{
+	border-style:none !important;
+}
+.ThreadBd td
+{
+	border: solid 1px #FBEDBB;
+}
+.ThreadBd td.BdSel td
+{
+	border-style:none !important;
+	background-color: #F0F7FF;
+}
+.ThreadHd td
+{
+	font-weight:bold;
+	font-size:8pt;
+}
+.Rt .ThreadHd td
+{
+	font-weight:normal;
+	font-size:8pt;
+	background-color:#FEFAED;
+}
+.HdSel .ThreadHd td
+{
+	background-color: #99CCFF !important; 
+}
+
+.HdUnSel .ThreadHd td
+{
+	font-weight:normal !important;
+}
+.Thrd .threadhd td
+{
+    font-weight:bold !important;
+}
+.TopicHd .BlgHdr
+{
+    background-color:white !important;
+    color:#CC6600 !important;
+    font-family:Arial;
+    font-size:16pt !important;
+    font-weight:bold !important;
+}
+.ExpandedHd td, .ThreadHd td
+{
+	background-color: #FBEDBB;
+}
+
+.TopicHd td
+{
+	background-color: #F0F7FF;
+}
+.Rt .TopicHd td
+{
+	background-color:#FBEDBB;
+}
+.TopicBd td, .ThreadBd td
+{
+	background-color: white /*#D5EAFF*/;
+}
+.Rt .TopicBd td
+{
+	background-color:white;
+}
+.PreviewBd td.BdUnSel
+{
+	font-size:10px;
+	color:#666666;
+	border-style:none;
+}
+.MsgCnt 
+{ 
+ /*   font-style:italic;*/
+}
+.Frm_MsgIndent, td.Frm_MsgIndent
+{
+	background-color:white !important;
+	text-align:right;
+}
+.Frm_MsgSubject
+{
+	padding-left:5px;
+	/*width:100%;*/
+}
+.Frm_MsgAuthor
+{
+	text-align: left;
+	width: 140px;
+	padding-left:2px;	
+}
+.Frm_MsgAuthor a
+{
+	padding-bottom:3px;
+	vertical-align:text-top;
+	width: 140px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+.Frm_MsgDate
+{
+	text-align: right;
+	width: 130px !important;
+}
+.Frm_MsgCount
+{
+	text-align: right;
+	width: 30px !important;
+}
+.Frm_HL, .Frm_MHL /* Hover link */
+{ 
+	text-decoration: none;
+	color : gray; 
+	padding: 1px 2px 1px 2px;
+	border: solid 1px #FBEDBB;
+}
+.Frm_MHL
+{
+	border: solid 1px transparent;
+}
+A.Frm_HL,A.Frm_MHL
+{
+	text-decoration: none;	  
+	color : blue; 
+	cursor: pointer;
+}
+A.Frm_HL:hover,A.Frm_MHL:hover
+{
+	border-color: #ff9900;
+	background-color: #FFCC99;
+	border-style:solid;
+}
+A.Frm_HL:active,A.Frm_MHL:active
+{
+	background-color: #FFC082;
+	border-color: #ff9900;
+}
+.BlgHdr
+{
+	font-size:9pt !important;
+	padding-top:10px;
+	padding-bottom:10px;
+	font-weight:bold;
+}
+/*
+// Controls
+*/
+.Frm_DropDown
+{
+	background-color: #FEF9E7;
+	font-size: 95%;
+	margin-left: 5px;
+}
+.Frm_Button
+{ 
+	font-size:100%; 
+	color: white; 
+	border-color: #FBEDBB; 
+	background-color: #E08900; 
+	font-weight: 700; 
+}
+.toolbar
+{
+	border-width: 1px;
+	border-color: white;
+	background-color: white;
+	border-style: solid;
+}
+.toolbarHover
+{
+	border-width: 1px;
+	border-color: #ff9900;
+	background-color: #FFCC99;
+	border-style: outset;
+}
+.toolbarDown
+{
+	border-width: 1px;
+	border-color: #ff9900;
+	background-color: #FFCC99;
+	border-style: outset;
+}
+.toolbarUp
+{
+	border-width: 1px;
+	border-color: #ff9900;
+	background-color: #FFCC99;
+	border-style: outset;
+}
+.ForumTitle
+{
+	font-size:14pt;
+	font-weight:bold;
+	color:Black;	
+}
+/*
+Misc
+*/
+.FQ
+{
+	padding-left: 0.6em; 
+	margin-left: 0.25em; 
+	border-left: gray 0.2em solid; 
+	color: #556655; 
+	margin-right: 1em;
+	margin-bottom: -1em;
+}
+.FQA
+{
+	font-size: 7pt;
+	font-weight: bold;
+	margin-left: -0.25em; 	
+}
+ul.UnAnswered li, li.UnAnswered 
+{
+	list-style-image: url(/script/forums/images/msg_question.gif);
+}
+li.UnAnswered
+{
+	padding-left:5px;
+	padding-bottom:5px;
+}
+.SigHighlight
+{
+    border:solid 1px gray;
+    background-color: #FFFFCC;
+    cursor:pointer;
+    padding:2px;
+    overflow:hidden;
+}
+.SigNormal
+{
+    border:solid 1px white;
+    background-color: white;
+    cursor:pointer;
+    padding:2px;
+    overflow:hidden;
+}

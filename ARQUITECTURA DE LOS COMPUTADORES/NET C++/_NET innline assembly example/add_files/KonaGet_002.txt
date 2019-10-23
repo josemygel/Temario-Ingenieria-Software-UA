@@ -1,0 +1,3 @@
+setKonaResults(0,1,"L|0|0|0|white|none&pRfr=http://www.functionx.com/visualc/inlineassembly/add.htm&dc_aff_id=");
+onKonaReturn(1);
+

@@ -1,0 +1,91 @@
+create table CALENDARIO (
+fecha date constraint pk_calendario primary key, 
+temporada varchar2(5));
+
+
+create table HORA (
+hora number(2) constraint pk_hora primary key);
+
+
+create table ACTIVIDAD (
+código char(4) constraint pk_actividad primary key,
+ descripcion varchar2(100) not null);
+
+create table HORARIO (
+fecha date constraint fk_horario_calendario references calendario,
+hora number(2) constraint fk_horario_hora references hora, 
+actividad char(4) not null constraint fk_horario_actividad references actividad,
+constraint pk_horario primary key(fecha,hora),
+constraint cu_fecha_actividad unique(fecha,actividad));
+
+create table Actninos(
+actividad char(4) constraint pk_actninos primary key 
+constraint fk_actninos_actividad references actividad);
+
+create table ActADULTOS(
+actividad char(4) constraint pk_actadultos primary key 
+constraint fk_actadultos_actividad references actividad);
+
+create table ActTODOS(
+actividad char(4) constraint pk_acttodos primary key 
+constraint fk_acttodos_actividad references actividad);
+
+create table sustninos(
+activ1 char(4) constraint fk_sustninos_actni1 references actninos,
+activ2 char(4) constraint fk_sustninos_actni2 references actninos,
+constraint pk_sustninos primary key(activ1, activ2)); 
+
+create table sustadultos(
+activ1 char(4) constraint fk_sustadultos_actad1 references actadultos,
+activ2 char(4) constraint fk_sustadultos_actad2 references actadultos,
+constraint pk_sustadultos primary key(activ1, activ2)); 
+
+create table susttodos(
+activ1 char(4) constraint fk_susttodos_acttodos1 references acttodos,
+activ2 char(4) constraint fk_susttodos_acttodos2 references acttodos,
+constraint pk_susttodos primary key(activ1, activ2)); 
+
+-- ejercicio 2
+alter table habitacion add (superficie number(4,2), piso number(2));
+
+--ejercicio 3
+update habitacion set superficie=17 where numero=1;
+update habitacion set superficie=14 where numero=2;
+update habitacion set superficie=18 where numero=3;
+
+-- ejercicio 4
+-- RECUERDA HABER EJECUTADO SET SERVEROUTPUT ON
+
+CREATE TABLE MALCATEGORIA (
+num number(3) primary key, 
+dif number(4,2));
+
+DECLARE
+CURSOR c1 IS SELECT numero, superficie, supMin FROM habitacion, categoria  WHERE categoria=nombre;
+BEGIN
+FOR regc1 IN c1 LOOP
+IF regc1.superficie < regc1.supMin THEN
+  Dbms_output.put_line('Habitación '|| regc1.numero ||' dimensión INCORRECTA ***');
+  INSERT INTO MALCATEGORIA VALUES(regc1.numero, regc1.supMin-regc1.superficie);
+ELSE
+  Dbms_output.put_line('Habitación '|| regc1.numero ||' dimensión correcta');
+END IF;
+END LOOP;
+END;
+
+-- ejercicio 5
+
+
+DECLARE
+CURSOR c1 IS SELECT activ2, descripcion, count(activ1) numsust, fecha
+  FROM actividad, sustadultos, horario
+  WHERE código=activ2 and activ1=actividad
+  GROUP BY activ2, descripcion, fecha
+  HAVING count(*) > 2;
+
+BEGIN
+FOR regc1 IN c1 LOOP
+    Dbms_output.put_line(regc1.activ2||' , '||regc1.descripcion||' conflicto '|| regc1.numsust ||' sustituciones en la fecha '||regc1.fecha);
+END LOOP;
+END;
+
