@@ -1,3 +1,5 @@
+# Todo esto está hecho sin ánimo de lucro, pero [si quieres agradecerme lo acepto cualquier donativo](https://paypal.me/josemygel?locale.x=es_ES) (hasta para un café rico 🤤)
+
 # Un gran poder conlleva una gran responsabilidad, ahora...
 
 ### - No me hago responsable de copia
