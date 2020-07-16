@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:BPEL="http://www.mtis.org/BPEL/" xmlns:ProveedorA="http://www.mtis.org/ProveedorA/" xmlns:ProveedorB="http://www.mtis.org/ProveedorB/" xmlns:logistica="http://www.mtis.org/logistica/">
+  <process name="BPEL:AlmacenBPEL">
+    <active>true</active>
+    <retired>false</retired>
+    <process-events generate="all"/>
+    <provide partnerLink="client">
+      <service name="BPEL:AlmacenBPELService" port="AlmacenBPELPort"/>
+    </provide>
+    <invoke partnerLink="LogisticaPLN">
+      <service name="logistica:logistica" port="logisticaSOAP"/>
+    </invoke>
+    <invoke partnerLink="ProveedorAPLN">
+      <service name="ProveedorA:ProveedorA" port="ProveedorASOAP"/>
+    </invoke>
+    <invoke partnerLink="ProveedorBPLN">
+      <service name="ProveedorB:ProveedorB" port="ProveedorBSOAP"/>
+    </invoke>
+  </process>
+</deploy>

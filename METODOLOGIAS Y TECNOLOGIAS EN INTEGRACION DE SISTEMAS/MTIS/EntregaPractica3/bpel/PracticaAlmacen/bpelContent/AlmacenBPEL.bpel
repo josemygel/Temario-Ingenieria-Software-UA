@@ -1,0 +1,1488 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- AlmacenBPEL BPEL Process [Generated 
+	by the Eclipse BPEL Designer] -->
+<!-- Date: Fri Apr 03 11:09:24 CEST 2020 -->
+<bpel:process name="AlmacenBPEL" targetNamespace="http://www.mtis.org/BPEL/"
+	suppressJoinFailure="yes" xmlns:tns="http://www.mtis.org/BPEL/"
+	xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+	xmlns:ns="http://www.mtis.org/logistica/" xmlns:ns1="http://www.w3.org/2001/XMLSchema"
+	xmlns:ns0="http://www.mtis.org/ProveedorA/" xmlns:ns2="http://www.mtis.org/ProveedorB/">
+
+	<!-- Import the client WSDL -->
+	<bpel:import namespace="http://www.mtis.org/ProveedorA/"
+		location="ProveedorA.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" />
+	<bpel:import namespace="http://www.mtis.org/logistica/"
+		location="logistica.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" />
+	<bpel:import location="AlmacenBPELArtifacts.wsdl"
+		namespace="http://www.mtis.org/BPEL/" importType="http://schemas.xmlsoap.org/wsdl/" />
+
+	<!-- ================================================================= -->
+	<!-- PARTNERLINKS -->
+	<!-- List of services participating in this BPEL process -->
+	<!-- ================================================================= -->
+	<bpel:partnerLinks>
+		<!-- The 'client' role represents the requester of this service. -->
+		<bpel:partnerLink name="client" partnerLinkType="tns:AlmacenBPEL"
+			myRole="AlmacenBPELProvider" />
+		<bpel:partnerLink name="LogisticaPLN"
+			partnerLinkType="tns:LogisticaPLN" partnerRole="LogisticaRole" />
+		<bpel:partnerLink name="ProveedorAPLN"
+			partnerLinkType="tns:ProveedorAPLN" partnerRole="ProveedorARole" />
+        <bpel:partnerLink name="ProveedorBPLN" partnerLinkType="tns:ProveedorBPLN" partnerRole="ProveedorBRole"></bpel:partnerLink>
+    </bpel:partnerLinks>
+
+	<!-- ================================================================= -->
+	<!-- VARIABLES -->
+	<!-- List of messages and XML documents used within this BPEL process -->
+	<!-- ================================================================= -->
+	<bpel:variables>
+		<!-- Reference to the message passed as input during initiation -->
+		<bpel:variable name="input" messageType="tns:AlmacenBPELRequestMessage" />
+
+		<!-- Reference to the message that will be returned to the requester -->
+		<bpel:variable name="output" messageType="tns:AlmacenBPELResponseMessage" />
+
+
+		<bpel:variable name="almacenTieneStock" type="ns1:boolean" />
+		<bpel:variable name="proceso" type="ns1:string" />
+        
+        
+        
+        <bpel:variable name="hayStock" type="ns1:boolean"/>
+        
+        
+        <bpel:variable name="presupuestoA" type="ns1:float"/>
+		<bpel:variable name="presupuestoB" type="ns1:float"/>
+		<bpel:variable name="LogisticaPLNResponse" messageType="ns:comprobarStockResponse"/>
+		<bpel:variable name="LogisticaPLNRequest" messageType="ns:comprobarStockRequest"/>
+
+
+
+
+
+
+		<bpel:variable name="ProveedorAPLNResponse" messageType="ns0:presupuestarResponse"/>
+		<bpel:variable name="ProveedorAPLNRequest" messageType="ns0:presupuestarRequest"/>
+        <bpel:variable name="ProveedorBPLNResponse" messageType="ns2:presupuestarResponse"></bpel:variable>
+        <bpel:variable name="ProveedorBPLNRequest" messageType="ns2:presupuestarRequest"></bpel:variable>
+        <bpel:variable name="ProveedorAPLNResponse1" messageType="ns0:solicitarResponse"></bpel:variable>
+        <bpel:variable name="ProveedorAPLNRequest1" messageType="ns0:solicitarRequest"></bpel:variable>
+        <bpel:variable name="ProveedorBPLNResponse1" messageType="ns2:solicitarResponse"></bpel:variable>
+        <bpel:variable name="ProveedorBPLNRequest1" messageType="ns2:solicitarRequest"></bpel:variable>
+        <bpel:variable name="LogisticaPLNResponse1" messageType="ns:actualizarStockResponse"></bpel:variable>
+        <bpel:variable name="LogisticaPLNRequest1" messageType="ns:actualizarStockRequest"></bpel:variable>
+    </bpel:variables>
+
+	<!-- ================================================================= -->
+	<!-- ORCHESTRATION LOGIC -->
+	<!-- Set of activities coordinating the flow of messages across the -->
+	<!-- services integrated within this business process -->
+	<!-- ================================================================= -->
+	<bpel:sequence name="main">
+
+		<!-- Receive input from requester. Note: This maps to operation defined 
+			in AlmacenBPEL.wsdl -->
+		<bpel:receive name="receiveInput" partnerLink="client"
+			createInstance="yes" operation="comprar" portType="tns:AlmacenBPEL"
+			variable="input" />
+
+		<!-- Generate reply to synchronous request -->
+		<bpel:assign validate="no" name="AsignacionInicial">
+
+
+
+			<bpel:copy>
+				<bpel:from>
+					<bpel:literal>
+						<tns:comprobarStock xmlns:tns="http://www.mtis.org/logistica/"
+							xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+							<count>0</count>
+							<ref>ref</ref>
+						</tns:comprobarStock>
+					</bpel:literal>
+				</bpel:from>
+				<bpel:to variable="LogisticaPLNRequest" part="parameters"/>
+			</bpel:copy>
+
+
+
+			<bpel:copy>
+				<bpel:from part="payload" variable="input">
+					<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        <![CDATA[tns:unidades]]>
+					</bpel:query>
+				</bpel:from>
+				<bpel:to part="parameters" variable="LogisticaPLNRequest">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        <![CDATA[count]]>
+                    </bpel:query>
+				</bpel:to>
+
+
+			</bpel:copy>
+			<bpel:copy>
+				<bpel:from part="payload" variable="input">
+					<bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        <![CDATA[tns:referencia]]>
+					</bpel:query>
+				</bpel:from>
+				<bpel:to part="parameters" variable="LogisticaPLNRequest">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        <![CDATA[ref]]>
+                    </bpel:query>
+                </bpel:to>
+            
+            
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                    
+                    
+                    
+                    
+                    
+                    <![CDATA[false()]]>
+                
+                </bpel:from><bpel:to variable="almacenTieneStock"/>
+            
+            
+            </bpel:copy>
+            
+            <bpel:copy>
+                <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <![CDATA[concat("[Sistema]: Solicitando ", $input.payload/tns:unidades, " unidades del producto con referencia [", $input.payload/tns:referencia, "].")]]>
+                </bpel:from><bpel:to variable="proceso"/>
+            
+            
+            </bpel:copy>
+            
+        </bpel:assign>
+        <bpel:invoke name="PreguntaLogistica" partnerLink="LogisticaPLN" operation="comprobarStock" inputVariable="LogisticaPLNRequest" outputVariable="LogisticaPLNResponse"/>
+        
+        <bpel:assign validate="no" name="ComprobarStockSalida">
+            
+            <bpel:copy>
+                <bpel:from><bpel:literal><tns:AlmacenBPELResponse xmlns:tns="http://www.mtis.org/BPEL/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <tns:resultado>true</tns:resultado>
+</tns:AlmacenBPELResponse>
+</bpel:literal></bpel:from>
+                <bpel:to variable="output" part="payload"/>
+            </bpel:copy>
+            <bpel:copy>
+                <bpel:from part="parameters" variable="LogisticaPLNResponse">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        <![CDATA[existe]]>
+                    </bpel:query>
+                </bpel:from>
+                <bpel:to variable="hayStock"/>
+            </bpel:copy>
+            
+            
+            
+        </bpel:assign>
+        <bpel:if name="NoHayStock">
+            <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[not($hayStock)]]></bpel:condition>
+            <bpel:sequence>
+                
+                
+                
+                <bpel:assign validate="no" name="IniciarSolicitudPresupuesto"><bpel:copy>
+                    <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            <![CDATA[concat($proceso, " || [Almacen]: Stock insuficiente, solicitando presupuesto de la cantidad solicitada(",$input.payload/tns:unidades,") más 100, total: ", string($input.payload/tns:unidades+100), " unidades.")]]>
+                        </bpel:from>
+                    <bpel:to variable="proceso" />
+                </bpel:copy>
+            
+                </bpel:assign>
+                <bpel:flow name="FlujoPresupuestos"><bpel:sequence name="PresupuestoA">
+                        
+                        
+                        <bpel:assign validate="no" name="EntradaA">
+                            <bpel:copy>
+                                <bpel:from><bpel:literal><tns:presupuestar xmlns:tns="http://www.mtis.org/ProveedorA/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <unidades>0</unidades>
+  <referencia>referencia</referencia>
+</tns:presupuestar>
+</bpel:literal></bpel:from>
+                                <bpel:to variable="ProveedorAPLNRequest" part="parameters"></bpel:to>
+                            </bpel:copy>
+                            <bpel:copy>
+                                <bpel:from part="payload" variable="input">
+                                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:referencia]]></bpel:query>
+                                </bpel:from>
+                                <bpel:to part="parameters" variable="ProveedorAPLNRequest">
+                                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[referencia]]></bpel:query>
+                                </bpel:to>
+                            </bpel:copy>
+                            <bpel:copy>
+                                <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <![CDATA[$input.payload/tns:unidades+100]]>
+                                </bpel:from>
+                                <bpel:to part="parameters" variable="ProveedorAPLNRequest">
+                                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[unidades]]></bpel:query>
+                                </bpel:to>
+                            </bpel:copy>
+                        </bpel:assign>
+                        <bpel:invoke name="PresupuestoA" partnerLink="ProveedorAPLN" operation="presupuestar" portType="ns0:ProveedorA" inputVariable="ProveedorAPLNRequest" outputVariable="ProveedorAPLNResponse"/>
+                        <bpel:assign validate="no" name="SalidaA">
+                            <bpel:copy>
+                                <bpel:from part="parameters" variable="ProveedorAPLNResponse">
+                                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                        <![CDATA[precio]]>
+                                    </bpel:query>
+                                </bpel:from>
+                                <bpel:to variable="presupuestoA"/>
+                            </bpel:copy>
+                            <bpel:copy>
+                                <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <![CDATA[concat($proceso, " || [ProveedorA]: ",$ProveedorAPLNResponse.parameters/mensaje)]]>
+                                </bpel:from>
+                                <bpel:to variable="proceso"/>
+                            </bpel:copy>
+                        </bpel:assign>
+                        
+                    </bpel:sequence><bpel:sequence name="PresupuestoB">
+                        <bpel:assign validate="no" name="EntradaB">
+                            <bpel:copy>
+                                <bpel:from><bpel:literal><tns:presupuestar xmlns:tns="http://www.mtis.org/ProveedorB/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <unidades>0</unidades>
+  <referencia>referencia</referencia>
+</tns:presupuestar>
+</bpel:literal></bpel:from>
+                                <bpel:to variable="ProveedorBPLNRequest" part="parameters"></bpel:to>
+                            </bpel:copy>
+                            <bpel:copy>
+                                <bpel:from part="payload" variable="input">
+                                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                        <![CDATA[tns:referencia]]>
+                                    </bpel:query>
+                                </bpel:from>
+                                <bpel:to part="parameters" variable="ProveedorBPLNRequest">
+                                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[referencia]]></bpel:query>
+                                </bpel:to>
+                            </bpel:copy>
+                            <bpel:copy>
+                                <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                    <![CDATA[$input.payload/tns:unidades+100]]>
+                                </bpel:from>
+                                <bpel:to part="parameters" variable="ProveedorBPLNRequest">
+                                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[unidades]]></bpel:query>
+                                </bpel:to>
+                            </bpel:copy>
+                        </bpel:assign>
+                        <bpel:invoke name="PresupuestoB" partnerLink="ProveedorBPLN" operation="presupuestar" portType="ns2:ProveedorB" inputVariable="ProveedorBPLNRequest" outputVariable="ProveedorBPLNResponse"></bpel:invoke>
+                        <bpel:assign validate="no" name="SalidaB">
+                            <bpel:copy>
+                                <bpel:from part="parameters" variable="ProveedorBPLNResponse">
+                                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[precio]]></bpel:query>
+                                </bpel:from>
+                                <bpel:to variable="presupuestoB"></bpel:to>
+                            </bpel:copy>
+                            <bpel:copy>
+                                <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <![CDATA[concat($proceso, " || [ProveedorB]: ",$ProveedorBPLNResponse.parameters/mensaje)]]>
+                                </bpel:from>
+                                <bpel:to variable="proceso"></bpel:to>
+                            </bpel:copy>
+                        </bpel:assign>
+                    </bpel:sequence></bpel:flow>
+                <bpel:if name="PresupuestosAceptados">
+                    <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[$presupuestoA >= 0 or $presupuestoB >= 0]]></bpel:condition>
+                    <bpel:sequence>
+                        <bpel:if name="ElegirPresupuestoA"><bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[$presupuestoA <= $presupuestoB and $presupuestoA >= 0]]></bpel:condition>
+                
+                        <bpel:sequence>
+                            <bpel:assign validate="no" name="EntradaSolicitudA">
+                                <bpel:copy>
+                                    <bpel:from><bpel:literal><tns:solicitar xmlns:tns="http://www.mtis.org/ProveedorA/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <unidades>0</unidades>
+  <referencia>referencia</referencia>
+</tns:solicitar>
+</bpel:literal></bpel:from>
+                                    <bpel:to variable="ProveedorAPLNRequest1" part="parameters"></bpel:to>
+                                </bpel:copy>
+                                <bpel:copy>
+                                    <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        <![CDATA[$input.payload/unidades+100]]>
+                                    </bpel:from>
+                                    <bpel:to part="parameters" variable="ProveedorAPLNRequest1">
+                                        <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[unidades]]></bpel:query>
+                                    </bpel:to>
+                                </bpel:copy>
+                                <bpel:copy>
+                                    <bpel:from part="payload" variable="input">
+                                        <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:referencia]]></bpel:query>
+                                    </bpel:from>
+                                    <bpel:to part="parameters" variable="ProveedorAPLNRequest1">
+                                        <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[referencia]]></bpel:query>
+                                    </bpel:to>
+                                </bpel:copy>
+                            </bpel:assign>
+                            <bpel:invoke name="SolicitarStockA" partnerLink="ProveedorAPLN" operation="solicitar" inputVariable="ProveedorAPLNRequest1" outputVariable="ProveedorAPLNResponse1"></bpel:invoke>
+                            <bpel:assign validate="no" name="SalidaSolicitudA">
+                                <bpel:copy>
+                                    <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <![CDATA[concat($proceso, " || [Sistema]: Se solicitó Stock a ProveedorA || [ProveedorA]: ", $ProveedorAPLNResponse1.parameters/mensaje)]]>
+                                        </bpel:from>
+                                    <bpel:to variable="proceso"></bpel:to>
+                                </bpel:copy>
+                            </bpel:assign>
+                        </bpel:sequence>
+                        <bpel:else>
+                            <bpel:sequence>
+                                <bpel:assign validate="no" name="EntradaSolicitudB">
+                                    <bpel:copy>
+                                        <bpel:from><bpel:literal><tns:solicitar xmlns:tns="http://www.mtis.org/ProveedorB/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <unidades>0</unidades>
+  <referencia>referencia</referencia>
+</tns:solicitar>
+</bpel:literal></bpel:from>
+                                        <bpel:to variable="ProveedorBPLNRequest1" part="parameters"></bpel:to>
+                                    </bpel:copy>
+                                    <bpel:copy>
+                                        <bpel:from part="payload" variable="input">
+                                            <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:referencia]]></bpel:query>
+                                        </bpel:from>
+                                        <bpel:to part="parameters" variable="ProveedorBPLNRequest1">
+                                            <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[referencia]]></bpel:query>
+                                        </bpel:to>
+                                    </bpel:copy>
+                                    <bpel:copy>
+                                        <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                            <![CDATA[$input.payload/unidades+100]]>
+                                        </bpel:from>
+                                        <bpel:to part="parameters" variable="ProveedorBPLNRequest1">
+                                            <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[unidades]]></bpel:query>
+                                        </bpel:to>
+                                    </bpel:copy>
+                                </bpel:assign>
+                                <bpel:invoke name="SolicitarStockB" partnerLink="ProveedorBPLN" operation="solicitar" inputVariable="ProveedorBPLNRequest1" outputVariable="ProveedorBPLNResponse1"></bpel:invoke>
+                                <bpel:assign validate="no" name="SalidaSolicitudB">
+                                    <bpel:copy>
+                                        <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <![CDATA[concat($proceso, " || [Sistema]: Se solicitó Stock a ProveedorB || [ProveedorB]: ", $ProveedorBPLNResponse1.parameters/mensaje)]]>
+                                            </bpel:from>
+                                        <bpel:to variable="proceso"></bpel:to>
+                                    </bpel:copy>
+                                </bpel:assign>
+                            </bpel:sequence>
+                        </bpel:else>
+                    </bpel:if>
+                        <bpel:assign validate="no" name="EntradaReponerStock">
+                            <bpel:copy>
+                                <bpel:from><bpel:literal><tns:actualizarStock xmlns:tns="http://www.mtis.org/logistica/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <count>0</count>
+  <ref>ref</ref>
+</tns:actualizarStock>
+</bpel:literal></bpel:from>
+                                <bpel:to variable="LogisticaPLNRequest1" part="parameters"></bpel:to>
+                            </bpel:copy>
+                            <bpel:copy>
+                                <bpel:from part="payload" variable="input">
+                                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:referencia]]></bpel:query>
+                                </bpel:from>
+                                <bpel:to part="parameters" variable="LogisticaPLNRequest1">
+                                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[ref]]></bpel:query>
+                                </bpel:to>
+                            </bpel:copy>
+                            <bpel:copy>
+                                <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <![CDATA[$input.payload/tns:unidades+100]]>
+                                </bpel:from>
+                                <bpel:to part="parameters" variable="LogisticaPLNRequest1">
+                                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                        <![CDATA[count]]>
+                                    </bpel:query>
+                                </bpel:to>
+                            </bpel:copy>
+                        </bpel:assign>
+                        <bpel:invoke name="ReponerEnAlmacen" partnerLink="LogisticaPLN" operation="actualizarStock" portType="ns:logistica" inputVariable="LogisticaPLNRequest1" outputVariable="LogisticaPLNResponse1"></bpel:invoke>
+                        <bpel:assign validate="no" name="SalidaReponerStock">
+                            <bpel:copy>
+                                <bpel:from part="parameters" variable="LogisticaPLNResponse1">
+                                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[actualizado]]></bpel:query>
+                                </bpel:from>
+                                <bpel:to variable="hayStock"></bpel:to>
+                            </bpel:copy>
+                        </bpel:assign>
+                    </bpel:sequence>
+                    <bpel:else>
+                        <bpel:assign validate="no" name="Assign">
+                            <bpel:copy>
+                                <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <![CDATA[concat($proceso, " || [Sistema]: Los proveedores rechazaron dar presupuesto con errores ", -$presupuestoA," y ",-$presupuestoB)]]>
+                                </bpel:from>
+                                <bpel:to variable="proceso"></bpel:to>
+                            </bpel:copy>
+                        </bpel:assign>
+                    </bpel:else>
+                </bpel:if>
+                
+            </bpel:sequence>
+        </bpel:if>
+        <bpel:if name="YaHayStock">
+            <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[$hayStock]]></bpel:condition>
+            <bpel:sequence>
+                <bpel:assign validate="no" name="EntradaCompraAlmacen">
+                    
+                    <bpel:copy>
+                        <bpel:from><bpel:literal><tns:actualizarStock xmlns:tns="http://www.mtis.org/logistica/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <count>0</count>
+  <ref>ref</ref>
+</tns:actualizarStock>
+</bpel:literal></bpel:from>
+                        <bpel:to variable="LogisticaPLNRequest1" part="parameters"></bpel:to>
+                    </bpel:copy>
+                    
+                    <bpel:copy>
+                        <bpel:from part="payload" variable="input">
+                            <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[tns:referencia]]></bpel:query>
+                        </bpel:from>
+                        <bpel:to part="parameters" variable="LogisticaPLNRequest1">
+                            <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                <![CDATA[ref]]>
+                            </bpel:query>
+                        </bpel:to>
+                    </bpel:copy>
+                    <bpel:copy>
+                        <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            <![CDATA[$input.payload/tns:unidades*-1]]>
+                        </bpel:from>
+                        <bpel:to part="parameters" variable="LogisticaPLNRequest1">
+                            <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                <![CDATA[count]]>
+                            </bpel:query>
+                        </bpel:to>
+                    </bpel:copy>
+                </bpel:assign>
+                <bpel:invoke name="RealizarCompraAlmacen" partnerLink="LogisticaPLN" operation="actualizarStock" portType="ns:logistica" inputVariable="LogisticaPLNRequest1" outputVariable="LogisticaPLNResponse1"></bpel:invoke>
+                <bpel:if name="CompraRealizadaCorrectamente">
+                    <bpel:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"><![CDATA[$LogisticaPLNResponse1.parameters/actualizado]]></bpel:condition>
+                    <bpel:sequence>
+                        
+                        <bpel:assign validate="no" name="CompraCorrectaAlmacen"><bpel:copy>
+                        <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <![CDATA[concat($proceso, " || La compra al almacen se realizó correctamente.")]]>
+                                </bpel:from>
+                        <bpel:to variable="proceso"></bpel:to>
+                    </bpel:copy>
+                
+                        </bpel:assign>
+                    </bpel:sequence>
+                    <bpel:else>
+                        <bpel:sequence name="Sequence">
+                            <bpel:assign validate="no" name="CompraErroneaAlmacen">
+                                <bpel:copy>
+                                    <bpel:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                        <![CDATA[concat($proceso, " || La compra al almacen se realizó correctamente.")]]>
+                                    </bpel:from>
+                                    <bpel:to variable="proceso"></bpel:to>
+                                </bpel:copy>
+                            </bpel:assign>
+                        </bpel:sequence>
+                    </bpel:else>
+                </bpel:if>
+                
+            </bpel:sequence>
+        </bpel:if>
+        <bpel:assign validate="no" name="AsignarProceso">
+            
+            
+            
+            
+            
+            <bpel:copy><bpel:from><bpel:literal><tns:AlmacenBPELResponse xmlns:tns="http://www.mtis.org/BPEL/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <tns:resultado>tns:resultado</tns:resultado>
+</tns:AlmacenBPELResponse>
+</bpel:literal></bpel:from>
+                <bpel:to variable="output" part="payload" />
+            
+            </bpel:copy>
+            <bpel:copy><bpel:from variable="proceso"></bpel:from>
+                <bpel:to part="payload" variable="output">
+                    <bpel:query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        <![CDATA[tns:resultado]]>
+                    </bpel:query>
+                </bpel:to>
+            
+            </bpel:copy>
+        </bpel:assign>
+        <bpel:reply name="replyOutput" 
+               partnerLink="client"
+               portType="tns:AlmacenBPEL"
+               operation="comprar" 
+               variable="output"
+               />
+    </bpel:sequence>
+</bpel:process>
+

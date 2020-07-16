@@ -1,0 +1,1001 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?webml version="4.0.3"?>
+<WebProject xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:db="http://www.webratio.com/2006/WebML/Database" xmlns:wrxsd="http://www.webratio.com/2012/WebML/WRXSD" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" xmlns:temp="http://www.webratio.com/2006/WebML/Temp" xmlns:bpm="http://www.webratio.com/2009/WebML/BPM" outputPath="${webapps_loc}/${project_name}" gr:showUnitContent="true" gr:showTooltip="true" httpPort="8080" httpsPort="8443" enableProjectDependencies="false" jobGroupName="WEBRATIO" wrTempNewProject="true" gr:useUMLStyle="true" serverName="Practica4" adminArea="false" control="amRiYzpwb3N0Z3Jlc3FsOi8vbG9jYWxob3N0OjU0MzIvY2FtcHVzdnB1YmxpY29yZWdpc3RyYWRvYWRtaW5pc3RyYWNpP24=">  
+  <ServiceDataProviders/>  
+  <DataModel> 
+    <Entity id="User" name="User" duration="persistent" gr:x="20" gr:y="158" gr:hideAttributes="false" attributeOrder="userOID userName password email" db:database="db1" db:table="user"> 
+      <Attribute name="oid" id="userOID" type="integer" key="true" db:column="oid"/>  
+      <Attribute name="userName" id="userName" type="string" db:column="username"/>  
+      <Attribute name="password" id="password" type="password" db:column="password"/>  
+      <Attribute name="email" id="email" type="string" db:column="email"/> 
+    </Entity>  
+    <Entity id="Group" name="Group" duration="persistent" gr:x="250" gr:y="178" gr:hideAttributes="false" attributeOrder="groupOID groupName" db:database="db1" db:table="group"> 
+      <Attribute name="oid" id="groupOID" type="integer" key="true" db:column="oid"/>  
+      <Attribute name="groupName" id="groupName" type="string" db:column="groupname"/> 
+    </Entity>  
+    <Entity id="Module" name="Module" duration="persistent" gr:x="472" gr:y="167" gr:hideAttributes="false" attributeOrder="moduleOID moduleID moduleName" db:database="db1" db:table="module"> 
+      <Attribute name="oid" id="moduleOID" type="integer" key="true" db:column="oid"/>  
+      <Attribute name="moduleID" id="moduleID" type="string" db:column="moduleid"/>  
+      <Attribute name="moduleName" id="moduleName" type="string" db:column="modulename"/> 
+    </Entity>  
+    <Relationship id="User2Group_Group2User" name="User_Group" sourceEntity="User" targetEntity="Group" db:database="db1" db:table="user_group"> 
+      <RelationshipRole1 id="User2Group" name="groups" maxCard="N"> 
+        <db:JoinColumn attribute="userOID" name="user_oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="Group2User" name="users" maxCard="N"> 
+        <db:JoinColumn attribute="groupOID" name="group_oid"/> 
+      </RelationshipRole2> 
+    </Relationship>  
+    <Relationship id="User2DefaultGroup_DefaultGroup2User" name="User_DefaultGroup" sourceEntity="User" targetEntity="Group" gr:bendpoints="113,42,-112,44" db:database="db1" db:table="user"> 
+      <RelationshipRole1 id="User2DefaultGroup" name="defaultGroup" maxCard="1"> 
+        <db:JoinColumn attribute="userOID" name="oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="DefaultGroup2User" name="defaultUsers" maxCard="N"> 
+        <db:JoinColumn attribute="groupOID" name="group_oid"/> 
+      </RelationshipRole2> 
+    </Relationship>  
+    <Relationship id="Group2DefaultModule_DefaultModule2Group" name="Group_DefaultModule" sourceEntity="Group" targetEntity="Module" db:database="db1" db:table="group"> 
+      <RelationshipRole1 id="Group2DefaultModule" name="defaultModule" maxCard="1"> 
+        <db:JoinColumn attribute="groupOID" name="oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="DefaultModule2Group" name="defaultGroups" maxCard="N"> 
+        <db:JoinColumn attribute="moduleOID" name="module_oid"/> 
+      </RelationshipRole2> 
+    </Relationship>  
+    <Relationship id="Group2Module_Module2Group" name="Group_Module" sourceEntity="Group" targetEntity="Module" gr:bendpoints="110,41,-115,41" db:database="db1" db:table="group_module"> 
+      <RelationshipRole1 id="Group2Module" name="modules" maxCard="N"> 
+        <db:JoinColumn attribute="groupOID" name="group_oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="Module2Group" name="groups" maxCard="N"> 
+        <db:JoinColumn attribute="moduleOID" name="module_oid"/> 
+      </RelationshipRole2> 
+    </Relationship>  
+    <Entity gr:x="30" gr:y="365" id="ent1" name="subjects" duration="persistent" attributeOrder="att2 att3 att4 att5" db:database="db1" db:table="subjects"> 
+      <Attribute id="att2" key="true" name="oid" type="integer" db:column="oid"/>  
+      <Attribute id="att3" name="subjectName" type="string" db:column="subjectname"/>  
+      <Attribute id="att4" name="subjectCredits" type="integer" db:column="subjectcredits"/>  
+      <Attribute id="att5" name="oidUser" type="integer" derivationQuery="simpleImported::Self.role2.userOID"/> 
+    </Entity>  
+    <Relationship id="rel1" name="User_subjects" sourceEntity="User" targetEntity="ent1" db:database="db1" db:table="subjects"> 
+      <RelationshipRole1 id="role1" name="UserTosubjects" maxCard="N"> 
+        <db:JoinColumn attribute="userOID" name="user_oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="role2" name="subjectsToUser" maxCard="1"> 
+        <db:JoinColumn attribute="att2" name="oid"/> 
+      </RelationshipRole2> 
+    </Relationship>  
+    <db:Database id="db1" name="campusv" url="jdbc:postgresql://localhost:5432/campusv" username="postgres" password="cmozMDAzMTM=" cryptedPassword="true" schema="public" type="PostgreSQL 9"/> 
+  </DataModel>  
+  <WebModel defaultLocale="lcl1" layout:style="BootstrapStyle" layout:inheritParameters="true" edtLvl="WebRatio Platform # 20191015" edtLvlCtrl="V2ViUmF0aW8gUGxhdGZvcm0gIyAyMDE5MTAxNUNvdW50cnlJU09DdHhQYXJhbUdyb3VwQ3R4UGFyYW1MYW5ndWFnZUlTT0N0eFBhcmFtVXNlckN0eFBhcmFt" homeSiteView="sv1"> 
+    <Locale id="lcl1" country="US" language="en"> 
+      <PatternConfiguration type="boolean" pattern="yes|no"/>  
+      <PatternConfiguration type="decimal" useNumberPattern="false" maxDecimal="3" minDecimal="0" minInteger="1" useThousandSeparator="true"/>  
+      <PatternConfiguration type="date" pattern="M/d/yy"/>  
+      <PatternConfiguration type="float" useNumberPattern="false" maxDecimal="3" minDecimal="0" minInteger="1" useThousandSeparator="true"/>  
+      <PatternConfiguration type="integer" useNumberPattern="false" minInteger="1" useThousandSeparator="true"/>  
+      <PatternConfiguration type="time" pattern="h:mm:ss a"/>  
+      <PatternConfiguration type="timestamp" pattern="M/d/yy h:mm:ss a"/> 
+    </Locale>  
+    <ContextParameter id="UserCtxParam" name="UserCtxParam" entity="User" type="entity"/>  
+    <ContextParameter id="GroupCtxParam" name="GroupCtxParam" entity="Group" type="entity"/>  
+    <ContextParameter id="LanguageISOCtxParam" name="LanguageISOCtxParam" type="string"/>  
+    <ContextParameter id="CountryISOCtxParam" name="CountryISOCtxParam" type="string"/>  
+    <layout:LayoutParameter name="application-name" value="Practica 4" type="page"/>  
+    <ModuleView id="mov1" name="Module Definitions"> 
+      <ModulePackage gr:x="80" gr:y="70" id="mpkg2" name="Mannager Sesion"> 
+        <OperationModule gr:x="130" gr:y="15" id="opm1" name="Registry"> 
+          <OperationUnits> 
+            <InputCollectorUnit id="icu1" gr:x="-20" gr:y="165"> 
+              <InputCollectorParameter id="icp1" name="Group.oid(defaultGroup)"/>  
+              <InputCollectorParameter id="icp2" name="Group.oid(groups)"/>  
+              <InputCollectorParameter id="icp5" name="email"/>  
+              <InputCollectorParameter id="icp6" name="password"/>  
+              <InputCollectorParameter id="icp7" name="userName"/>  
+              <OKLink id="oln11" name="OKFlow11" to="inn2" gr:bendpoints="127,-91,-398,-21"> 
+                <LinkParameter id="par51" name="email_Input" source="icp5" target="inn2.isnotnull"/>  
+                <LinkParameter id="par52" name="email_PASSING" source="icp5" passing="true"/>  
+                <LinkParameter id="par53" name="Group.oid(groups)_PASSING" source="icp2" passing="true"/>  
+                <LinkParameter id="par54" name="password_PASSING" source="icp6" passing="true"/>  
+                <LinkParameter id="par55" name="userName_PASSING" source="icp7" passing="true"/> 
+              </OKLink> 
+            </InputCollectorUnit>  
+            <CreateUnit gr:x="550" gr:y="390" id="cru1" name="Alta usuario" entity="User"> 
+              <OKLink id="oln2" name="OKFlow2" to="okcu1" automaticCoupling="true"/>  
+              <KOLink id="kln3" name="KOFlow3" to="kocu3" automaticCoupling="true"/> 
+            </CreateUnit>  
+            <OKCollectorUnit gr:x="845" gr:y="140" id="okcu1" name="SUCCESS"/>  
+            <KOCollectorUnit gr:x="845" gr:y="235" id="kocu3" name="ERROR REGISTRO"> 
+              <OutputCollectorParameter id="ocp1" name="Error MSG" value="Hubo un error durante el registro, probablemente el usuario o el correo ya exista."/> 
+            </KOCollectorUnit>  
+            <IsNotNullUnit gr:x="505" gr:y="125" id="inn2" name="Email?" emptyStringAsNull="true" gr:showAllParts="false"> 
+              <OKLink id="oln7" name="Existe el correo" to="inn3"> 
+                <LinkParameter id="par59" name="userName_PASSING_Input" sourceLinkParameter="par55" target="inn3.isnotnull"/>  
+                <LinkParameter id="par60" name="email_PASSING" sourceLinkParameter="par52" passing="true"/>  
+                <LinkParameter id="par61" name="Group.oid(groups)_PASSING" sourceLinkParameter="par53" passing="true"/>  
+                <LinkParameter id="par62" name="password_PASSING" sourceLinkParameter="par54" passing="true"/>  
+                <LinkParameter id="par63" name="userName_PASSING" sourceLinkParameter="par55" passing="true"/> 
+              </OKLink>  
+              <KOLink id="kln9" name="KOFlow9" to="kocu3"> 
+                <LinkParameter id="par56" name="El campo 'Email' no puede estar vac&#237;o_Error MSG" sourceValue="El campo 'Email' no puede estar en blanco" target="ocp1"/> 
+              </KOLink> 
+            </IsNotNullUnit>  
+            <IsNotNullUnit id="inn3" name="Username?" gr:x="300" gr:y="210" emptyStringAsNull="true"> 
+              <OKLink id="oln8" name="Existe el usuario" to="inn4"> 
+                <LinkParameter id="par64" name="password_PASSING_Input" sourceLinkParameter="par62" target="inn4.isnotnull"/>  
+                <LinkParameter id="par65" name="email_PASSING" sourceLinkParameter="par60" passing="true"/>  
+                <LinkParameter id="par66" name="Group.oid(groups)_PASSING" sourceLinkParameter="par61" passing="true"/>  
+                <LinkParameter id="par67" name="password_PASSING" sourceLinkParameter="par62" passing="true"/>  
+                <LinkParameter id="par68" name="userName_PASSING" sourceLinkParameter="par63" passing="true"/> 
+              </OKLink>  
+              <KOLink id="kln8" name="No existe el usuario" to="kocu3" gr:bendpoints="153,-60,-182,105"> 
+                <LinkParameter id="par57" name="El campo 'Usuario' no puede estar vac&#237;o_Error MSG" sourceValue="El campo 'Usuario' no puede estar en blanco" target="ocp1"/> 
+              </KOLink> 
+            </IsNotNullUnit>  
+            <IsNotNullUnit gr:x="290" gr:y="340" id="inn4" name="Password?" emptyStringAsNull="true"> 
+              <KOLink id="kln10" name="KOFlow10" to="kocu3"> 
+                <LinkParameter id="par58" name="El campo 'Password' no puede estar vac&#237;o_Error MSG" sourceValue="El campo 'Password' no puede estar en blanco" target="ocp1"/> 
+              </KOLink>  
+              <OKLink id="oln12" name="OKFlow12" to="cru1"> 
+                <LinkParameter id="par69" name="email_PASSING_email" sourceLinkParameter="par65" target="cru1.email"/>  
+                <LinkParameter id="par70" name="Group.oid(groups)_PASSING_Group.oid(defaultGroup)" target="cru1.User2DefaultGroup.groupOID" sourceValue="1"/>  
+                <LinkParameter id="par71" name="password_PASSING_password" sourceLinkParameter="par67" target="cru1.password"/>  
+                <LinkParameter id="par72" name="userName_PASSING_userName" sourceLinkParameter="par68" target="cru1.userName"/>  
+                <LinkParameter id="par73" name="Group.oid(groups)_PASSING_Group.oid(groups)" sourceLinkParameter="par66" target="cru1.User2Group.groupOID"/> 
+              </OKLink> 
+            </IsNotNullUnit> 
+          </OperationUnits> 
+        </OperationModule>  
+        <OperationModule gr:x="5" gr:y="0" id="opm2" name="Login"> 
+          <OperationUnits> 
+            <InputCollectorUnit id="icu2" gr:x="20" gr:y="110"> 
+              <OKLink id="oln3" name="OKFlow1" to="lgu2" automaticCoupling="false"> 
+                <LinkParameter id="par5" name="Password" source="icp3" target="lgu2.password"/>  
+                <LinkParameter id="par6" name="Username" source="icp4" target="lgu2.username"/> 
+              </OKLink>  
+              <InputCollectorParameter id="icp3" name="Password"/>  
+              <InputCollectorParameter id="icp4" name="Username"/> 
+            </InputCollectorUnit>  
+            <LoginUnit gr:x="315" gr:y="165" id="lgu2" name="Login"> 
+              <KOLink id="kln2" name="KOFlow1" to="kocu2" automaticCoupling="true"/>  
+              <OKLink id="oln4" name="OKFlow2" to="okcu2" automaticCoupling="true"/> 
+            </LoginUnit>  
+            <KOCollectorUnit gr:x="425" gr:y="200" id="kocu2" name="KO LOGIN"/>  
+            <OKCollectorUnit gr:x="425" gr:y="120" id="okcu2" name="OK LOGIN"/> 
+          </OperationUnits> 
+        </OperationModule>  
+        <OperationModule gr:x="0" gr:y="70" id="opm3" name="Logout"> 
+          <OperationUnits> 
+            <InputCollectorUnit id="icu3" name="Input Collector" gr:x="30" gr:y="60"> 
+              <OKLink id="oln5" name="OKFlow5" to="lou1" automaticCoupling="true"/> 
+            </InputCollectorUnit>  
+            <LogoutUnit gr:x="345" gr:y="70" id="lou1" name="Logout" siteView="sv1"> 
+              <KOLink id="kln1" name="KOFlow1" to="kocu1" automaticCoupling="true"/> 
+            </LogoutUnit>  
+            <KOCollectorUnit gr:x="515" gr:y="65" id="kocu1" name="KO LOGOUT"/> 
+          </OperationUnits> 
+        </OperationModule> 
+      </ModulePackage> 
+    </ModuleView>  
+    <SiteView id="sv1" name="publico" homePage="page1" landmarks="page1"> 
+      <OperationUnits> 
+        <ModuleInstanceUnit gr:x="625" gr:y="255" id="miu1" moduleId="opm2" action="true"> 
+          <KOLink id="kln4" name="KOFlow4" to="mssu7"> 
+            <LinkParameter id="par8" name="Hubo un error en el inicio de sesi&#243;n_Shown Messages" sourceValue="Hubo un error en el inicio de sesi&#243;n" target="mssu7.shownMessages"/> 
+          </KOLink> 
+        </ModuleInstanceUnit>  
+        <ModuleInstanceUnit gr:x="415" gr:y="435" id="miu2" action="true" moduleId="opm1"> 
+          <OKLink id="oln6" name="OKFlow6" to="page2" automaticCoupling="true"/>  
+          <KOLink id="kln5" name="KOFlow5" to="mssu2"> 
+            <LinkParameter id="par36" name="Error MSG_Shown Messages" source="ocp1" target="mssu2.shownMessages"/> 
+          </KOLink> 
+        </ModuleInstanceUnit> 
+      </OperationUnits>  
+      <Page gr:x="55" gr:y="125" id="page1" landmark="true" name="Welcome"> 
+        <ContentUnits> 
+          <MultiMessageUnit id="mssu1" name="Entrada" gr:x="205" gr:y="5" linkOrder="ln3 ln4" customDescriptor="false"> 
+            <Link id="ln3" name="Iniciar Sesi&#243;n" to="page2" automaticCoupling="true" type="normal" validate="true"/>  
+            <Link id="ln4" name="Reg&#237;strate" to="page3" automaticCoupling="true" type="normal" validate="true"/>  
+            <Message xml:space="preserve">Bienvenido al sistema de Gesti&#243;n Personal. Reg&#237;trate para darte de alta o haz login para entrar al sistema</Message> 
+          </MultiMessageUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="mssu1" layout:unitVisibilityConditionNegated="true"> 
+                <layout:LayoutParameter name="message-localized" value="true" type="unit"/>  
+                <layout:Link link="ln3"/>  
+                <layout:Link link="ln4"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <Page gr:x="55" gr:y="280" id="page3" name="Registro"> 
+        <ContentUnits> 
+          <EntryUnit gr:x="0" gr:y="0" id="enu1" name="Formulario de registro" gr:showAllParts="true" entity="User" fieldOrder="fld3 fld4 fld5 sfld1" linkOrder="ln7"> 
+            <Field id="fld3" name="Usuario" type="string" modifiable="true" attribute="userName"/>  
+            <Field id="fld4" name="Password" type="password" modifiable="true" attribute="password"/>  
+            <Field id="fld5" name="Email" type="string" modifiable="true" attribute="email"/>  
+            <SelectionField id="sfld1" name="Grupo" type="string"/>  
+            <Link id="ln7" name="Crear cuenta" to="miu2" type="normal" validate="true"> 
+              <LinkParameter id="par21" name="Email_email" source="fld5" target="miu2.icp5"/>  
+              <LinkParameter id="par22" name="1_Group.oid(defaultGroup)" sourceValue="1" target="miu2.icp1"/>  
+              <LinkParameter id="par23" name="Grupo_Group.oid(groups)" source="sfld1" target="miu2.icp2"/>  
+              <LinkParameter id="par24" name="Password_password" source="fld4" target="miu2.icp6"/>  
+              <LinkParameter id="par25" name="Usuario_userName" source="fld3" target="miu2.icp7"/> 
+            </Link> 
+          </EntryUnit>  
+          <SelectorUnit id="seu3" name="Grupos" gr:x="230" gr:y="25" entity="Group" distinctAttributes="groupOID groupName"> 
+            <Link id="ln6" name="Flow2" to="enu1" type="transport" validate="true"> 
+              <LinkParameter id="par13" name="groupName_Grupo [label]" source="groupNameArray" target="sfld1_label"/>  
+              <LinkParameter id="par15" name="oid_Grupo [output]" source="groupOIDArray" target="sfld1_output"/> 
+            </Link> 
+          </SelectorUnit>  
+          <MultiMessageUnit gr:x="215" gr:y="145" id="mssu2" name="Error Registro"/> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="enu1"> 
+                <layout:Link link="ln7"/>  
+                <layout:Field field="fld3"/>  
+                <layout:Field field="fld4"/>  
+                <layout:Field field="fld5"/>  
+                <layout:Field field="sfld1"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="mssu2"/> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <Page gr:x="460" gr:y="165" id="page2" name="Login"> 
+        <ContentUnits> 
+          <EntryUnit gr:x="0" gr:y="0" id="enu2" name="Iniciar sesi&#243;n" linkOrder="ln5" gr:showAllParts="true"> 
+            <Link id="ln5" name="Login" to="miu1" type="normal" validate="true"> 
+              <LinkParameter id="par3" name="pass_Password" source="fld2" target="miu1.icp3"/>  
+              <LinkParameter id="par4" name="user_Username" source="fld1" target="miu1.icp4"/> 
+            </Link>  
+            <Field id="fld1" name="user" type="string" modifiable="true"/>  
+            <Field id="fld2" name="pass" type="password" modifiable="true" hidden="false"/> 
+          </EntryUnit>  
+          <MultiMessageUnit gr:x="5" gr:y="120" id="mssu7" name="Error Login"/> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="3"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="enu2"> 
+                <layout:Link link="ln5"/>  
+                <layout:Field field="fld1" label="Usuario"/>  
+                <layout:Field field="fld2"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="3"/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="3"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="mssu7"/> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="3"/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page> 
+    </SiteView>  
+    <SiteView id="sv2" name="registrado" homePage="page8" layout:style="BootstrapStyle" landmarks="page8 page5"> 
+      <OperationUnits> 
+        <CreateUnit gr:x="645" gr:y="310" id="cru2" name="Crear Asignatura" entity="ent1"> 
+          <OKLink id="oln13" name="OKFlow13" to="page5" automaticCoupling="true" gr:bendpoints="183,-27,23,243"/>  
+          <KOLink id="kln11" name="KOFlow11" to="mssu3" gr:bendpoints="152,-49,-33,91"> 
+            <LinkParameter id="par80" name="Hubo un error al crear la asignatura_Shown Messages" sourceValue="Hubo un error al crear la asignatura" target="mssu3.shownMessages"/> 
+          </KOLink> 
+        </CreateUnit>  
+        <ModuleInstanceUnit id="miu5" gr:x="360" gr:y="10" action="true" moduleId="opm3"/>  
+        <DeleteUnit gr:x="1075" gr:y="200" id="dlu1" name="Borrar Asignatura" entity="ent1"> 
+          <Selector id="su1" defaultPolicy="fill" booleanOperator="and"> 
+            <KeyCondition id="kcond5" name="KeyCondition5" predicate="in" implied="false"/> 
+          </Selector>  
+          <OKLink id="oln1" name="OKFlow1" to="page5" automaticCoupling="true" gr:bendpoints="-114,76,246,196"/>  
+          <KOLink id="kln6" name="KOFlow6" to="mssu3"> 
+            <LinkParameter id="par28" name="Error eliminando asignatura_Shown Messages" sourceValue="Error eliminando asignatura" target="mssu3.shownMessages"/> 
+          </KOLink> 
+        </DeleteUnit> 
+      </OperationUnits>  
+      <layout:LayoutParameter name="application-name" value="Practica 4" type="page"/>  
+      <Page id="page8" name="Inicio" gr:x="30" gr:y="165" landmark="true"> 
+        <layout:Grid> 
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="mssu9"/> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="pwu6"> 
+                <layout:Attribute attribute="att2" label="OID"/>  
+                <layout:Attribute attribute="att3" label="Nombre"/>  
+                <layout:Attribute attribute="att4" label="Cr&#233;ditos"/>  
+                <layout:Link link="pwu6att2"/>  
+                <layout:Link link="pwu6att4"/>  
+                <layout:Link link="pwu6att3"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="dau2"> 
+                <layout:Attribute attribute="email" label="Email"/>  
+                <layout:Attribute attribute="userName" label="Usuario"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid>  
+        <ContentUnits> 
+          <PowerIndexUnit id="pwu6" name="Lista de asignaturas impartidas por este profesor" gr:x="60" gr:y="165" sortable="true" checkable="false" useCountQuery="false" entity="ent1" displayAttributes="att2 att3 att4"> 
+            <SortAttribute attribute="att2" order="ascending"/>  
+            <SortAttribute attribute="att4" order="ascending"/>  
+            <SortAttribute attribute="att3" order="ascending"/>  
+            <Selector id="su8" defaultPolicy="fill" booleanOperator="and"> 
+              <AttributesCondition id="acond4" name="Impartida por" predicate="eq" booleanOperator="or" implied="false" attributes="att5"/> 
+            </Selector> 
+          </PowerIndexUnit>  
+          <MultiMessageUnit id="mssu9" name="Ventana de Avisos" gr:x="105" gr:y="0"> 
+            <Message xml:space="preserve">Hola, est&#225;s en la zona privada de usuarios registrados</Message> 
+          </MultiMessageUnit>  
+          <DataUnit id="dau2" name="Usuario" gr:x="250" gr:y="15" entity="User" displayAttributes="email userName"> 
+            <Selector id="su9" defaultPolicy="fill" booleanOperator="and"> 
+              <KeyCondition id="kcond2" name="KeyCondition1" predicate="in" implied="false"/> 
+            </Selector> 
+          </DataUnit>  
+          <GetUnit id="gtu5" name="Get Logued" gr:x="0" gr:y="45" contextParameters="UserCtxParam"> 
+            <Link id="ln13" name="Flow7" to="pwu6" type="transport" validate="true" gr:bendpoints="119,37,-31,-93"> 
+              <LinkParameter id="par14" name="UserCtxParam.oid_Impartida por" source="gtu5.UserCtxParam" target="acond4"/> 
+            </Link>  
+            <Link id="ln15" name="Flow11" to="dau2" type="transport" validate="true"> 
+              <LinkParameter id="par16" name="UserCtxParam.oid_KeyCondition1 [oid]" source="gtu5.UserCtxParam" target="kcond2.userOID"/> 
+            </Link> 
+          </GetUnit> 
+        </ContentUnits> 
+      </Page>  
+      <Page gr:x="530" gr:y="-5" id="page5" name="Asignaturas" landmark="true"> 
+        <ContentUnits> 
+          <PowerIndexUnit id="pwu1" name="Lista de asignaturas impartidas por este profesor" gr:x="175" gr:y="0" sortable="true" checkable="false" useCountQuery="false" entity="ent1" displayAttributes="att2 att3 att4" linkOrder="ln23"> 
+            <SortAttribute attribute="att2" order="ascending"/>  
+            <SortAttribute attribute="att4" order="ascending"/>  
+            <SortAttribute attribute="att3" order="ascending"/>  
+            <Selector id="su4" defaultPolicy="fill" booleanOperator="and"> 
+              <AttributesCondition id="acond3" name="Impartida por" predicate="eq" booleanOperator="or" implied="false" attributes="att5"/> 
+            </Selector>  
+            <DefaultSortAttribute attribute="att2" order="ascending"/>  
+            <DefaultSortAttribute attribute="att3" order="ascending"/>  
+            <DefaultSortAttribute attribute="att4" order="ascending"/>  
+            <Link id="ln23" name="Eliminar" to="dlu1" automaticCoupling="true" type="normal" validate="true" gr:bendpoints="270,9,-5,-161"/> 
+          </PowerIndexUnit>  
+          <EntryUnit gr:x="10" gr:y="140" id="enu3" name="A&#241;adir asignatura" entity="ent1" linkOrder="ln29"> 
+            <Field id="fld6" name="Nombre" type="string" modifiable="true" attribute="att3"/>  
+            <Field id="fld7" name="Creditos" type="integer" modifiable="true" attribute="att4"/>  
+            <Link id="ln29" name="Crear" to="cru2" type="normal" validate="true"> 
+              <LinkParameter id="par77" name="Creditos_subjectCredits" source="fld7" target="cru2.att4"/>  
+              <LinkParameter id="par78" name="Nombre_subjectName" source="fld6" target="cru2.att3"/>  
+              <LinkParameter id="par79" name="subjects Object_subjects Object" source="entityBean" target="cru2.entityBeans"/>  
+              <LinkParameter id="par30" name="UserCtxParam.oid_PASSING_User.oid(subjectsToUser)" sourceLinkParameter="par29" target="cru2.role2.userOID"/> 
+            </Link> 
+          </EntryUnit>  
+          <MultiMessageUnit gr:x="145" gr:y="130" id="mssu3" name="Error con la asignatura"/>  
+          <GetUnit gr:x="0" gr:y="5" id="gtu4" name="Get Logued" contextParameters="UserCtxParam"> 
+            <Link id="ln12" name="Flow12" to="pwu1" type="transport" validate="true"> 
+              <LinkParameter id="par12" name="UserCtxParam.oid_Impartida por" source="gtu4.UserCtxParam" target="acond3"/> 
+            </Link>  
+            <Link id="ln22" name="Flow22" to="enu3" type="transport" validate="true"> 
+              <LinkParameter id="par29" name="UserCtxParam.oid_PASSING" source="gtu4.UserCtxParam" passing="true"/> 
+            </Link> 
+          </GetUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="6" rowspan="2"> 
+              <layout:Unit unitId="pwu1"> 
+                <layout:Attribute attribute="att2" label="OID"/>  
+                <layout:Attribute attribute="att3" label="Nombre"/>  
+                <layout:Attribute attribute="att4" label="Cr&#233;ditos"/>  
+                <layout:Link link="ln23"/>  
+                <layout:Link link="pwu1att2"/>  
+                <layout:Link link="pwu1att4"/>  
+                <layout:Link link="pwu1att3"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="enu3"> 
+                <layout:Field field="fld6"/>  
+                <layout:Field field="fld7"/>  
+                <layout:Link link="ln29"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="mssu3"/> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <MasterPage id="mpage1" name="MasterPage 5" gr:x="30" gr:y="-20"> 
+        <ContentUnits> 
+          <DataUnit id="dau1" name="user" gr:x="130" gr:y="0" entity="User" displayAttributes="userName" linkOrder="ln31"> 
+            <Selector id="su3" defaultPolicy="fill" booleanOperator="and"> 
+              <KeyCondition id="kcond1" name="KeyCondition3" predicate="in" implied="false"/> 
+            </Selector>  
+            <Link id="ln31" name="Cerrar sesion" to="miu5" type="normal" automaticCoupling="true" validate="true"/> 
+          </DataUnit>  
+          <GetUnit id="gtu12" name="Get Logued" gr:x="0" gr:y="0" contextParameters="UserCtxParam"> 
+            <Link id="ln27" name="Flow11" to="dau1" type="transport" validate="true"> 
+              <LinkParameter id="par33" name="UserCtxParam.oid_KeyCondition3 [oid]" source="gtu12.UserCtxParam" target="kcond1.userOID"/> 
+            </Link> 
+          </GetUnit> 
+        </ContentUnits>  
+        <layout:CustomLocation name="User"> 
+          <layout:Grid containerType="cell"> 
+            <layout:Row> 
+              <layout:Cell> 
+                <layout:Grid containerType="cell"> 
+                  <layout:Row> 
+                    <layout:Cell> 
+                      <layout:Attribute unitId="dau1" mode="value" attribute="userName"/> 
+                    </layout:Cell> 
+                  </layout:Row> 
+                </layout:Grid>  
+                <layout:Grid containerType="cell"> 
+                  <layout:Row> 
+                    <layout:Cell> 
+                      <layout:Link unitId="dau1" link="ln31"/> 
+                    </layout:Cell> 
+                  </layout:Row> 
+                </layout:Grid> 
+              </layout:Cell> 
+            </layout:Row> 
+          </layout:Grid> 
+        </layout:CustomLocation> 
+      </MasterPage> 
+    </SiteView>  
+    <SiteView id="sv3" name="administraci&#243;n" homePage="page11" landmarks="page11 page6 page17 page18 page19"> 
+      <OperationUnits> 
+        <ModuleInstanceUnit id="miu21" gr:x="-5" gr:y="15" action="true" moduleId="opm3"/>  
+        <DeleteUnit gr:x="20" gr:y="430" id="dlu2" name="Borrar M&#243;dulo" entity="Module"> 
+          <Selector id="su5" defaultPolicy="fill" booleanOperator="and"> 
+            <KeyCondition id="kcond7" name="KeyCondition7" predicate="in" implied="false"/> 
+          </Selector>  
+          <OKLink id="oln10" name="OKFlow10" to="pwu2" automaticCoupling="true" gr:bendpoints="-23,-110,-28,80"/>  
+          <KOLink id="kln12" name="KOFlow12" to="mssu14" gr:bendpoints="31,-107,-74,103"> 
+            <LinkParameter id="par45" name="Hubo un error eliminando el m&#243;dulo_Shown Messages" sourceValue="Hubo un error eliminando el m&#243;dulo" target="mssu14.shownMessages"/> 
+          </KOLink> 
+        </DeleteUnit>  
+        <CreateUnit gr:x="125" gr:y="430" id="cru4" name="Crear M&#243;dulo" entity="Module"> 
+          <OKLink id="oln17" name="OKFlow17" to="pwu2" automaticCoupling="true"/>  
+          <KOLink id="kln16" name="KOFlow16" to="mssu14" gr:bendpoints="-41,-108,-26,102"> 
+            <LinkParameter id="par47" name="Hubo un error eliminando el M&#243;dulo_Shown Messages" sourceValue="Hubo un error creando el M&#243;dulo" target="mssu14.shownMessages"/> 
+          </KOLink> 
+        </CreateUnit>  
+        <CreateUnit id="cru5" name="Crear Grupo" gr:x="435" gr:y="425" entity="Group"> 
+          <OKLink id="oln18" name="OKFlow17" to="pwu7" automaticCoupling="true"/>  
+          <KOLink id="kln17" name="KOFlow16" to="mssu18" gr:bendpoints="-41,-108,-26,102"> 
+            <LinkParameter id="par48" name="Hubo un error eliminando el M&#243;dulo_Shown Messages" target="mssu18.shownMessages" sourceValue="Hubo un error creando el Grupo"/> 
+          </KOLink> 
+        </CreateUnit>  
+        <DeleteUnit id="dlu6" name="Borrar Grupo" gr:x="330" gr:y="425" entity="Group"> 
+          <Selector id="su12" defaultPolicy="fill" booleanOperator="and"> 
+            <KeyCondition id="kcond11" name="KeyCondition7" predicate="in" implied="false"/> 
+          </Selector>  
+          <OKLink id="oln19" name="OKFlow10" to="pwu7" automaticCoupling="true" gr:bendpoints="-23,-110,-28,80"/>  
+          <KOLink id="kln18" name="KOFlow12" to="mssu18" gr:bendpoints="31,-107,-74,103"> 
+            <LinkParameter id="par50" name="Hubo un error eliminando el m&#243;dulo_Shown Messages" target="mssu18.shownMessages" sourceValue="Hubo un error eliminando el grupo"/> 
+          </KOLink> 
+        </DeleteUnit>  
+        <CreateUnit id="cru6" name="Crear Asignatura" gr:x="750" gr:y="140" entity="ent1"> 
+          <OKLink id="oln20" name="OKFlow17" to="pwu8" automaticCoupling="true"/>  
+          <KOLink id="kln19" name="KOFlow16" to="mssu19" gr:bendpoints="117,-83,-63,162"> 
+            <LinkParameter id="par91" name="Hubo un error eliminando el M&#243;dulo_Shown Messages" target="mssu19.shownMessages" sourceValue="Hubo un error creando la Asignatura"/> 
+          </KOLink> 
+        </CreateUnit>  
+        <DeleteUnit id="dlu7" name="Borrar Asignaturas" gr:x="725" gr:y="25" entity="ent1"> 
+          <Selector id="su13" defaultPolicy="fill" booleanOperator="and"> 
+            <KeyCondition id="kcond12" name="KeyCondition7" predicate="in" implied="false"/> 
+          </Selector>  
+          <OKLink id="oln21" name="OKFlow10" to="pwu8" automaticCoupling="true" gr:bendpoints="74,-32,-82,-78"/>  
+          <KOLink id="kln20" name="KOFlow12" to="mssu19" gr:bendpoints="166,-21,-79,-31"> 
+            <LinkParameter id="par92" name="Hubo un error eliminando el m&#243;dulo_Shown Messages" target="mssu19.shownMessages" sourceValue="Hubo un error eliminando la Asignatura"/> 
+          </KOLink> 
+        </DeleteUnit>  
+        <DeleteUnit id="dlu8" name="Borrar Usuario" gr:x="770" gr:y="265" entity="User"> 
+          <Selector id="su15" defaultPolicy="fill" booleanOperator="and"> 
+            <KeyCondition id="kcond13" name="KeyCondition7" predicate="in" implied="false"/> 
+          </Selector>  
+          <OKLink id="oln22" name="OKFlow10" to="pwu9" automaticCoupling="true" gr:bendpoints="74,-32,-82,-78"/>  
+          <KOLink id="kln21" name="KOFlow12" to="mssu20" gr:bendpoints="166,-21,-79,-31"> 
+            <LinkParameter id="par103" name="Hubo un error eliminando el m&#243;dulo_Shown Messages" target="mssu20.shownMessages" sourceValue="Hubo un error eliminando la Asignatura"/> 
+          </KOLink> 
+        </DeleteUnit>  
+        <ModuleInstanceUnit gr:x="745" gr:y="400" id="miu4" action="true" moduleId="opm1"> 
+          <OKLink id="oln24" name="OKFlow24" to="pwu9" automaticCoupling="true"/>  
+          <KOLink id="kln23" name="KOFlow23" to="mssu20" gr:bendpoints="207,-30,-43,80"> 
+            <LinkParameter id="par111" name="Error MSG_Shown Messages" source="ocp1" target="mssu20.shownMessages"/> 
+          </KOLink> 
+        </ModuleInstanceUnit> 
+      </OperationUnits>  
+      <layout:LayoutParameter name="application-name" value="Practica 4" type="page"/>  
+      <MasterPage gr:x="145" gr:y="20" id="mpage5" name="MasterPage 5"> 
+        <ContentUnits> 
+          <GetUnit gr:x="140" gr:y="0" id="gtu10" name="Get user" contextParameters="UserCtxParam"> 
+            <Link id="ln14" name="Flow14" to="dau3" type="transport" validate="true"> 
+              <LinkParameter id="par35" name="UserCtxParam.oid_KeyCondition3 [oid]" source="gtu10.UserCtxParam" target="kcond3.userOID"/> 
+            </Link> 
+          </GetUnit>  
+          <DataUnit gr:x="0" gr:y="0" id="dau3" name="user" entity="User" displayAttributes="userName" linkOrder="ln17"> 
+            <Selector id="su10" defaultPolicy="fill" booleanOperator="and"> 
+              <KeyCondition id="kcond3" name="Es el usuario" predicate="in" implied="false"/> 
+            </Selector>  
+            <Link id="ln17" name="Cerrar sesion" to="miu21" type="normal" automaticCoupling="true" validate="true"/> 
+          </DataUnit> 
+        </ContentUnits>  
+        <layout:CustomLocation name="User"> 
+          <layout:Grid containerType="cell"> 
+            <layout:Row> 
+              <layout:Cell> 
+                <layout:Grid containerType="cell"> 
+                  <layout:Row> 
+                    <layout:Cell> 
+                      <layout:Attribute unitId="dau3" mode="value" attribute="userName"/> 
+                    </layout:Cell> 
+                  </layout:Row> 
+                </layout:Grid>  
+                <layout:Grid containerType="cell"> 
+                  <layout:Row> 
+                    <layout:Cell> 
+                      <layout:Link unitId="dau3" link="ln17"/> 
+                    </layout:Cell> 
+                  </layout:Row> 
+                </layout:Grid> 
+              </layout:Cell> 
+            </layout:Row> 
+          </layout:Grid> 
+        </layout:CustomLocation> 
+      </MasterPage>  
+      <Page id="page11" name="Home" gr:x="430" gr:y="25" landmark="true" ignoreMasterPage="false"> 
+        <layout:Grid> 
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="mssu13"/> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid>  
+        <ContentUnits> 
+          <GetUnit id="gtu9" name="Get Logued" gr:x="0" gr:y="0" contextParameters="UserCtxParam"/>  
+          <MultiMessageUnit id="mssu13" name="Ventana de Avisos" gr:x="130" gr:y="10"> 
+            <Message xml:space="preserve">Bienvenido a la zona de administraci&#243;n</Message> 
+          </MultiMessageUnit> 
+        </ContentUnits> 
+      </Page>  
+      <Page id="page6" name="M&#243;dulos" gr:x="15" gr:y="190" landmark="true"> 
+        <layout:Grid> 
+          <layout:Row> 
+            <layout:Cell colspan="6" rowspan="2"> 
+              <layout:Unit unitId="pwu2"> 
+                <layout:Attribute attribute="moduleOID" label="OID"/>  
+                <layout:Attribute attribute="moduleID" label="ID"/>  
+                <layout:Attribute attribute="moduleName" label="Nombre"/>  
+                <layout:Link link="ln36"/>  
+                <layout:Link link="pwu2moduleOID"/>  
+                <layout:Link link="pwu2moduleID"/>  
+                <layout:Link link="pwu2moduleName"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="enu4"> 
+                <layout:Link link="ln40"/>  
+                <layout:Field field="fld9"/>  
+                <layout:Field field="fld8"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="mssu14"/> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid>  
+        <ContentUnits> 
+          <PowerIndexUnit gr:x="0" gr:y="5" id="pwu2" name="M&#243;dulos" sortable="true" checkable="false" useCountQuery="false" entity="Module" displayAttributes="moduleOID moduleID moduleName" linkOrder="ln36"> 
+            <SortAttribute attribute="moduleOID" order="ascending"/>  
+            <SortAttribute attribute="moduleID" order="ascending"/>  
+            <SortAttribute attribute="moduleName" order="ascending"/>  
+            <Link id="ln36" name="Borrar" to="dlu2" type="normal" validate="true"> 
+              <LinkParameter id="par40" name="oid_KeyCondition7 [oid]" source="data[].moduleOID" target="kcond7.moduleOID"/> 
+            </Link> 
+          </PowerIndexUnit>  
+          <MultiMessageUnit id="mssu14" name="Error" gr:x="105" gr:y="0"/>  
+          <EntryUnit gr:x="125" gr:y="90" id="enu4" name="Crear M&#243;dulo" linkOrder="ln40" entity="Module" fieldOrder="fld9 fld8"> 
+            <Link id="ln40" name="Crear" to="cru4" automaticCoupling="true" type="normal" validate="true"/>  
+            <Field id="fld8" name="Nombre" type="string" modifiable="true" attribute="moduleName"/>  
+            <Field id="fld9" name="ID" type="string" modifiable="true" attribute="moduleID"/> 
+          </EntryUnit> 
+        </ContentUnits> 
+      </Page>  
+      <Page id="page17" name="Grupos" landmark="true" gr:x="325" gr:y="190"> 
+        <layout:Grid> 
+          <layout:Row> 
+            <layout:Cell rowspan="2" colspan="5"> 
+              <layout:Unit unitId="pwu7"> 
+                <layout:Attribute attribute="groupOID" label="OID"/>  
+                <layout:Attribute attribute="groupName" label="Nombre"/>  
+                <layout:Link link="ln41"/>  
+                <layout:Link link="pwu7groupOID"/>  
+                <layout:Link link="pwu7groupName"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="7"> 
+              <layout:Unit unitId="enu5"> 
+                <layout:Link link="ln42"/>  
+                <layout:Field field="fld10"/>  
+                <layout:Field field="sfld2"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="7"> 
+              <layout:Unit unitId="mssu18"/> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid>  
+        <ContentUnits> 
+          <PowerIndexUnit id="pwu7" name="Grupos" linkOrder="ln41" gr:x="0" gr:y="0" sortable="true" checkable="false" useCountQuery="false" entity="Group" displayAttributes="groupOID groupName"> 
+            <Link id="ln41" name="Borrar" to="dlu6" type="normal" validate="true"> 
+              <LinkParameter id="par84" name="oid_KeyCondition7 [oid]" source="data[].groupOID" target="kcond11.groupOID"/> 
+            </Link>  
+            <SortAttribute attribute="groupOID" order="ascending"/>  
+            <SortAttribute attribute="groupName" order="ascending"/> 
+          </PowerIndexUnit>  
+          <MultiMessageUnit id="mssu18" name="Error" gr:x="95" gr:y="5"/>  
+          <EntryUnit id="enu5" name="Crear Grupo" linkOrder="ln42" gr:x="140" gr:y="90" entity="Group" fieldOrder="fld10 sfld2"> 
+            <Link id="ln42" name="Crear" to="cru5" type="normal" validate="true"> 
+              <LinkParameter id="par89" name="Nombre_groupName" source="fld10" target="cru5.groupName"/>  
+              <LinkParameter id="par90" name="M&#243;dulo_Module.oid(defaultModule)" source="sfld2" target="cru5.Group2DefaultModule.moduleOID"/> 
+            </Link>  
+            <Field id="fld10" name="Nombre" type="string" modifiable="true"/>  
+            <SelectionField id="sfld2" name="M&#243;dulo" type="string" role="Group2DefaultModule"/> 
+          </EntryUnit>  
+          <SelectorUnit id="seu2" name="M&#243;dulos" gr:x="285" gr:y="85" entity="Module" distinctAttributes="moduleName moduleOID"> 
+            <Link id="ln44" name="Flow43" to="enu5" type="transport" validate="true"> 
+              <LinkParameter id="par81" name="1_M&#243;dulo - Preselection" target="sfld2_presel" sourceValue="1"/>  
+              <LinkParameter id="par82" name="moduleName_M&#243;dulo [label]" source="moduleNameArray" target="sfld2_label"/>  
+              <LinkParameter id="par83" name="moduleID_M&#243;dulo [output]" source="moduleOIDArray" target="sfld2_output"/> 
+            </Link> 
+          </SelectorUnit> 
+        </ContentUnits> 
+      </Page>  
+      <Page id="page18" name="Asignaturas" landmark="true" gr:x="880" gr:y="20"> 
+        <layout:Grid> 
+          <layout:Row> 
+            <layout:Cell rowspan="2" colspan="5"> 
+              <layout:Unit unitId="pwu8"> 
+                <layout:Attribute attribute="att2" label="OID"/>  
+                <layout:Attribute attribute="att3" label="Nombre"/>  
+                <layout:Attribute attribute="att4" label="Cr&#233;ditos"/>  
+                <layout:Link link="ln45"/>  
+                <layout:Link link="pwu8att2"/>  
+                <layout:Link link="pwu8att3"/>  
+                <layout:Link link="pwu8att4"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="7"> 
+              <layout:Unit unitId="enu6"> 
+                <layout:Link link="ln46"/>  
+                <layout:Field field="fld12"/>  
+                <layout:Field field="sfld3"/>  
+                <layout:Field field="fld13"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="7"> 
+              <layout:Unit unitId="mssu19"/> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid>  
+        <ContentUnits> 
+          <PowerIndexUnit id="pwu8" name="Asignaturas" linkOrder="ln45" gr:x="0" gr:y="20" sortable="true" checkable="false" useCountQuery="false" entity="ent1" displayAttributes="att2 att3 att4"> 
+            <Link id="ln45" name="Borrar" to="dlu7" type="normal" validate="true"> 
+              <LinkParameter id="par99" name="oid_KeyCondition7 [oid]" source="data[].att2" target="kcond12.att2"/> 
+            </Link>  
+            <SortAttribute attribute="att2" order="ascending"/>  
+            <SortAttribute attribute="att3" order="ascending"/>  
+            <SortAttribute attribute="att4" order="ascending"/> 
+          </PowerIndexUnit>  
+          <MultiMessageUnit id="mssu19" name="Error" gr:x="100" gr:y="0"/>  
+          <EntryUnit id="enu6" name="Crear Asignatura" linkOrder="ln46" gr:x="155" gr:y="95" fieldOrder="fld12 sfld3 fld13" entity="ent1"> 
+            <Link id="ln46" name="Crear" to="cru6" type="normal" validate="true" gr:bendpoints="-182,13,118,22"> 
+              <LinkParameter id="par100" name="Cr&#233;ditos_subjectCredits" source="fld13" target="cru6.att4"/>  
+              <LinkParameter id="par101" name="Nombre_subjectName" source="fld12" target="cru6.att3"/>  
+              <LinkParameter id="par102" name="Profesor_User.oid(subjectsToUser)" source="sfld3" target="cru6.role2.userOID"/> 
+            </Link>  
+            <Field id="fld12" name="Nombre" type="string" modifiable="true" attribute="att3"/>  
+            <SelectionField id="sfld3" name="Profesor" type="string" role="role2"/>  
+            <Field id="fld13" name="Cr&#233;ditos" type="integer" modifiable="true" attribute="att4"/> 
+          </EntryUnit>  
+          <SelectorUnit id="seu4" name="Profesores" gr:x="305" gr:y="80" entity="User" distinctAttributes="userName User2DefaultGroup.groupName"> 
+            <Link id="ln47" name="Flow43" to="enu6" type="transport" validate="true"> 
+              <LinkParameter id="par97" name="moduleName_M&#243;dulo [label]" source="userNameArray" target="sfld3_label"/>  
+              <LinkParameter id="par98" name="moduleID_M&#243;dulo [output]" source="userOIDArray" target="sfld3_output"/> 
+            </Link>  
+            <Selector id="su14" defaultPolicy="fill" booleanOperator="and"> 
+              <AttributesCondition id="acond2" name="Usuario es profesor" predicate="contains" booleanOperator="or" implied="false" attributes="User2DefaultGroup.groupName" value="profesor" ignoreCase="true"/> 
+            </Selector> 
+          </SelectorUnit> 
+        </ContentUnits> 
+      </Page>  
+      <Page id="page19" name="Usuarios" landmark="true" gr:x="920" gr:y="260"> 
+        <layout:Grid> 
+          <layout:Row> 
+            <layout:Cell rowspan="2" colspan="7"> 
+              <layout:Unit unitId="pwu9"> 
+                <layout:Attribute attribute="userOID"/>  
+                <layout:Attribute attribute="userName"/>  
+                <layout:Attribute attribute="email"/>  
+                <layout:Attribute attribute="User2DefaultGroup.groupName"/>  
+                <layout:Link link="ln48"/>  
+                <layout:Link link="pwu9userOID"/>  
+                <layout:Link link="pwu9userName"/>  
+                <layout:Link link="pwu9email"/>  
+                <layout:Link link="pwu9User2DefaultGroup$groupName"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="5"> 
+              <layout:Unit unitId="enu7"> 
+                <layout:Field field="fld14"/>  
+                <layout:Field field="sfld4"/>  
+                <layout:Field field="fld15"/>  
+                <layout:Field field="fld16"/>  
+                <layout:Link link="ln51"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="5"> 
+              <layout:Unit unitId="mssu20"/> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid>  
+        <ContentUnits> 
+          <PowerIndexUnit id="pwu9" name="Usuarios" linkOrder="ln48" gr:x="0" gr:y="20" sortable="true" checkable="false" useCountQuery="false" entity="User" displayAttributes="userOID userName email User2DefaultGroup.groupName"> 
+            <Link id="ln48" name="Borrar" to="dlu8" type="normal" validate="true" automaticCoupling="true"/>  
+            <SortAttribute attribute="userOID" order="ascending"/>  
+            <SortAttribute attribute="userName" order="ascending"/>  
+            <SortAttribute attribute="email" order="ascending"/>  
+            <SortAttribute attribute="User2DefaultGroup.groupName" order="ascending"/> 
+          </PowerIndexUnit>  
+          <MultiMessageUnit id="mssu20" name="Error" gr:x="100" gr:y="0"/>  
+          <EntryUnit id="enu7" name="Crear usuario" gr:x="175" gr:y="75" fieldOrder="fld14 sfld4 fld15 fld16" entity="User" linkOrder="ln51"> 
+            <Field id="fld14" name="Usuario" type="string" modifiable="true" attribute="userName"/>  
+            <SelectionField id="sfld4" name="Grupo" type="string" role="User2DefaultGroup"/>  
+            <Field id="fld15" name="Email" type="string" modifiable="true" attribute="email"/>  
+            <Field id="fld16" name="Password" type="password" modifiable="true" attribute="password"/>  
+            <Link id="ln51" name="Crear" to="miu4" type="normal" validate="true"> 
+              <LinkParameter id="par112" name="Email_email" source="fld15" target="miu4.icp5"/>  
+              <LinkParameter id="par113" name="Grupo_Group.oid(defaultGroup)" source="sfld4" target="miu4.icp1"/>  
+              <LinkParameter id="par114" name="Password_password" source="fld16" target="miu4.icp6"/>  
+              <LinkParameter id="par115" name="Usuario_userName" source="fld14" target="miu4.icp7"/> 
+            </Link> 
+          </EntryUnit>  
+          <SelectorUnit id="seu5" name="Grupos" gr:x="320" gr:y="100" entity="Group"> 
+            <Link id="ln50" name="Flow43" to="enu7" type="transport" validate="true"> 
+              <LinkParameter id="par109" name="moduleName_M&#243;dulo [label]" source="groupNameArray" target="sfld4_label"/>  
+              <LinkParameter id="par110" name="moduleID_M&#243;dulo [output]" source="groupOIDArray" target="sfld4_output"/> 
+            </Link> 
+          </SelectorUnit> 
+        </ContentUnits> 
+      </Page> 
+    </SiteView> 
+  </WebModel> 
+</WebProject>

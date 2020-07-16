@@ -1,4 +1,4 @@
-# Todo esto está hecho sin ánimo de lucro, pero [si quieres agradecerme lo acepto cualquier donativo](https://paypal.me/josemygel?locale.x=es_ES) (hasta para un café rico 🤤)
+# Todo esto está hecho sin ánimo de lucro, pero [acepto un café 🤤](https://paypal.me/josemygel?locale.x=es_ES)
 
 # Un gran poder conlleva una gran responsabilidad, ahora...
 
@@ -6,4 +6,4 @@
 ### - No me hago responsable del mal código
 ### - No me hago responsable de resúmenes erróneos ni ejercicios mal hechos
 
-## Yo os doy el poder, el resto es cosa vuestra 😂
+## Yo os doy el poder, el resto es cosa vuestra 😂, feliz curso =D

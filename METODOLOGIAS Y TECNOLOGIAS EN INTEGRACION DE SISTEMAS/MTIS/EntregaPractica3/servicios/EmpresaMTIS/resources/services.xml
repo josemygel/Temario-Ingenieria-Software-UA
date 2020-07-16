@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- This file was auto-generated from WSDL --><!-- by the Apache Axis2 version: 1.6.3  Built on : Jun 27, 2015 (11:17:49 BST) --><serviceGroup>
+    <service name="logistica">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="org.mtis.www.logistica.LogisticaMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">org.mtis.www.logistica.LogisticaSkeleton</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="actualizarStock" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.mtis.org/logistica/">
+            <actionMapping>http://www.mtis.org/logistica/actualizarStock</actionMapping>
+            <outputActionMapping>http://www.mtis.org/logistica/logistica/actualizarStockResponse</outputActionMapping>
+        </operation>
+        <operation name="actualizarPrecio" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.mtis.org/logistica/">
+            <actionMapping>http://www.mtis.org/logistica/actualizarPrecio</actionMapping>
+            <outputActionMapping>http://www.mtis.org/logistica/logistica/actualizarPrecioResponse</outputActionMapping>
+        </operation>
+        <operation name="comprobarStock" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.mtis.org/logistica/">
+            <actionMapping>http://www.mtis.org/logistica/comprobarStock</actionMapping>
+            <outputActionMapping>http://www.mtis.org/logistica/logistica/comprobarStockResponse</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

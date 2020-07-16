@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<projectDescription> 
+  <name>grupal</name>  
+  <comment/>  
+  <projects/>  
+  <buildSpec> 
+    <buildCommand> 
+      <name>com.webratio.ide.core.wrcorebuilder</name>  
+      <arguments/> 
+    </buildCommand> 
+  </buildSpec>  
+  <natures> 
+    <nature>com.webratio.ide.wrprojectnature</nature> 
+  </natures> 
+</projectDescription>

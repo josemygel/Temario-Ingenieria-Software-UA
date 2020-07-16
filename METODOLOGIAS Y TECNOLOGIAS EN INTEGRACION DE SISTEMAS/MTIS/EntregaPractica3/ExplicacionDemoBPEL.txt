@@ -1,0 +1,44 @@
+==================================== INICIO DE LA DEMOSTRACIÓN ====================================
+//Si es necesario pausar video.
+PUESTA EN MARCHA:
+1) Encender servidor TOMCAT, servidor ODE y servicio MySQL
+2) Consumir servicios a través del cliente
+
+
+Primero, vamos a ver el proyecto BPEL y el funcionamiento de las funcionalidades más importantes:
+
+- PreguntaLogistica [INVOKE]: Realiza una llamada al servicio de EmpresaMTIS.comprobarStock para averiguar si en el almacén hay una cantidad mínima de un producto concreto (devuelve true/false).
+
+- NoHaySock [IF]: Comprueba que no haya stock (si no existe no hay stock) del producto en concreto, si no lo hay...
+  hayStock == FALSE { //Dentro de este proceso se actualiza $hayStock, siempre y cuando se acepte el envío de stock
+      + ConsultarProveedores [SEQUENCE]: Acciones para solicitar presupuesto de una cantidad de un producto a proveedores
+	- FlujoPresupuestos [Flow]: Realiza la solicitud de presupuestos en paralelo tanto a ProveedorA como a ProveedorB
+	      + PresupuestoA/PresupuestoB [INVOKE]: Llamada al proceso solicitar de los proveedores.
+
+      + PresupuestosAceptados [IF]: Comprueba que al menos uno de los proveedores tiene el producto y da un presupuesto
+	Presupuestos aceptados { 
+	      + ElegirPresupuestoA [IF]: Si el presupuesto de ProveedorA es más económico se selecciona en este IF
+	      	- true -> SolicitarStockA [INVOKE]: Solicita stock al proveedor y guarda la solicitud en la base de datos
+	      	- false -> SolicitarStockB [INVOKE]: Solicita stock al proveedor y guarda la solicitud en la base de datos
+	      + ReponerEnAlmacen [INVOKE]: Llamada a EmpresaMTIS.actualizarStock para aumentar el stock (solicitud+100)
+	}
+  }
+  hayStock == TRUE {
+      + RealizarCompraAlmacen [INVOKE]: Llamada a EmpresaMTIS.actualizarStock para reducir la cantidad solicitada en compra
+  }
+
+
+Las ventanas de la izquierda vienen a representar los datos en las bases de datos en el siguiente orden:
+[proveedor1.productos]	[proveedor2.productos]
+[proveedor1.compras]	[proveedor2.compras]
+[empresamtis.productos]	[ClienteBPEL]
+
+Para poder visualizar los cambios en los datos, procedamos a la demostración:
+
+1º) Una compra de 100 productos con referencia 'prod1', para ello podemos ver en [empresamtis.productos] que hay 155 unidades, al comprar 100 quedarán 55 unidades.
+
+2º) Una compra de 100 productos con referencia 'prod2', al quedar 125 unidades hará falta solicitar productos a los proveedores, los cuales tienen como podemos observar en [proveedor1.productos] y [proveedor2.productos] un precio de 4.5 y 5.95 respectivamente. NOTA: Se suman 100 por implementación propia no requerida, para evitar futura escasez de productos.
+3º) Una compra de un producto que SOLAMENTE lo tiene uno de los proveedores, en este caso 'prod3'. (cantidad mayor al stock) [puse valor maximo de 100] (Se incluyeron 100 extras)
+4º) Una compra de un producto inexistente.
+
+====================================== FIN DE LA DEMOSTRACIÓN ======================================

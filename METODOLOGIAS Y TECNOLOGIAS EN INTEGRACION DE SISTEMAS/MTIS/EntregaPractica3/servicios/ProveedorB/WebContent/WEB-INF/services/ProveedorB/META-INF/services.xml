@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- This file was auto-generated from WSDL --><!-- by the Apache Axis2 version: 1.6.3  Built on : Jun 27, 2015 (11:17:49 BST) --><serviceGroup>
+    <service name="ProveedorB">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="org.mtis.www.proveedorb.ProveedorBMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">org.mtis.www.proveedorb.ProveedorBSkeleton</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="solicitar" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.mtis.org/ProveedorB/">
+            <actionMapping>http://www.mtis.org/ProveedorB/solicitar</actionMapping>
+            <outputActionMapping>http://www.mtis.org/ProveedorB/ProveedorB/solicitarResponse</outputActionMapping>
+        </operation>
+        <operation name="presupuestar" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.mtis.org/ProveedorB/">
+            <actionMapping>http://www.mtis.org/ProveedorB/presupuestar</actionMapping>
+            <outputActionMapping>http://www.mtis.org/ProveedorB/ProveedorB/presupuestarResponse</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

@@ -1,0 +1,38 @@
+#%RAML 1.0
+title: API REST para Utilidades de Practica 2
+version: v1
+protocols: [ HTTPS ]
+baseUri: http://myapi.mtis.dtic.ua.es/api/{version}
+mediaType: application/json
+
+/utilidades:
+  /validarNIF/{nif}:
+    get:
+      description: Evalua un NIF concreto
+      responses:
+        200:
+          body:
+            application/json:
+              type: boolean
+              example: true
+
+
+  /validarNAFSS/{nafss}:
+    get:
+      description: Evalua un Número de Seguridad Social concreto
+      responses:
+        200:
+          body:
+            application/json:
+              type: boolean
+              example: true
+
+  /validarIBAN/{iban}:
+    get:
+      description: Evalua un IBAN concreto
+      responses:
+        200:
+          body:
+            application/json:
+              type: boolean
+              example: true

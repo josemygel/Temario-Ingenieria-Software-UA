@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?webml version="4.0.3"?>
+<WebProject xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:db="http://www.webratio.com/2006/WebML/Database" xmlns:wrxsd="http://www.webratio.com/2012/WebML/WRXSD" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" xmlns:temp="http://www.webratio.com/2006/WebML/Temp" xmlns:bpm="http://www.webratio.com/2009/WebML/BPM" outputPath="${webapps_loc}/${project_name}" gr:showUnitContent="true" gr:showTooltip="true" httpPort="8080" httpsPort="8443" enableProjectDependencies="false" jobGroupName="WEBRATIO" wrTempNewProject="true" gr:useUMLStyle="true" control="amRiYzpwb3N0Z3Jlc3FsOi8vbG9jYWxob3N0OjU0MzIvY2FtcHVzdnB1YmxpY28=">  
+  <DataModel> 
+    <Entity id="User" name="User" duration="persistent" gr:x="20" gr:y="158" gr:hideAttributes="false" attributeOrder="userOID userName password email"> 
+      <Attribute name="oid" id="userOID" type="integer" key="true"/>  
+      <Attribute name="userName" id="userName" type="string"/>  
+      <Attribute name="password" id="password" type="password"/>  
+      <Attribute name="email" id="email" type="string"/> 
+    </Entity>  
+    <Entity id="Group" name="Group" duration="persistent" gr:x="250" gr:y="178" gr:hideAttributes="false" attributeOrder="groupOID groupName"> 
+      <Attribute name="oid" id="groupOID" type="integer" key="true"/>  
+      <Attribute name="groupName" id="groupName" type="string"/> 
+    </Entity>  
+    <Entity id="Module" name="Module" duration="persistent" gr:x="472" gr:y="167" gr:hideAttributes="false" attributeOrder="moduleOID moduleID moduleName"> 
+      <Attribute name="oid" id="moduleOID" type="integer" key="true"/>  
+      <Attribute name="moduleID" id="moduleID" type="string"/>  
+      <Attribute name="moduleName" id="moduleName" type="string"/> 
+    </Entity>  
+    <Relationship id="User2Group_Group2User" name="User_Group" sourceEntity="User" targetEntity="Group"> 
+      <RelationshipRole1 id="User2Group" name="groups" maxCard="N"/>  
+      <RelationshipRole2 id="Group2User" name="users" maxCard="N"/> 
+    </Relationship>  
+    <Relationship id="User2DefaultGroup_DefaultGroup2User" name="User_DefaultGroup" sourceEntity="User" targetEntity="Group" gr:bendpoints="113,42,-112,44"> 
+      <RelationshipRole1 id="User2DefaultGroup" name="defaultGroup" maxCard="1"/>  
+      <RelationshipRole2 id="DefaultGroup2User" name="defaultUsers" maxCard="N"/> 
+    </Relationship>  
+    <Relationship id="Group2DefaultModule_DefaultModule2Group" name="Group_DefaultModule" sourceEntity="Group" targetEntity="Module"> 
+      <RelationshipRole1 id="Group2DefaultModule" name="defaultModule" maxCard="1"/>  
+      <RelationshipRole2 id="DefaultModule2Group" name="defaultGroups" maxCard="N"/> 
+    </Relationship>  
+    <Relationship id="Group2Module_Module2Group" name="Group_Module" sourceEntity="Group" targetEntity="Module" gr:bendpoints="110,41,-115,41"> 
+      <RelationshipRole1 id="Group2Module" name="modules" maxCard="N"/>  
+      <RelationshipRole2 id="Module2Group" name="groups" maxCard="N"/> 
+    </Relationship>  
+    <db:Database id="db1" name="campusv" type="PostgreSQL 8" url="jdbc:postgresql://localhost:5432/campusv" password="cmozMDAzMTM=" username="postgres" schema="public" cryptedPassword="true"> 
+      <temp:DBMetaData driverMajorVersion="9" driverMinorVersion="3" driverVersion="PostgreSQL 9.3 JDBC3g (build 1103)" productVersion="9.6.15" identifierQuoteString="&quot;" transactionLevel="Read Committed" driverName="PostgreSQL Native Driver" productName="PostgreSQL"> 
+        <temp:Schema name="information_schema"/>  
+        <temp:Schema name="pg_catalog"/>  
+        <temp:Schema name="public"/>  
+        <temp:Table schema="public" ignoreIndexes="false" name="categorias" type="TABLE" refreshed="true"> 
+          <temp:Column sqlTypeId="4" indexed="unknown" autoIncrement="false" type="int4" size="10" decimalDigits="0" name="oid" primaryKey="true" notNull="true"/>  
+          <temp:Column sqlTypeId="12" indexed="unknown" autoIncrement="false" type="varchar" size="255" decimalDigits="0" name="nombrecategoria" primaryKey="false" notNull="false"/> 
+        </temp:Table>  
+        <temp:Table schema="public" ignoreIndexes="false" name="coche" type="TABLE" refreshed="true"> 
+          <temp:Column sqlTypeId="4" indexed="unknown" autoIncrement="false" type="int4" size="10" decimalDigits="0" name="oid" primaryKey="true" notNull="true"/>  
+          <temp:Column sqlTypeId="12" indexed="unknown" autoIncrement="false" type="varchar" size="255" decimalDigits="0" name="modelo" primaryKey="false" notNull="false"/>  
+          <temp:Column sqlTypeId="4" indexed="unknown" autoIncrement="false" type="int4" size="10" decimalDigits="0" name="fabricante_oid" primaryKey="false" notNull="false"/> 
+        </temp:Table>  
+        <temp:Table schema="public" ignoreIndexes="false" name="fabricante" type="TABLE" refreshed="true"> 
+          <temp:Column sqlTypeId="4" indexed="unknown" autoIncrement="false" type="int4" size="10" decimalDigits="0" name="oid" primaryKey="true" notNull="true"/>  
+          <temp:Column sqlTypeId="12" indexed="unknown" autoIncrement="false" type="varchar" size="255" decimalDigits="0" name="nombre" primaryKey="false" notNull="false"/>  
+          <temp:Column sqlTypeId="12" indexed="unknown" autoIncrement="false" type="varchar" size="255" decimalDigits="0" name="origen" primaryKey="false" notNull="false"/>  
+          <temp:Column sqlTypeId="12" indexed="unknown" autoIncrement="false" type="varchar" size="255" decimalDigits="0" name="anyo_fundacion" primaryKey="false" notNull="false"/>  
+          <temp:Column sqlTypeId="12" indexed="unknown" autoIncrement="false" type="varchar" size="255" decimalDigits="0" name="descripcion" primaryKey="false" notNull="false"/>  
+          <temp:Column sqlTypeId="12" indexed="unknown" autoIncrement="false" type="varchar" size="255" decimalDigits="0" name="enlace" primaryKey="false" notNull="false"/> 
+        </temp:Table>  
+        <temp:Table schema="public" ignoreIndexes="false" name="productos" type="TABLE" refreshed="true"> 
+          <temp:Column sqlTypeId="4" indexed="unknown" autoIncrement="false" type="int4" size="10" decimalDigits="0" name="oid" primaryKey="true" notNull="true"/>  
+          <temp:Column sqlTypeId="12" indexed="unknown" autoIncrement="false" type="varchar" size="255" decimalDigits="0" name="nombreproducto" primaryKey="false" notNull="false"/>  
+          <temp:Column sqlTypeId="12" indexed="unknown" autoIncrement="false" type="text" size="2147483647" decimalDigits="0" name="descripcionproducto" primaryKey="false" notNull="false"/>  
+          <temp:Column sqlTypeId="2" indexed="unknown" autoIncrement="false" type="numeric" size="19" decimalDigits="2" name="precioproducto" primaryKey="false" notNull="false"/>  
+          <temp:Column sqlTypeId="4" indexed="unknown" autoIncrement="false" type="int4" size="10" decimalDigits="0" name="categorias_oid" primaryKey="false" notNull="false"/> 
+        </temp:Table> 
+      </temp:DBMetaData> 
+    </db:Database>  
+    <Entity gr:x="340" gr:y="300" id="ent1" name="productos" duration="persistent" attributeOrder="att1 att4 att5 att6" db:database="db1" db:table="productos"> 
+      <Attribute id="att1" key="true" name="oid" type="integer" db:column="oid"/>  
+      <Attribute id="att4" name="nombreProducto" type="string" db:column="nombreproducto"/>  
+      <Attribute id="att5" name="descripcionProducto" type="text" db:column="descripcionproducto"/>  
+      <Attribute id="att6" name="precioProducto" type="decimal" db:column="precioproducto"/> 
+    </Entity>  
+    <Entity gr:x="590" gr:y="290" id="ent2" name="categorias" duration="persistent" attributeOrder="att2 att3" db:database="db1" db:table="categorias"> 
+      <Attribute id="att2" key="true" name="oid" type="integer" db:column="oid"/>  
+      <Attribute id="att3" name="nombreCategoria" type="string" db:column="nombrecategoria"/> 
+    </Entity>  
+    <Relationship id="rel1" name="productos_categorias" sourceEntity="ent1" targetEntity="ent2" db:database="db1" db:table="productos"> 
+      <RelationshipRole1 id="role1" name="productosTocategorias" maxCard="1"> 
+        <db:JoinColumn attribute="att1" name="oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="role2" name="categoriasToproductos" maxCard="N"> 
+        <db:JoinColumn attribute="att2" name="categorias_oid"/> 
+      </RelationshipRole2> 
+    </Relationship> 
+  </DataModel>  
+  <WebModel defaultLocale="lcl1" layout:style="WebRatio" layout:inheritParameters="true" edtLvl="WebRatio Platform # 20191001" edtLvlCtrl="V2ViUmF0aW8gUGxhdGZvcm0gIyAyMDE5MTAwMUNvdW50cnlJU09DdHhQYXJhbUdyb3VwQ3R4UGFyYW1MYW5ndWFnZUlTT0N0eFBhcmFtVXNlckN0eFBhcmFt" homeSiteView="sv1"> 
+    <Locale id="lcl1" country="US" language="en"> 
+      <PatternConfiguration type="boolean" pattern="yes|no"/>  
+      <PatternConfiguration type="decimal" useNumberPattern="false" maxDecimal="3" minDecimal="0" minInteger="1" useThousandSeparator="true"/>  
+      <PatternConfiguration type="date" pattern="M/d/yy"/>  
+      <PatternConfiguration type="float" useNumberPattern="false" maxDecimal="3" minDecimal="0" minInteger="1" useThousandSeparator="true"/>  
+      <PatternConfiguration type="integer" useNumberPattern="false" minInteger="1" useThousandSeparator="true"/>  
+      <PatternConfiguration type="time" pattern="h:mm:ss a"/>  
+      <PatternConfiguration type="timestamp" pattern="M/d/yy h:mm:ss a"/> 
+    </Locale>  
+    <ContextParameter id="UserCtxParam" name="UserCtxParam" entity="User" type="entity"/>  
+    <ContextParameter id="GroupCtxParam" name="GroupCtxParam" entity="Group" type="entity"/>  
+    <ContextParameter id="LanguageISOCtxParam" name="LanguageISOCtxParam" type="string"/>  
+    <ContextParameter id="CountryISOCtxParam" name="CountryISOCtxParam" type="string"/>  
+    <SiteView id="sv1" name="publico" landmarks="page1 page2 page3" homePage="page1"> 
+      <OperationUnits> 
+        <DeleteUnit gr:x="65" gr:y="305" id="dlu1" name="CRUD Borrar Categor&#237;a" gr:showAllParts="true" entity="ent2"> 
+          <Selector id="su1" defaultPolicy="fill" booleanOperator="and"> 
+            <KeyCondition id="kcond1" name="KeyCondition1" predicate="in" implied="false"/> 
+          </Selector>  
+          <OKLink id="oln1" name="OKFlow1" to="page1" automaticCoupling="true"/>  
+          <KOLink id="kln2" name="KOFlow2" to="page1" automaticCoupling="true" gr:bendpoints="106,50,-169,120"/> 
+        </DeleteUnit>  
+        <CreateUnit gr:x="40" gr:y="145" id="cru1" name="CRUD Crear Categor&#237;a" gr:showAllParts="true" entity="ent2"> 
+          <KOLink id="kln3" name="KOFlow3" to="page1" automaticCoupling="true"/>  
+          <OKLink id="oln2" name="OKFlow2" to="pwu1" automaticCoupling="true" gr:bendpoints="168,77,-72,-108"/> 
+        </CreateUnit>  
+        <CreateUnit gr:x="1190" gr:y="145" id="cru2" name="CRUD Cread producto" entity="ent1"> 
+          <OKLink id="oln3" name="OKFlow3" to="pwu2" automaticCoupling="true" gr:bendpoints="-124,-32,296,-127;-194,-129,221,-154;-296,-99,119,-124"/>  
+          <KOLink id="kln4" name="KOFlow4" to="page2" automaticCoupling="true" gr:bendpoints="-217,85,203,-10"/> 
+        </CreateUnit>  
+        <DeleteUnit gr:x="535" gr:y="140" id="dlu2" name="CRUD Borrar Producto" entity="ent1"> 
+          <Selector id="su3" defaultPolicy="fill" booleanOperator="and"> 
+            <KeyCondition id="kcond2" name="KeyCondition2" predicate="in" implied="false"/> 
+          </Selector>  
+          <OKLink id="oln4" name="OKFlow4" to="page2" automaticCoupling="true" gr:bendpoints="96,-60,-174,-130"/>  
+          <KOLink id="kln5" name="KOFlow5" to="page2" automaticCoupling="true" gr:bendpoints="98,40,-172,-30"/> 
+        </DeleteUnit> 
+      </OperationUnits>  
+      <Page gr:x="270" gr:y="135" id="page1" name="Mantenimiento de Categorias" landmark="true"> 
+        <ContentUnits> 
+          <EntryUnit gr:x="5" gr:y="0" id="enu1" name="Crear categor&#237;a" linkOrder="ln4" gr:showAllParts="true" entity="ent2"> 
+            <Field id="fld1" name="Nombre" type="string" modifiable="true" attribute="att3"/>  
+            <Link id="ln4" name="CREAR" to="cru1" type="normal" validate="true"> 
+              <LinkParameter id="par4" name="nombreCategoria_nombreCategoria" source="fld1" target="cru1.att3"/> 
+            </Link> 
+          </EntryUnit>  
+          <PowerIndexUnit gr:x="0" gr:y="145" id="pwu1" name="Listado de categor&#237;as" sortable="true" checkable="false" useCountQuery="false" linkOrder="ln3" gr:showAllParts="true" displayAttributes="att2 att3" entity="ent2"> 
+            <Link id="ln3" name="BORRAR" to="dlu1" automaticCoupling="true" type="normal" validate="true"/>  
+            <SortAttribute attribute="att2" order="ascending"/>  
+            <SortAttribute attribute="att3" order="ascending"/> 
+          </PowerIndexUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="enu1"> 
+                <layout:Field field="fld1"/>  
+                <layout:Link link="ln4"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="pwu1"> 
+                <layout:Attribute attribute="att2" label="OID"/>  
+                <layout:Attribute attribute="att3" label="Nombre de categor&#237;a"/>  
+                <layout:Link link="ln3"/>  
+                <layout:Link link="pwu1att2"/>  
+                <layout:Link link="pwu1att3"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <Page gr:x="745" gr:y="110" id="page2" name="Mantenimiento de Productos" landmark="true"> 
+        <ContentUnits> 
+          <PowerIndexUnit gr:x="20" gr:y="0" id="pwu2" name="Listado de productos" sortable="true" checkable="false" useCountQuery="false" gr:showAllParts="true" displayAttributes="att1 att4" entity="ent1" linkOrder="ln9 ln10"> 
+            <SortAttribute attribute="att1" order="ascending"/>  
+            <SortAttribute attribute="att4" order="ascending"/>  
+            <Link id="ln9" name="VER" to="dau1" automaticCoupling="true" type="normal" validate="true"/>  
+            <Link id="ln10" name="BORRAR" to="dlu2" automaticCoupling="true" type="normal" validate="true"/> 
+          </PowerIndexUnit>  
+          <EntryUnit id="enu3" entity="ent1" gr:x="180" gr:y="5" name="Crear producto" gr:showAllParts="true" linkOrder="ln6"> 
+            <Field id="fld5" type="string" modifiable="true" name="Nombre" attribute="att4"/>  
+            <Field id="fld6" type="text" modifiable="true" name="Descripci&#243;n" attribute="att5"/>  
+            <Field id="fld7" type="decimal" modifiable="true" name="Precio" attribute="att6"/>  
+            <SelectionField id="sfld2" role="role1" type="string" name="Categor&#237;a"/>  
+            <Link id="ln6" name="CREAR" to="cru2" type="normal" validate="true"> 
+              <LinkParameter id="par10" name="Categor&#237;a_categorias.oid(productosTocategorias)" source="sfld2" target="cru2.role1.att2"/>  
+              <LinkParameter id="par11" name="Descripci&#243;n_descripcionProducto" source="fld6" target="cru2.att5"/>  
+              <LinkParameter id="par12" name="Nombre_nombreProducto" source="fld5" target="cru2.att4"/>  
+              <LinkParameter id="par13" name="Precio_precioProducto" source="fld7" target="cru2.att6"/> 
+            </Link> 
+          </EntryUnit>  
+          <SelectorUnit gr:x="185" gr:y="195" id="seu1" name="CRUD Categor&#237;as" entity="ent2"> 
+            <Link id="ln7" name="Categorias" to="enu3" type="transport" validate="true"> 
+              <LinkParameter id="par15" name="nombreCategoria_Categor&#237;a [label]" source="att3Array" target="sfld2_label"/>  
+              <LinkParameter id="par16" name="oid_Categor&#237;a [output]" source="att2Array" target="sfld2_output"/> 
+            </Link> 
+          </SelectorUnit>  
+          <DataUnit gr:x="0" gr:y="180" id="dau1" name="Informaci&#243;n del producto" entity="ent1" displayAttributes="att4 att5 att6"> 
+            <Selector id="su4" defaultPolicy="fill" booleanOperator="and"> 
+              <KeyCondition id="kcond3" name="KeyCondition3" predicate="in" implied="false"/> 
+            </Selector> 
+          </DataUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="6" rowspan="2"> 
+              <layout:Unit unitId="enu3"> 
+                <layout:Link link="ln6"/>  
+                <layout:Field field="fld5"/>  
+                <layout:Field field="fld6"/>  
+                <layout:Field field="fld7"/>  
+                <layout:Field field="sfld2"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="6" rowspan="3"> 
+              <layout:Unit unitId="pwu2"> 
+                <layout:Attribute attribute="att1" label="OID"/>  
+                <layout:Attribute attribute="att4" label="Nombre de producto"/>  
+                <layout:Link link="ln9"/>  
+                <layout:Link link="ln10"/>  
+                <layout:Link link="pwu2att1"/>  
+                <layout:Link link="pwu2att4"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="dau1"> 
+                <layout:Attribute attribute="att4"/>  
+                <layout:Attribute attribute="att5"/>  
+                <layout:Attribute attribute="att6"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <Page gr:x="435" gr:y="510" id="page3" name="Jer&#225;rquico de categor&#237;as" landmark="true"> 
+        <ContentUnits> 
+          <HierarchicalIndexUnit gr:x="0" gr:y="55" id="hinu1" name="Jer&#225;rquico de categor&#237;as" sortable="false" entity="ent2" displayAttributes="att2 att3" gr:showAllParts="true" linkOrder="ln11 ln12"> 
+            <SortAttribute attribute="att2" order="ascending"/>  
+            <SortAttribute attribute="att3" order="ascending"/>  
+            <HierarchicalIndexLevel id="hiulvl1" name="Producto" entity="ent1" role="role2" displayAttributes="att4"> 
+              <SortAttribute attribute="att4" order="ascending"/> 
+            </HierarchicalIndexLevel>  
+            <Link id="ln11" name="Ver categor&#237;a" to="dau2" automaticCoupling="true" type="normal" validate="true"/>  
+            <Link id="ln12" name="Ver producto" to="dau3" automaticCoupling="true" type="normal" validate="true"/> 
+          </HierarchicalIndexUnit>  
+          <DataUnit gr:x="285" gr:y="0" id="dau2" name="Categor&#237;a" entity="ent2" displayAttributes="att2 att3"> 
+            <Selector id="su5" defaultPolicy="fill" booleanOperator="and"> 
+              <KeyCondition id="kcond4" name="KeyCondition4" predicate="in" implied="false"/> 
+            </Selector> 
+          </DataUnit>  
+          <DataUnit gr:x="290" gr:y="110" id="dau3" name="Producto" entity="ent1" displayAttributes="att1 att4 att5 att6"> 
+            <Selector id="su6" defaultPolicy="fill" booleanOperator="and"> 
+              <KeyCondition id="kcond5" name="KeyCondition5" predicate="in" implied="false"/> 
+            </Selector> 
+          </DataUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid" layout:style="WebRatio"> 
+          <layout:Row> 
+            <layout:Cell colspan="6" rowspan="2"> 
+              <layout:Unit unitId="hinu1"> 
+                <layout:Attribute attribute="att2" label="OID"/>  
+                <layout:Attribute attribute="att3" label="Categor&#237;a"/>  
+                <layout:Attribute attribute="att4" label="Producto"/>  
+                <layout:Link link="ln11"/>  
+                <layout:Link link="ln12"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="dau2"> 
+                <layout:Attribute attribute="att2" label="OID"/>  
+                <layout:Attribute attribute="att3" label="Nombre"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell colspan="6"> 
+              <layout:Unit unitId="dau3"> 
+                <layout:Attribute attribute="att1" label="OID"/>  
+                <layout:Attribute attribute="att4" label="Nombre"/>  
+                <layout:Attribute attribute="att5" label="Descripci&#243;n"/>  
+                <layout:Attribute attribute="att6" label="Precio"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page> 
+    </SiteView> 
+  </WebModel>  
+  <ServiceDataProviders/> 
+</WebProject>

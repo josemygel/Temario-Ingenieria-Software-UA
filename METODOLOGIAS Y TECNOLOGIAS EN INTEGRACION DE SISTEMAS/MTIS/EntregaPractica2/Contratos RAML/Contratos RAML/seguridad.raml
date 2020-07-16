@@ -1,0 +1,53 @@
+#%RAML 1.0
+title: Ejemplo Guiado MTIS API REST
+version: v1
+protocols: [ HTTPS ]
+baseUri: http://myapi.mtis.dtic.ua.es/api/{version}
+mediaType: application/json
+types:
+  Permiso:
+    properties:
+      NIF:
+        maxLength: 12
+        type: string
+      sala:
+        maxLength: 40
+        type: string
+
+
+/seguridad:
+  /{nif}:
+    get:
+      description: Obtiene todos los permisos de un empleado (un NIF)
+      responses:
+        200:
+          body:
+            application/json:
+              type: string[]
+              example: ["Sala1", "Sala2", "Sala3"]
+
+    /{sala}:
+      get:
+        description: Obtiene si un empleado tiene permiso a una sala concreta
+        responses:
+          200:
+            body:
+              application/json:
+                type: boolean
+                example: true
+      post:
+        description: Añade permiso a un empleado a una sala concreta
+        responses:
+          200:
+            body:
+              application/json:
+                type: boolean
+                example: true
+      delete:
+        description: Borra el permiso de un empleado a una sala concreta
+        responses:
+          200:
+            body:
+              application/json:
+                type: boolean
+                example: true

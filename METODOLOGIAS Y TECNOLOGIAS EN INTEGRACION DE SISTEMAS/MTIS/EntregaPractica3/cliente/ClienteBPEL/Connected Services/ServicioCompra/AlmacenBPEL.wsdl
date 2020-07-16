@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsdl2="http://www.mtis.org/ProveedorB/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:tns="http://www.mtis.org/BPEL/" xmlns:wsdl1="http://www.mtis.org/ProveedorA/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.mtis.org/BPEL/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <schema xmlns:wsdl="http://www.mtis.org/logistica/" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.mtis.org/BPEL/" xmlns="http://www.w3.org/2001/XMLSchema">
+      <element name="AlmacenBPELRequest">
+        <complexType>
+          <sequence>
+            <element name="referencia" type="string" />
+            <element name="unidades" type="int" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AlmacenBPELResponse">
+        <complexType>
+          <sequence>
+            <element name="resultado" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+    </schema>
+    <xsd:schema xmlns:tns="http://www.mtis.org/ProveedorA/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.mtis.org/ProveedorA/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:element name="solicitar">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="unidades" type="xsd:int" />
+            <xsd:element name="referencia" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="solicitarResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="resultado" type="xsd:boolean" />
+            <xsd:element name="mensaje" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="presupuestar">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="unidades" type="xsd:int" />
+            <xsd:element name="referencia" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="presupuestarResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="resultado" type="xsd:boolean" />
+            <xsd:element name="mensaje" type="xsd:string" />
+            <xsd:element name="precio" type="xsd:float" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema xmlns:tns="http://www.mtis.org/ProveedorB/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.mtis.org/ProveedorB/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:element name="solicitar">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="unidades" type="xsd:int" />
+            <xsd:element name="referencia" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="solicitarResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="resultado" type="xsd:boolean" />
+            <xsd:element name="mensaje" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="presupuestar">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="unidades" type="xsd:int" />
+            <xsd:element name="referencia" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="presupuestarResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="resultado" type="xsd:boolean" />
+            <xsd:element name="mensaje" type="xsd:string" />
+            <xsd:element name="precio" type="xsd:float" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema xmlns:tns="http://www.mtis.org/logistica/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.mtis.org/logistica/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:element name="comprobarStock">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="count" type="xsd:int" />
+            <xsd:element name="ref" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="comprobarStockResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="existe" type="xsd:boolean" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="actualizarStock">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="count" type="xsd:int" />
+            <xsd:element name="ref" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="actualizarStockResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="actualizado" type="xsd:boolean" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="actualizarPrecio">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="ref" type="xsd:string" />
+            <xsd:element name="precio" type="xsd:float" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="actualizarPrecioResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="actualizado" type="xsd:boolean" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="AlmacenBPELRequestMessage">
+    <wsdl:part name="payload" element="tns:AlmacenBPELRequest" />
+  </wsdl:message>
+  <wsdl:message name="AlmacenBPELResponseMessage">
+    <wsdl:part name="payload" element="tns:AlmacenBPELResponse" />
+  </wsdl:message>
+  <wsdl:portType name="AlmacenBPELPortType">
+    <wsdl:operation name="comprar">
+      <wsdl:input wsaw:Action="http://www.mtis.org/BPEL/comprar" message="tns:AlmacenBPELRequestMessage" />
+      <wsdl:output wsaw:Action="http://www.mtis.org/BPEL/AlmacenBPEL/comprarResponse" message="tns:AlmacenBPELResponseMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AlmacenBPELBinding" type="tns:AlmacenBPELPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="comprar">
+      <soap:operation soapAction="http://www.mtis.org/BPEL/comprar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AlmacenBPEL">
+    <wsdl:port name="AlmacenBPELPort" binding="tns:AlmacenBPELBinding">
+      <soap:address location="http://localhost:8080/ode/processes/AlmacenBPEL.AlmacenBPELPort/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

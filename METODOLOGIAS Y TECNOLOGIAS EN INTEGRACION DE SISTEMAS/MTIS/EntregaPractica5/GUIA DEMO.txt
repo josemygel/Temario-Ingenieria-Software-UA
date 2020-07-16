@@ -1,0 +1,20 @@
+DEMOSTRACIÓN: 
+EMAIL ALUMNO DE NOTIFICACIÓN "JOSEMYGEL@GMAIL.COM"
+
+	1. COMPRA PRODUCTO
+o Entrada en formato JSON y puerto 9090.
+o Compra correcta => “el proceso de compra ha sido satisfactorio” + almacenamiento en BD.
+o Compra incorrecta => email notificando: “no ha podido realizare la compra del articulo x con n unidades”.
+
+	2. ALTA DE EMPLEADOS
+o Entrada en formato XML y puerto 9091.
+o Alta correcta => Se enviará a un fichero en formato XML
+o Alta incorrecta => Email notificando en formato de texto simple.
+
+	3. CONSULTAR SEGURIDAD SALAS Y EMPLEADOS
+o Entrada en formato JSON y puerto 9092.
+o Respuesta afirmativa => Se enviará a un fichero en formato CSV. (Error al tener el archivo abierto)
+o Respuesta negativa => Email notificando en formato de XML. (Notificar error por intentar borrar nuevamente el permiso)
+(Ahora error por asignar nuevamente el permiso a SALA 1.
+
+FIN DE LA DEMOSTRACIÓN

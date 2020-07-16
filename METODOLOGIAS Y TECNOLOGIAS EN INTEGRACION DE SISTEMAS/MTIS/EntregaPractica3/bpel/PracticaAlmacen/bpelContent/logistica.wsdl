@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="logistica" targetNamespace="http://www.mtis.org/logistica/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.mtis.org/logistica/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.mtis.org/logistica/">
+      <xsd:element name="comprobarStock">
+        <xsd:complexType>
+          <xsd:sequence>
+			<xsd:element name="count" type="xsd:int"/>
+			<xsd:element name="ref" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="comprobarStockResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element name="existe" type="xsd:boolean"/>
+
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="actualizarStock">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="count" type="xsd:int"/>
+      			<xsd:element name="ref" type="xsd:string"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="actualizarStockResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="actualizado" type="xsd:boolean"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="actualizarPrecio">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="ref" type="xsd:string"/>
+      			<xsd:element name="precio" type="xsd:float"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="actualizarPrecioResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="actualizado" type="xsd:boolean"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="comprobarStockResponse">
+    <wsdl:part name="parameters" element="tns:comprobarStockResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="actualizarPrecioResponse">
+    <wsdl:part name="parameters" element="tns:actualizarPrecioResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="actualizarPrecioRequest">
+    <wsdl:part name="parameters" element="tns:actualizarPrecio">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="actualizarStockResponse">
+    <wsdl:part name="parameters" element="tns:actualizarStockResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="comprobarStockRequest">
+    <wsdl:part name="parameters" element="tns:comprobarStock">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="actualizarStockRequest">
+    <wsdl:part name="parameters" element="tns:actualizarStock">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="logistica">
+    <wsdl:operation name="comprobarStock">
+      <wsdl:input message="tns:comprobarStockRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:comprobarStockResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="actualizarStock">
+      <wsdl:input message="tns:actualizarStockRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:actualizarStockResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="actualizarPrecio">
+      <wsdl:input message="tns:actualizarPrecioRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:actualizarPrecioResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="logisticaSOAP" type="tns:logistica">
+
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="comprobarStock">
+
+  		<soap:operation
+  			soapAction="http://www.mtis.org/logistica/comprobarStock" />
+  		<wsdl:input>
+
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="actualizarStock">
+
+  		<soap:operation
+  			soapAction="http://www.mtis.org/logistica/actualizarStock" />
+  		<wsdl:input>
+
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="actualizarPrecio">
+
+  		<soap:operation
+  			soapAction="http://www.mtis.org/logistica/actualizarPrecio" />
+  		<wsdl:input>
+
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="logistica">
+    <wsdl:port name="logisticaSOAP" binding="tns:logisticaSOAP">
+      <soap:address location="http://localhost:9080/EmpresaMTIS/services/logistica"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

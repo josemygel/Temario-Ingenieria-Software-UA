@@ -1,0 +1,38 @@
+Roadmap
+
+Day 1
+OK 1.- Setting up Webratio
+OK 2.- Developing Web Applicacions
+OK 3.- WebApplicacion General Overview
+OK 4.- Your First Web Application
+OTHER TIME 5.- Organice the Workspaces
+
+Day 2
+OK 6.- View Containers
+OK 7.- View Components and Data Binding
+8.- Master Details Pattern
+PLUS: Advanced Master Details
+
+Day 3
+9.- Form Input
+10.- Search Pattern
+11.- Domain Model Overview
+12.- Defining the Domain Model
+13.- Connecting the Database
+14.- Extending Domain Model: Derivation
+
+Day 4
+15.- Actions Definitions and Operations
+16.- Looping and Branching
+17.- Data Management: IFML Model
+18.- Data Management: Action Definition
+
+Day 5
+19.- Access Control and Personalization: IFML Model
+20.- Access Control and Personalization: Action Definition
+
+
+
+
+NOTAS:
+-Un View Component irá siempre dentro de un Container.

@@ -1,0 +1,151 @@
+#%RAML 1.0
+title: Contrato RAML para Empleados para Practica 2 de MTIS UA
+version: v1
+protocols: [ HTTPS ]
+baseUri: http://myapi.mtis.dtic.ua.es/api/{version}
+mediaType: application/json
+types:
+  Empleado:
+    properties:
+        NIF:
+          maxLength: 12
+          type: string
+        nombre:
+          maxLength: 40
+          type: string
+        apellidos :
+          maxLength: 40
+          type: string
+        direccion :
+          maxLength: 255
+          type: string
+        poblacion :
+          maxLength: 255
+          type: string
+        telefono :
+          maxLength: 9
+          type: string
+        email:
+          maxLength: 255
+          type: string
+        fechaNacimiento:
+          maxLength: 255
+          type: string
+        numSeguridadSocial:
+          maxLength: 16
+          type: string
+        IBAN:
+          maxLength: 16
+          type: string
+  Permiso:
+    properties:
+      NIF:
+        maxLength: 12
+        type: string
+      sala:
+        maxLength: 40
+        type: string
+  Respuesta:
+    properties:
+      success: boolean
+      code?: number
+      message?:
+        maxLength: 255
+        type: string
+
+/empleados:
+  post:
+    description: Crea un nuevo empleado
+    body:
+      application/json:
+        type: Empleado
+        example: {
+          "NIF" : "48833504L",
+          "nombre" : "Jose Miguel",
+          "apellidos":"Gomez Lozano",
+          "direccion":"Calle inventada",
+          "poblacion":"Albukeke",
+          "telefono":"659953224",
+          "email":"jmgl18@alu.ua.es",
+          "fechaNacimiento":"1900-12-31",
+          "numSeguridadSocial":"123456654321",
+          "IBAN":"ES6621000418401234567891"
+        }
+    responses:
+      401:
+        body:
+          application/json:
+            type: Respuesta
+            example: { "success": false, "code": 401, "message": "NIF ya existente"}
+      201:
+        body:
+          application/json:
+            type: Respuesta
+            example: { "success": true }
+
+  put:
+    description: Modifica un empleado existente (mismo NIF)
+    body:
+      application/json:
+        type: Empleado
+        example: {
+          "NIF" : "48833504L",
+          "nombre" : "Jose Miguel",
+          "apellidos":"Gomez Lozano",
+          "direccion":"Calle inventada",
+          "poblacion":"Albukeke",
+          "telefono":"659953224",
+          "email":"jmgl18@alu.ua.es",
+          "fechaNacimiento":"1900-12-31",
+          "numSeguridadSocial":"123456654321",
+          "IBAN":"ES6621000418401234567891"
+        }
+    responses:
+      404:
+        body:
+          application/json:
+            type: Respuesta
+            example: { "success": false, "code": 404, "message": "NIF no encontrado"}
+      200:
+        body:
+          application/json:
+            type: Respuesta
+            example: { "success": true }
+  /{nif}:
+    get:
+      description: Obtiene un empleado existente (mismo NIF)
+      responses:
+        404:
+          body:
+            application/json:
+              type: Respuesta
+              example: { "success": false, "code": 404, "message": "NIF no encontrado"}
+        200:
+          body:
+            application/json:
+              type: Empleado
+              example: {
+                "NIF" : "48833504L",
+                "nombre" : "Jose Miguel",
+                "apellidos":"Gomez Lozano",
+                "direccion":"Calle inventada",
+                "poblacion":"Albukeke",
+                "telefono":"659953224",
+                "email":"jmgl18@alu.ua.es",
+                "fechaNacimiento":"1900-12-31",
+                "numSeguridadSocial":"123456654321",
+                "IBAN":"ES6621000418401234567891"
+              }
+    delete:
+      description: Borra un empleado existente (mismo NIF)
+      responses:
+        404:
+          body:
+            application/json:
+              type: Respuesta
+              example: { "success": false, "code": 404, "message": "NIF no encontrado"}
+        200:
+          body:
+            application/json:
+              type: Respuesta
+              example: {  "success": true }

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.mtis.org/BPEL/" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://www.mtis.org/logistica/" xmlns:wsdl1="http://www.mtis.org/ProveedorA/" xmlns:wsdl2="http://www.mtis.org/ProveedorB/" name="AlmacenBPEL" targetNamespace="http://www.mtis.org/BPEL/">
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     TYPE DEFINITION - List of types participating in this BPEL process 
+     The BPEL Designer will generate default request and response types
+     but you can define or import any XML Schema type and use them as part 
+     of the message types.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <plnk:partnerLinkType name="LogisticaPLN">
+    <plnk:role name="LogisticaRole" portType="wsdl:logistica"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="ProveedorAPLN">
+    <plnk:role name="ProveedorARole" portType="wsdl1:ProveedorA"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="ProveedorBPLN">
+    <plnk:role name="ProveedorBRole" portType="wsdl2:ProveedorB"/>
+  </plnk:partnerLinkType>
+    <import location="logistica.wsdl" namespace="http://www.mtis.org/logistica/"/>
+    <import location="ProveedorA.wsdl" namespace="http://www.mtis.org/ProveedorA/"/>
+    <import location="ProveedorB.wsdl" namespace="http://www.mtis.org/ProveedorB/"/>
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.mtis.org/BPEL/">
+
+            <element name="AlmacenBPELRequest">
+                <complexType>
+                    <sequence>
+                    	<element name="referencia" type="string"/>
+                    	<element name="unidades" type="int"/>
+                    </sequence>
+                </complexType>
+            </element>
+
+            <element name="AlmacenBPELResponse">
+                <complexType>
+                    <sequence>
+                        <element name="resultado" type="string"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     MESSAGE TYPE DEFINITION - Definition of the message types used as 
+     part of the port type defintions
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <message name="AlmacenBPELRequestMessage">
+        <part element="tns:AlmacenBPELRequest" name="payload"/>
+    </message>
+    <message name="AlmacenBPELResponseMessage">
+        <part element="tns:AlmacenBPELResponse" name="payload"/>
+    </message>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     PORT TYPE DEFINITION - A port type groups a set of operations into
+     a logical service unit.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+
+    <!-- portType implemented by the AlmacenBPEL BPEL process -->
+    <portType name="AlmacenBPEL">
+        <operation name="comprar">
+            <input message="tns:AlmacenBPELRequestMessage"/>
+            <output message="tns:AlmacenBPELResponseMessage"/>
+        </operation>
+    </portType>   
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     PARTNER LINK TYPE DEFINITION
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <plnk:partnerLinkType name="AlmacenBPEL">
+        <plnk:role name="AlmacenBPELProvider" portType="tns:AlmacenBPEL"/>
+    </plnk:partnerLinkType>
+    
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     BINDING DEFINITION - Defines the message format and protocol details
+     for a web service.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <binding name="AlmacenBPELBinding" type="tns:AlmacenBPEL">
+
+    	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    	<operation name="comprar">
+
+    		<soap:operation soapAction="http://www.mtis.org/BPEL/comprar"/>
+    		<input>
+
+    			<soap:body use="literal"/>
+    		</input>
+    		<output>
+
+    			<soap:body use="literal"/>
+    		</output>
+    	</operation>
+    </binding>
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     SERVICE DEFINITION - A service groups a set of ports into
+     a service unit.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <service name="AlmacenBPELService">
+    	<port binding="tns:AlmacenBPELBinding" name="AlmacenBPELPort">
+    		<soap:address location="http://localhost:8080/ode/processes/AlmacenBPEL"/>
+    	</port>
+    </service>
+</definitions>

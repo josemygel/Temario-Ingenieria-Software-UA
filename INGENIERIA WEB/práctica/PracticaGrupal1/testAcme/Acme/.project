@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<projectDescription> 
+  <name>Acme</name>  
+  <comment/>  
+  <projects></projects>  
+  <buildSpec> 
+    <buildCommand> 
+      <name>com.webratio.ide.core.wrcorebuilder</name>  
+      <arguments></arguments> 
+    </buildCommand> 
+  </buildSpec>  
+  <natures> 
+    <nature>com.webratio.ide.wrprojectnature</nature> 
+  </natures> 
+</projectDescription>

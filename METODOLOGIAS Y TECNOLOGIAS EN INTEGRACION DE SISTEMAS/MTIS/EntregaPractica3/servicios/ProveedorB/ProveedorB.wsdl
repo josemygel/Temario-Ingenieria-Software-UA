@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ProveedorB"
+	targetNamespace="http://www.mtis.org/ProveedorB/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://www.mtis.org/ProveedorB/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.mtis.org/ProveedorB/">
+			<xsd:element name="solicitar">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element name="unidades" type="xsd:int" />
+						<xsd:element name="referencia" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="solicitarResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element name="resultado" type="xsd:boolean" />
+						<xsd:element name="mensaje" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="presupuestar">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element name="unidades" type="xsd:int" />
+						<xsd:element name="referencia" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="presupuestarResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element name="resultado" type="xsd:boolean" />
+						<xsd:element name="mensaje" type="xsd:string" />
+						<xsd:element name="precio" type="xsd:float" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+		<wsdl:message name="presupuestarRequest">
+			<wsdl:part name="parameters" element="tns:presupuestar">
+			</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="presupuestarResponse">
+			<wsdl:part name="parameters" element="tns:presupuestarResponse">
+			</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="solicitarRequest">
+			<wsdl:part name="parameters" element="tns:solicitar">
+			</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="solicitarResponse">
+			<wsdl:part name="parameters" element="tns:solicitarResponse">
+			</wsdl:part>
+		</wsdl:message>
+
+		<wsdl:portType name="ProveedorB">
+			<wsdl:operation name="solicitar">
+				<wsdl:input message="tns:solicitarRequest">
+				</wsdl:input>
+				<wsdl:output message="tns:solicitarResponse">
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="presupuestar">
+				<wsdl:input message="tns:presupuestarRequest">
+				</wsdl:input>
+				<wsdl:output message="tns:presupuestarResponse">
+				</wsdl:output>
+			</wsdl:operation>
+		</wsdl:portType>
+		<wsdl:binding name="ProveedorBSOAP" type="tns:ProveedorB">
+
+			<soap:binding style="document"
+				transport="http://schemas.xmlsoap.org/soap/http" />
+			<wsdl:operation name="solicitar">
+
+				<soap:operation
+					soapAction="http://www.mtis.org/ProveedorB/solicitar" />
+				<wsdl:input>
+
+					<soap:body use="literal" />
+				</wsdl:input>
+				<wsdl:output>
+
+					<soap:body use="literal" />
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="presupuestar">
+
+				<soap:operation
+					soapAction="http://www.mtis.org/ProveedorB/presupuestar" />
+				<wsdl:input>
+
+					<soap:body use="literal" />
+				</wsdl:input>
+				<wsdl:output>
+
+					<soap:body use="literal" />
+				</wsdl:output>
+			</wsdl:operation>
+		</wsdl:binding>
+		<wsdl:service name="ProveedorB">
+			<wsdl:port binding="tns:ProveedorBSOAP" name="ProveedorBSOAP">
+				<soap:address location="http://localhost:9080/ProveedorB/services/ProveedorB" />
+			</wsdl:port>
+		</wsdl:service>
+</wsdl:definitions>
