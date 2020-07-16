@@ -19,7 +19,7 @@
     "jsonwebtoken": "^8.3.0",
     "jwt-simple": "^0.5.5",
     "moment": "^2.22.2",
-    "mongoose": "^5.3.4",
+    "mongoose": "^5.7.5",
     "nodemon": "^1.18.4"
   }
 }
