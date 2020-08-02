@@ -1,0 +1,48 @@
+EJERECICIO 2)
+    APARTADO A)
+        NOTA: Estructura de los paquetes = '<groupId>:<artifactId>:<version>'
+        Plugin Surefire: pertenece al paquete 'org.apache.maven.surefire:surefire:2.22.2' y es el plugin encargado usar
+        las librerías JUnit5 que correspondan para ejecutar las pruebas unitarias, siendo la GOAL por defecto en la fase
+        test (Diapsitivas):
+           - Se ejecutan los tests unitarios (/target/test-classes).
+           - Se ejecutan los métodos anotados con @Test de las clases **/Test*.java, **/*Test.java o **/*TestCase.java.
+           - GOAL POR DEFECTO: 'surefire:test'.
+           - Se detiene el proceso de construcción si algún tests falla.
+
+        Plugin Failsafe: pertenece al paquete 'org.apache.maven.plugins:maven-failsafe-plugin:2.22.2' y contiene las
+        goals para la integración, como son 'failsafe:integration-test' (en esta fase se ejecutan los métodos anotados
+        con @Test de las clases **/IT*.java, **/*IT.java, o **/*ITCase.java) y 'failsafe:verify' (detiene la ejecución
+        si algún test de integración "falla").
+
+    APARTADO B)
+        - pom.xml editado, guardado backup como pom-backup.xml
+        - añadido el archivo como 'test/resources/sql/matriculacion.sql'
+
+    APARTADO C)
+        - Creado archivo de backup como 'FuenteDatosJDBC_backup.java'
+        - Driver colocado como 'Class.forName("com.mysql.cj.jdbc.Driver");'
+        - Conexión usada: 'jdbc:mysql://localhost:3306/matriculaciondb?useSSL=false'
+
+    APARTADO D)
+        - atriculacion.dtd guardado como 'test/resources/matriculacion.dtd'
+        - dataset.xml (ejemplo) guardado como 'test/resources/dataset.xml'
+
+    APARTADO E)
+        - tabla1: SIGUIENTE EJERCICIO
+        - tabla2.xml (DB de entrada. Contiene la tabla ALUMNOS)
+        - tabla3.xml (DB esperada como salida de 'testA1')
+        - tabla4.xml (DB esperada como salida de 'testB1')
+
+    APARTADO F) OK
+
+    APARTADO G)
+        - Añadidas lineas 25, 26 y 27 en 'JDBCAlumnoDAO.java'
+
+    APARTADO H) OK
+
+    APARTADO I)
+        - Diría que o bien 'Bottom-up' o bien 'Sandwich', ya que se comprueba UN SOLO MÓDULO de forma unitaria, y
+        seguidamente el siguiente módulo (nuevamente primero pruebas unitarias, y finalmente las de integración).
+
+    APARTADO J) OK
+

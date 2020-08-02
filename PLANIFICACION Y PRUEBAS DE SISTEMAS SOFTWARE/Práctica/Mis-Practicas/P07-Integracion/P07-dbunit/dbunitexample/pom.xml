@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ppss</groupId>
+    <artifactId>dbunitexample</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
+        <tests></tests>
+        <excludes></excludes>
+    </properties>
+
+
+    <dependencies>
+        <!-- Si no la incluiumos veremos un warning al ejecutar los tests -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+
+        <!--añadimos dependencia dbunit-->
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>2.7.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!--añadimos dependencia para conectar con MySQL-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.19</version>
+            <scope>test</scope>
+        </dependency>
+        <!--añadimos dependencia junit5-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.5.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!--añadimos dependencia para tests parametrizables-->
+        <!-- NO NECESARIO
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.5.2</version>
+            <scope>test</scope>
+        </dependency>-->
+        <!--añadimos dependencia para EasyMock-->
+        <!--NO NECESARIO
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>4.2</version>
+            <scope>test</scope>
+        </dependency>-->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--añadimos script de iniciacion de base de datos-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>1.5</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>8.0.19</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <driver>com.mysql.cj.jdbc.Driver</driver>
+                    <url>jdbc:mysql://localhost:3306/?useSSL=false</url>
+                    <username>root</username>
+                    <password></password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-customer-table</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <srcFiles>
+                                <srcFile>src/test/resources/sql/create_table_customer.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--añadimos plugin de surefire para realizar tests unitarios-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <groups>${tests}</groups>
+                    <excludedGroups>${excludes}</excludedGroups>
+                </configuration>
+            </plugin>
+            <!--añadimos plugin de failsafe para tests de integracion-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+<!--
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.5.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.5.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>4.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <groups>${tests}</groups>
+                    <excludedGroups>${excludes}</excludedGroups>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>-->
+
+</project>

@@ -1,0 +1,34 @@
+                PRACTICA 10
+========================================
+EJERECICIO 3)
+
+APARTADO A)
+    - Modifica convenientemente el pom del módulo matriculacion-dao para obtener un informa de la cobertura para
+      dicho proyecto. Genera el informe a través del correspondiente comando maven.
+        ·matriculacion-dao/pom.xml editado.
+        ·Comando: mvn verify
+
+APARTADO B)
+    - Observa los valores obtenidos y justificalos a nivel de proyecto y paquete. ¿Qué diferencia hay entre ellos?
+      Explica los valores de CC obtenidos a nivel de paquete y clase.
+        ·A nivel de proyecto solo podemos ver el módulo ppss.matriculacion.dao
+        ·A nivel de paquete (dentro de dicho módulo) podemos observar el análisis de cada uno de sus métodos.
+
+APARTADO C)
+    - El proyecto matriculacion-dao ejecuta las clases de matriculacion-comun, ¿por qué no aparecen en el informe?
+        ·Primero, porque el pom editado es el de matriculacion-dao, por lo que JaCoCo realiza un análisis de dicho
+         proyecto/módulo. Al tratarse de un proyecto multimódulo habría que trabajar de otra forma para que se gestionara
+         dicha información (ver apartado D).
+
+APARTADO D)
+    - Eliminamos de matriculacion-dao/pom.xml el plugin de JaCoCo, luego lo agregamos en matriculacion/pom.xml.
+    - Seguidamente agregamos la goal 'report-aggregate' y eliminamos 'report' y 'report-integration'
+
+APARTADO E)
+    - Si ejecutasemos las pruebas podemos ver que no se generan los informen en matriculacion/target/site, esto es
+      porque al quitar las otras y dejar 'report-aggregate', esta última no contiene una phase asignada, por lo que
+      añadimos la línea '<phase>verify</phase>' después de <id> y antes de <goals> mismamente.
+    - Tras realizar nuevamente la ejecución con la fase asignada podemos ver que se generan los archivos de JaCoCo en la
+      carpeta /matriculacion/target/site/jacoco-aggregate, y si vemos el informe generado está "en blanco", esto es por
+      que realmente lo genera en las carpetas de cada módulo, y si accedieramos a la carpeta dentro del módulo
+      /matriculacion/matriculacion-dao/target/site/jacoco-aggregate podremos observar el elemento 'matriculacion-comun'.

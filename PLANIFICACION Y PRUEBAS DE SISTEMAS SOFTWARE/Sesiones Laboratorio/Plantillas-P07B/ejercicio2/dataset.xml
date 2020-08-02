@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<!DOCTYPE dataset SYSTEM 'matriculacion.dtd'>
-<dataset>
-  <alumnos nif="00000000B" nombre="Juan Garcia" direccion="Rambla, 22" email="juan@ppss.ua.es" fechaNac="1982-02-22 00:00:00.0"/>
-  <alumnos nif="11111111C" nombre="Ana Martinez" direccion="Maisonnave, 5" email="ana@ppss.ua.es" fechaNac="1980-02-22 00:00:00.0"/>
-  <alumnos nif="12345678A" nombre="Pepe Lopez" direccion="Gran Via, 16" email="pepe@ppss.ua.es" fechaNac="1985-02-22 00:00:00.0"/>
-</dataset>

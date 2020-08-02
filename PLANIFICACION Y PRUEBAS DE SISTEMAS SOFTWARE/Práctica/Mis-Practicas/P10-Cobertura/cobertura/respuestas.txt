@@ -1,0 +1,144 @@
+EJERCICIO 1:
+=================================================================
+Apartado A)
+    - Nodo 1: if(a > 5)
+    - Nodo 2:   c += a;
+    - Nodo 3: if(b > 5)
+    - Nodo 4:   c += b;
+    - Nodo 5: return c;
+
+    - Aristas (6): 1->2; 1->3; 2->3; 3->4; 3->5; 4->5;
+
+    - CC = Aristas - Nodos + 2 = 6 - 5 + 2 = 3
+
+    - Caminos para 100% lineas y condiciones:
+       #TEORIA: Según la teoría, podríamos comprobar el resultado con 100% condiciones y 100% líneas con solamente
+         dos pruebas, una en la que cada condicion (al ser por separado es aun más simple) coja valores tanto cierto
+         como falso, y otra en la que alternen AMBAS el valor, por lo que valdrían las siguientes combinaciones:
+         -> A) 1-2-3-4-5 & 1-3-5 (T&T; F&F) (Obviamos F&F; T&T porque sería cambiar el orden solamente)
+         -> B) 1-2-3-5 & 1-3-4-5 (T&F; F&T) (Obviamos F&T; T&F porque sería cambiar el orden solamente)
+
+    - Pero, ¿porqué es distinto el número de caminos de la Complejidad Ciclomática?
+        ·Sencillo, porque probar todas las condiciones no implica probar todas las ramas/decisiones, es decir, no hemos
+         probado la combinación en 'A' de T&F ni F&T
+
+       #NOTAS:
+        ·Statement coverage: un 100% significa que hemos ejecutado cada sentencia (línea).
+        ·Condition coverage: un 100% significa que hemos ejercitado cada CONDICIÓN. Cuando tenemos expresiones con
+         múltiples condiciones, para conseguir el 100% de cobertura de las condiciones tenemos que evaluar el
+         comportamiento para cada una de dichas condiciones en sus vertientes verdadera y falsa.
+            ✤ Una condición es el elemento “mínimo” de una expresión booleana (no puede descomponerse en una más simple).
+            ✤ Ejemplo: la sentencia if ((A>0) & (B>0)), necesitamos probar que (A>0) sea T y F, y (B>0) sea T y F.
+                        Esto lo podemos conseguir con dos tests: T&T, y F&F.
+
+Apartado B) OK
+
+Apartado C)
+    - Si usasemos esos datos (a=7,b=7,c=7,esperado=7) el test fallaría por lo que NO seguiría con la construcción.
+
+Apartado D)
+    - Añadelos casos de prueba necesarios (usando test parametrizable) para una cobertura del 100% en condiciones y
+      decisiones y vuelve a generar un informe (necesita usar la fase CLEAN). Estaremos aplicando el NIVEL 4.
+        ·Como hemos visto en teoría (diapositiva 11), un 100% de CONDICIONES Y DECISIONES nos lleva a a probar tanto
+         las condiciones en el primer condicional de multiPath2 (T&F + F&T) pero, si tenemos en cuenta que Java no
+         ejecutará el segundo condicional si el primero ya fue False, la segunda prueba no tiene sentido y no estariamos
+         realmente probando la segunda condición en su vertiente verdadera, por lo que nos vemos obligados a elegir
+         la siguiente combinación (T&F + T&T + F&F[este ultimo porque se debe probar además el valor F en el primero]),
+         lo cual nos lleva a visitar la linea contenida dentro del primer condicional. Sin embargo, en el segundo
+         bastaría con usar en una de las pruebas un valor T y en la siguiente un valor F.
+
+        ·Por lo cual, podemos obtener una covertura del 100% con las siguientes pruebas:
+            - Nodo 1: if([Nodo1.1](a > 5) && [Nodo1.2](b < 5)) //Dividimos el nodo en 2 por que se evaluan las condiciones por separado
+            - Nodo 2:   b += a;
+            - Nodo 3: if(c > 5)
+            - Nodo 4:   c += b;
+            - Nodo 5: return c;
+            - Nodos (1.1, 1.2, 2, 3, 4, 5)
+
+            - Aristas (7): 1.1->1.2; 1.2->2; 1.1->3; 1.2->3; 2->3; 3->4; 3->5; 4->5;
+
+            - CC = Aristas - Nodos + 2 = 8 - 6 + 2 = 4
+
+            - Caminos:
+              D1 (T&T + T): 1.1 > 1.2 > 2 > 3 > 4 > 5
+              - Ej.: a=7; b=4; c=6; r=17;
+              D2 (T&F + F): 1.1 > 1.2 > 3 > 5
+              - Ej.: a=7; b=7; c=5; r=5;
+              D3 (F&F + F): 1.1 > 3 > 5
+              - Ej.: a=5; b=5; c=5; r=5;
+
+APARTADO E)
+    - Al tratarse de un operador & en lugar de &&, ahora el Nodo 1 NO SE DIVIDE, es decir, se hacen LAS DOS condiciones,
+      y solo si dan el mismo valor de True se accede. Se podría decir que la diferencia es que al usar && hay lo que se
+      llama 'cortocircuito', esto es, que si la primera expresión es FALSE el programa no evaluará más allá, sin embargo,
+      el operador & SI realiza las dos partes de la comparativa antes de comparar, pero en ambas solo se accede si los
+      condicionales son TRUE.
+
+    - if ((booleanA) & (booleanB)) {/*...*/}
+    - Aquí, las expresiones (booleanA) y (booleanB) se evalúan por separado. Luego, el operador & compara los resultados.
+      Si ambos son verdaderos, el operador & devuelve verdadero, pero si uno o ambos son falsos, devuelve falso.
+      La comparacion es BIT A BIT, es decir, que si comparasemos dos enteros, se combararía en binario (100 != 010).
+
+      - Nodo 1: if((a > 5) & (b < 5)) //NO DIVIDIMOS, SE EVALUAN AMBAS (AUNQUE HAY QUE EVALUAR AMBOS CONDICIONALES)
+      - Nodo 2:   b += a;
+      - Nodo 3: if(c > 5)
+      - Nodo 4:   c += b;
+      - Nodo 5: return c;
+      - Nodos (5)
+
+      - Aristas (6): 1->2; 1->3; 2->3; 3->4; 3->5; 4->5;
+
+      - CC = Aristas - Nodos + 2 = 6 - 5 + 2 = 3
+
+      - Caminos:
+        D1 (T&T + T): 1 > 2 > 3 > 4 > 5
+        - Ej.: a=7; b=4; c=6; r=17;
+        D2 (F&F + F): 1 > 3 > 5
+        - Ej.: a=5; b=5; c=5; r=5;
+
+        //ESTE CAMINO DEL EJERCICIO ANTERIOR YA NO SERIA NECESARIO
+        //D2 (T&F + F): 1.1 > 1.2 > 3 > 5
+        //- Ej.: a=7; b=7; c=5; r=5;
+
+
+=================================================================
+EJERCICIO 2:
+=================================================================
+APARTADO A)
+    - Añadimos en main/java/ppss/ejercicio2 los archivos Lock y MyClass
+    - Añadimos en test/java/ppss/ejercicio2 los archivos LockIT, LockTest, MyClassTest
+    - Añadimos el plugin failsafe al pom.xml para realizar los test de integracion (requisito para LockIT)
+    - Comprobando cobertura de MyClass y Lock, obtenemos un resultado de cobertura del 71% y del 88% respecticamente.
+        ·Lock: No se ha realizado pruebas del uso del constructor Lock().
+        ·MyClass: No se han realizado pruebas del uso de getId(), getSecret() o getName().
+
+APARTADO B)
+    ➡ A nivel de proyecto, queremos conseguir una CC con un valor mínimo del 90%, una cobertura de instrucciones mínima
+       del 80% y que no haya ninguna clase que no se haya probado.
+    	- Nivel de proyecto         -> BUNDLE
+    	- CC (Cxty) mínimo 90%      -> COMPLEXITY + COVERED RATIO + MIN 90%
+    	- Instrucciones mínimo 80%  -> INSTRUCTION + COVERED RATIO + MIN 80%
+    	- Ninguna clase SIN PROBAR  -> CLASS + MISSED COUNT + 0
+    	- Editamos el pom.xml
+    ➡ A nivel de clase, queremos conseguir una cobertura de líneas del 75%.
+    	- Nivel de proyecto         -> CLASS
+    	- Cov. de lineas mínimo 75% -> LINE + COVERED RATIO + MIN 75%
+    	- Editamos el pom.xml
+
+APARTADO C)
+    - Como bien indica el enunciado, tras ejecutar la fase 'verify' observamos los siguientes dos warning:
+        ·Rule violated for bundle cobertura: complexity covered ratio is 0.77, but expected minimum is 0.90
+        ·Rule violated for class ppss.ejercicio2.MyClass: lines covered ratio is 0.72, but expected minimum is 0.75
+
+    - Procedemos a bajar el nivel de 90% a 75% a nivel proyecto (BUNDLE) y excluimos la clase MyClass.
+        ·Para excluir la clase MyClass agregamos la siguiente linea debajo de <element>CLASS</element>
+            +-> <excludes><exclude>ppss.ejercicio2.MyClass</exclude></excludes>
+        ·Editamos pom.xml y ejecutamos pruebas de nuevo para comprobar que funciona correctamente.
+
+
+
+=================================================================
+EJERCICIO 3:
+=================================================================
+APARTADO A)
+    - Añadimo

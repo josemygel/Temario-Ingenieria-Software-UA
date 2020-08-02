@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <alumnos nif="11111111A"
+           nombre="Alfonso Ramirez Ruiz"
+           direccion="Rambla, 22"
+           email="alfonso@ppss.ua.es"
+           fechaNac="1982-02-22 00:00:00.0"/>
+  <alumnos nif="22222222B"
+           nombre="Laura Martinez Perez"
+           direccion="Maisonnave, 5"
+           email="laura@ppss.ua.es"
+           fechaNac="1980-02-22 00:00:00.0"/>
+  <alumnos nif="33333333C"
+           nombre="Elena Aguirre Juarez"
+           fechaNac="1985-02-22 00:00:00.0"/>
+</dataset>

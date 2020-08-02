@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>matriculacion</artifactId>
+        <groupId>ppss</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>matriculacion-dao</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>matriculacion-comun</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- Si no la incluimos veremos un warning al ejecutar los tests -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>2.7.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.19</version>
+            <scope>test</scope>
+        </dependency>
+        <!--añadimos dependencia junit5-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.5.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>1.5</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>8.0.19</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <driver>com.mysql.cj.jdbc.Driver</driver>
+                    <url>jdbc:mysql://localhost:3306/?useSSL=false</url>
+                    <username>root</username>
+                    <password></password>
+                </configuration>
+                <executions>
+                    <!-- Execution representa la EJECUCION en GOAL/S antes de PHASE con CONFIG.(con los SRCFILE/S) -->
+                    <execution>
+                        <id>create-table-alumnos</id>
+                        <!-- Phase representa la fase PREVIA a la fase en la que se ejecutan los test de integracion -->
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <!-- Goal que representa de EJECUTAR el SCRIPT (en srcFile) antes de PHASE -->
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <srcFiles>
+                                <srcFile>src/test/resources/sql/matriculacion.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

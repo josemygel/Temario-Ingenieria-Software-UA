@@ -1,0 +1,22 @@
+EJERECICIO 1)
+    APARTADO A) OK
+    APARTADO B)
+        - ClienteDAO: representa la clase que contiene la capa de acceso a datos, es decir, la que contiene el CRUD para
+        la clase Cliente, además, es la implementación de la interfaz IClienteDAO.
+
+        - databaseTester: es la interfaz que permite el acceso a la DB, la cual es usada para establecer conexion con la
+        DB en las pruebas ofreciendo un punto de conexion a través del método getConnection() que devuelve un objeo de
+        tipo IDatabaseConnection.
+
+    APARTADO C)
+        - IDataSet: interfaz utilizada para representar una DB (es decir, un conjunto de tablas o ITable).
+        - ITable: interfaz que representa una tabla (es decir, un conjunto de filas de datos).
+
+        El dataset es utilizado para obtener del driver de MySQL un conjunto de tablas o una de ellas, por ejemplo, en
+        el test llamado "testInsert()", dentro de las pruebas del archivo "ClienteDAO_IT.java" se hace uso de
+        'databaseDataSet.getTable("cliente")', este metodo del objeto creado como IDataSet, solicitándole una tabla con
+        el nombre "cliente", devolviendo un objeto de tipo ITable usado para la aserción del test.
+
+    APARTADO D) OK
+    APARTADO E) OK con ClienteDAO_E_IT.java y cliente-esperado-E.xml
+    APARTADO F) OK con ClienteDAO_F_IT.java y cliente-esperado-F.xml
